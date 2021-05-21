@@ -4,6 +4,7 @@ import net.mamoe.mirai.event.ListenerHost;
 import org.fightjc.xybot.bot.XYBot;
 import org.fightjc.xybot.db.DBInitHelper;
 import org.fightjc.xybot.db.DBMigration;
+import org.fightjc.xybot.events.CommandEvents;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,6 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
-import javax.xml.bind.Unmarshaller;
 import java.util.List;
 
 @Component
@@ -56,6 +56,12 @@ public class XYBotLoader implements ApplicationRunner {
     }
 
     private void startupBot() {
+        // 添加自定义指令事件
+        CommandEvents commandEvents = new CommandEvents();
+        commandEvents.registerCommandHeaders(".");
+//        commandEvents.registerCommands();
+//        events.add(commandEvents);
+
         XYBot.startBot(account, password, deviceInfo, events, logNetPath);
 
         // 启动新线程跑bot不占用主线程

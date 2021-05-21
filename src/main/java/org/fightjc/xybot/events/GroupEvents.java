@@ -39,15 +39,15 @@ public class GroupEvents extends SimpleListenerHost {
      * @param event
      * @return
      */
-    @NotNull
-    @EventHandler(priority = EventPriority.NORMAL)
-    public ListeningStatus onReceiveGroupMessage(@NotNull GroupMessageEvent event) {
-        //String textMessage = MessageUtil.filterMessage(event.getMessage());
-        String text = event.getMessage().contentToString();
-        //event.getGroup().getId()
-        //event.getSender().getId()
-        logger.info(text);
-
-        return ListeningStatus.LISTENING;
-    }
+//    @NotNull
+//    @EventHandler(priority = EventPriority.NORMAL)
+//    public ListeningStatus onReceiveGroupMessage(@NotNull GroupMessageEvent event) {
+//        //String textMessage = MessageUtil.filterMessage(event.getMessage());
+//        String text = event.getMessage().contentToString();
+//        //event.getGroup().getId()
+//        //event.getSender().getId()
+//        logger.info(text);
+//
+//        return ListeningStatus.LISTENING;
+//    }
 }
