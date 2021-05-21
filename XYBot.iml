@@ -43,6 +43,15 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-webmvc:5.3.2" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-aop:5.3.2" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-expression:5.3.2" level="project" />
+    <orderEntry type="library" name="Maven: org.mybatis.spring.boot:mybatis-spring-boot-starter:2.0.1" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-jdbc:2.4.1" level="project" />
+    <orderEntry type="library" name="Maven: com.zaxxer:HikariCP:3.4.5" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-jdbc:5.3.2" level="project" />
+    <orderEntry type="library" name="Maven: org.springframework:spring-tx:5.3.2" level="project" />
+    <orderEntry type="library" name="Maven: org.mybatis.spring.boot:mybatis-spring-boot-autoconfigure:2.0.1" level="project" />
+    <orderEntry type="library" name="Maven: org.mybatis:mybatis:3.5.1" level="project" />
+    <orderEntry type="library" name="Maven: org.mybatis:mybatis-spring:2.0.1" level="project" />
+    <orderEntry type="library" name="Maven: org.xerial:sqlite-jdbc:3.21.0.1" level="project" />
     <orderEntry type="library" name="Maven: net.mamoe:mirai-core-jvm:2.6.1" level="project" />
     <orderEntry type="library" name="Maven: net.mamoe:mirai-core-api-jvm:2.6.1" level="project" />
     <orderEntry type="library" name="Maven: org.jetbrains.kotlin:kotlin-serialization:1.4.30" level="project" />

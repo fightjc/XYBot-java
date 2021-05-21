@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fightjc.xybot.dao.BotDBDao">
+
+    <select id="getCurrentVersionInfo" resultType="org.fightjc.xybot.pojo.BotDB">
+        select * from __migrationhistory order by version desc limit 1;
+    </select>
+
+    <update id="createMigrationHistory" parameterType="org.fightjc.xybot.pojo.BotDB">
+        insert into __migrationhistory (Remark, Version, ExecuteTime) values (#{remark}, #{version}, #{executeTime});
+    </update>
+
+    <update id="runDDLSql">
+        ${sql}
+    </update>
+
+</mapper>

@@ -2,6 +2,8 @@ package org.fightjc.xybot.startup;
 
 import net.mamoe.mirai.event.ListenerHost;
 import org.fightjc.xybot.bot.XYBot;
+import org.fightjc.xybot.db.DBInitHelper;
+import org.fightjc.xybot.db.DBMigration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,9 +37,22 @@ public class XYBotLoader implements ApplicationRunner {
     @Qualifier("botEvents")
     List<ListenerHost> events;
 
+    @Autowired
+    DBMigration dbMigration;
+
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        startupBot();
+        // 准备数据库
+        prepareDatabase();
+        // 启动bot
+        //startupBot();
+    }
+
+    private void prepareDatabase() {
+        // 确保存在数据库文件
+        DBInitHelper.getInstance().prepareDB();
+        // 更新数据库
+        dbMigration.updateDB();
     }
 
     private void startupBot() {

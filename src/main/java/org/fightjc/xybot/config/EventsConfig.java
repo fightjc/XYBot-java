@@ -1,6 +1,7 @@
-package org.fightjc.xybot.events;
+package org.fightjc.xybot.config;
 
 import net.mamoe.mirai.event.ListenerHost;
+import org.fightjc.xybot.events.GroupEvents;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

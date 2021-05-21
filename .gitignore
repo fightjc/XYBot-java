@@ -1,7 +1,13 @@
-#IntelliJ IDEA
+# Mac
+.DS_Store
+
+# IntelliJ IDEA
 .idea
 cache
 target
+
+# Project
+*.db
 
 # Compiled class file
 *.class

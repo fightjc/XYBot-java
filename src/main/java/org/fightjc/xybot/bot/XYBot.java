@@ -32,7 +32,6 @@ public class XYBot {
 
         miraiBot = BotFactory.INSTANCE.newBot(account, password, config);
         miraiBot.login();
-//        miraiBot.getFriend(993923010).sendMessage("上班啦");
 
         System.setProperty("https.protocols", "TLSv1,TLSv1.1,TLSv1.2,SSLv3");//设置https协议，解决SSL peer shut down incorrectly的异常
 
