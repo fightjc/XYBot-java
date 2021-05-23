@@ -1,6 +1,7 @@
 package org.fightjc.xybot.startup;
 
 import net.mamoe.mirai.event.ListenerHost;
+import org.fightjc.xybot.annotate.AnnotateAnalyzer;
 import org.fightjc.xybot.bot.XYBot;
 import org.fightjc.xybot.db.DBInitHelper;
 import org.fightjc.xybot.db.DBMigration;
@@ -40,6 +41,9 @@ public class XYBotLoader implements ApplicationRunner {
     @Autowired
     DBMigration dbMigration;
 
+    @Autowired
+    AnnotateAnalyzer annotateAnalyzer;
+
     @Override
     public void run(ApplicationArguments args) throws Exception {
         // 准备数据库
@@ -59,8 +63,8 @@ public class XYBotLoader implements ApplicationRunner {
         // 添加自定义指令事件
         CommandEvents commandEvents = new CommandEvents();
         commandEvents.registerCommandHeaders(".");
-//        commandEvents.registerCommands();
-//        events.add(commandEvents);
+        commandEvents.registerCommands(annotateAnalyzer.getCommands());
+        events.add(commandEvents);
 
         XYBot.startBot(account, password, deviceInfo, events, logNetPath);
 

@@ -1,4 +1,4 @@
-package org.fightjc.xybot.pojo;
+package org.fightjc.xybot.po;
 
 import org.jetbrains.annotations.NotNull;
 

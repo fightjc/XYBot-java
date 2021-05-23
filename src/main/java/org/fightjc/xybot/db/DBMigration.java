@@ -2,7 +2,7 @@ package org.fightjc.xybot.db;
 
 import org.fightjc.xybot.dao.BotDBDao;
 import org.fightjc.xybot.pojo.BotDB;
-import org.fightjc.xybot.pojo.DBMigrationTable;
+import org.fightjc.xybot.po.DBMigrationTable;
 import org.fightjc.xybot.util.MessageUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
