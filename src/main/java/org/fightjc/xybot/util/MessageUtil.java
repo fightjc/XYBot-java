@@ -8,7 +8,9 @@ import java.util.Date;
 
 public class MessageUtil {
 
-    public static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    public static SimpleDateFormat dateTimeFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+    public static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     /**
      * 只获取文字信息
@@ -31,6 +33,14 @@ public class MessageUtil {
      * @return
      */
     public static String getCurrentDateTime() {
-        return sdf.format(new Date());
+        return dateTimeFormat.format(new Date());
+    }
+
+    /**
+     * 获取当前时间戳 yyyy-MM-dd
+     * @return
+     */
+    public static String getCurrentDate() {
+        return dateFormat.format(new Date());
     }
 }
