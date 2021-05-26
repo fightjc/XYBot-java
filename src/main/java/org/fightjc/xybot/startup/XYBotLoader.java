@@ -49,7 +49,7 @@ public class XYBotLoader implements ApplicationRunner {
         // 准备数据库
         prepareDatabase();
         // 启动bot
-        //startupBot();
+        startupBot();
     }
 
     private void prepareDatabase() {
@@ -60,11 +60,11 @@ public class XYBotLoader implements ApplicationRunner {
     }
 
     private void startupBot() {
-        // 添加自定义指令事件
+        // 添加自定义指令事件，前置指令事件，优先处理
         CommandEvents commandEvents = new CommandEvents();
-        commandEvents.registerCommandHeaders(".");
+        commandEvents.registerCommandHeaders("");
         commandEvents.registerCommands(annotateAnalyzer.getCommands());
-        events.add(commandEvents);
+        events.add(0, commandEvents);
 
         XYBot.startBot(account, password, deviceInfo, events, logNetPath);
 

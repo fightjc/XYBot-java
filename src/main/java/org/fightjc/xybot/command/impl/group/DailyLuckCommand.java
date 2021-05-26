@@ -2,6 +2,7 @@ package org.fightjc.xybot.command.impl.group;
 
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.contact.Member;
+import net.mamoe.mirai.event.ListeningStatus;
 import net.mamoe.mirai.message.data.At;
 import net.mamoe.mirai.message.data.Message;
 import net.mamoe.mirai.message.data.MessageChain;
@@ -69,12 +70,12 @@ public class DailyLuckCommand extends MemberGroupCommand {
 
     @Override
     public Command property() {
-        return new Command("gacha", "抽签");
+        return new Command("抽签");
     }
 
     @Override
     protected Message executeHandle(Member sender, ArrayList<String> args, MessageChain messageChain, Group subject) throws Exception {
-        String content = dailyGacha.getGasha(sender.getId());
+        String content = dailyGacha.getGacha(sender.getId());
 
         At at = new At(sender.getId());
         PlainText plainText = new PlainText(content);
