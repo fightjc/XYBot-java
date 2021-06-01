@@ -8,14 +8,10 @@ import net.mamoe.mirai.message.data.Message;
 import net.mamoe.mirai.message.data.MessageChain;
 import org.fightjc.xybot.command.GroupCommand;
 import org.fightjc.xybot.pojo.ResultOutput;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.util.ArrayList;
 
 public abstract class BaseGroupCommand implements GroupCommand {
-
-    @Value("${bot.admin}")
-    protected Long adminUid;
 
     @Override
     public Message execute(Member sender, ArrayList<String> args, MessageChain messageChain, Group subject) throws Exception {

@@ -48,7 +48,7 @@ public class BotSwitch {
      * 列出所有已注册功能的开关状态
      * @return
      */
-    public static String list() {
+    public static String getList() {
         String result = "";
         for (String key : switchList.keySet()) {
             result += key + " " + (check(key) ? "开启中" : "未开启") + "\n";

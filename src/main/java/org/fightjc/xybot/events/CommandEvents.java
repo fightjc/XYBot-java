@@ -5,11 +5,13 @@ import net.mamoe.mirai.event.EventHandler;
 import net.mamoe.mirai.event.EventPriority;
 import net.mamoe.mirai.event.ListeningStatus;
 import net.mamoe.mirai.event.SimpleListenerHost;
+import net.mamoe.mirai.event.events.FriendMessageEvent;
 import net.mamoe.mirai.event.events.GroupMessageEvent;
 import net.mamoe.mirai.message.data.Message;
 import org.apache.commons.lang3.StringUtils;
 import org.fightjc.xybot.annotate.SwitchAnnotate;
 import org.fightjc.xybot.command.BaseCommand;
+import org.fightjc.xybot.command.FriendCommand;
 import org.fightjc.xybot.command.GroupCommand;
 import org.fightjc.xybot.util.BotSwitch;
 import org.jetbrains.annotations.NotNull;
@@ -35,6 +37,7 @@ public class CommandEvents extends SimpleListenerHost {
      * 注册的指令类型
      */
     private final Map<String, BaseCommand> groupCommands = new HashMap<>();
+    private final Map<String, BaseCommand> friendCommands = new HashMap<>();
 
     /**
      * 注册指令头
@@ -63,9 +66,10 @@ public class CommandEvents extends SimpleListenerHost {
         tempList.put(command.property().getName().toLowerCase(), command);
         command.property().getAlias().forEach(alias -> tempList.put(alias.toLowerCase(), command));
 
-//        if (command instanceof FriendCommand) {
-//            friendCommands.putAll(tempList);
-//        }
+        if (command instanceof FriendCommand) {
+            friendCommands.putAll(tempList);
+        }
+
         if (command instanceof GroupCommand) {
             groupCommands.putAll(tempList);
         }
@@ -100,6 +104,18 @@ public class CommandEvents extends SimpleListenerHost {
             }
         }
 
+        return ListeningStatus.LISTENING;
+    }
+
+    /**
+     * 收到私聊消息
+     * @param event
+     * @return
+     * @throws Exception
+     */
+    @NotNull
+    @EventHandler(priority = EventPriority.NORMAL)
+    public ListeningStatus onReceiveFriendMessage(@NotNull FriendMessageEvent event) throws Exception {
         return ListeningStatus.LISTENING;
     }
 
