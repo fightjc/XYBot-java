@@ -1,0 +1,43 @@
+{
+"gacha": [
+  { "title" : "末吉", "content" : "谨记鬼魅多生自人心。", "weight" : 10 },
+  { "title" : "末吉", "content" : "是非难辨，凡事宜忍。", "weight" : 10 },
+  { "title" : "末吉", "content" : "人间有人泣，鬼界有鬼哭。", "weight" : 10 },
+  { "title" : "末吉", "content" : "是生灭法，多加小心。", "weight" : 10 },
+  { "title" : "末吉", "content" : "莫与独鬼相语，所经之途必遭祸。", "weight" : 10 },
+  { "title" : "末吉", "content" : "莫仿飞蛾事，徒然扑夜灯，阴阳自有道，相顺不相违。", "weight" : 10 },
+  { "title" : "末吉", "content" : "鬼火之处，身似孤魂，前路何往，知者无人。", "weight" : 10 },
+
+  { "title" : "半吉", "content" : "默念口中咒，所言非所思。", "weight" : 8 },
+  { "title" : "半吉", "content" : "吾身如浮萍，不敢言再会，幸得天眷顾，得挚友两三。", "weight" : 8 },
+  { "title" : "半吉", "content" : "应慎言，应慎行。", "weight" : 8 },
+  { "title" : "半吉", "content" : "天命如露滴，如幻更似虚，相逢若相知，逝去也足矣。", "weight" : 8 },
+  { "title" : "半吉", "content" : "胸中虽怀难言处，幸得有人问苦衷。", "weight" : 8 },
+  { "title" : "半吉", "content" : "沉浮尘世间，不必徒自添烦恼。", "weight" : 8 },
+  { "title" : "半吉", "content" : "诸事虽无常，自有潇洒意。", "weight" : 8 },
+  { "title" : "半吉", "content" : "鬼恶犹可治 人恶却难改。", "weight" : 8 },
+
+  { "title" : "小吉", "content" : "世人皆俱魑魅物，鬼妖之中亦有情。", "weight" : 7 },
+  { "title" : "小吉", "content" : "鬼无心，神有眼，五行有道。", "weight" : 7 },
+  { "title" : "小吉", "content" : "天上悬明月，清辉照万方，浮云随暂避，终不灭清光。", "weight" : 7 },
+  { "title" : "小吉", "content" : "身愿随心，对明月，有圆缺。", "weight" : 7 },
+  { "title" : "小吉", "content" : "春樱虽随风飘散，仍有余香风转廊。", "weight" : 7 },
+  { "title" : "小吉", "content" : "人间黄泉路，切记有归途。", "weight" : 7 },
+  { "title" : "小吉", "content" : "八重樱花繁且枝盛，君须记累瓣必偿情。", "weight" : 7 },
+
+  { "title" : "中吉", "content" : "满山枫似锦，祭神灵，运可转之。", "weight" : 5 },
+  { "title" : "中吉", "content" : "人间冥界均无事，难得一日可清闲。", "weight" : 5 },
+  { "title" : "中吉", "content" : "山中红叶犹可见，前程美景在暗中。", "weight" : 5 },
+  { "title" : "中吉", "content" : "人间渺渺栖百鬼，天地四处皆为家。", "weight" : 5 },
+  { "title" : "中吉", "content" : "邪灵恶鬼，终得严惩，不必担忧。", "weight" : 5 },
+  { "title" : "中吉", "content" : "是非难辨，凡事宜忍。", "weight" : 5 },
+  { "title" : "中吉", "content" : "诸行虽无常，自有潇洒意。", "weight" : 5 },
+  { "title" : "中吉", "content" : "从占卜之向，尊阴阳之道。", "weight" : 5 },
+
+  { "title" : "大吉", "content" : "闲适如春樱，清净如秋水。", "weight" : 5 },
+  { "title" : "大吉", "content" : "时光如轮转，时运今再来。", "weight" : 5 },
+  { "title" : "大吉", "content" : "人世清净，鬼界安宁，休矣。", "weight" : 5 },
+  { "title" : "大吉", "content" : "朦胧春月夜，美景世无双。", "weight" : 5 },
+  { "title" : "大吉", "content" : "四季交替，八方平安。", "weight" : 5 }
+]
+}

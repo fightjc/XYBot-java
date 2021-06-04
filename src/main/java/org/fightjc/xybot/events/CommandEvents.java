@@ -90,6 +90,7 @@ public class CommandEvents extends SimpleListenerHost {
             // 获取对应处理群消息的指令
             if (groupCommand != null) {
                 SwitchAnnotate annotate = groupCommand.getClass().getAnnotation(SwitchAnnotate.class);
+                // 如果是动态组件指令则查询是否有开启该指令
                 if (annotate != null && !BotSwitch.check(annotate.name())) {
                     return ListeningStatus.LISTENING;
                 }
@@ -116,6 +117,27 @@ public class CommandEvents extends SimpleListenerHost {
     @NotNull
     @EventHandler(priority = EventPriority.NORMAL)
     public ListeningStatus onReceiveFriendMessage(@NotNull FriendMessageEvent event) throws Exception {
+        String rawMessage = event.getMessage().contentToString();
+        // 判断是否是指令
+        if (isCommand(rawMessage)) {
+            FriendCommand friendCommand = (FriendCommand) getCommand(rawMessage, friendCommands);
+            if (friendCommand != null) {
+                SwitchAnnotate annotate = friendCommand.getClass().getAnnotation(SwitchAnnotate.class);
+                // 如果是动态组件指令则查询是否有开启该指令
+                if (annotate != null && !BotSwitch.check(annotate.name())) {
+                    return ListeningStatus.LISTENING;
+                }
+                // 执行指令
+                Message result = friendCommand.execute(event.getSender(), getArgs(rawMessage), event.getMessage(), event.getSubject());
+                if (result != null) {
+                    // 若有返回结果则发送消息
+                    event.getSubject().sendMessage(result);
+                }
+                // 事件拦截
+                event.intercept();
+            }
+        }
+
         return ListeningStatus.LISTENING;
     }
 

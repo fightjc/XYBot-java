@@ -9,6 +9,7 @@ target
 # Project
 *.db
 device.json
+device.*.json
 
 # Compiled class file
 *.class

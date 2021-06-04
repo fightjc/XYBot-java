@@ -53,7 +53,11 @@ public class BotSwitch {
         for (String key : switchList.keySet()) {
             result += key + " " + (check(key) ? "开启中" : "未开启") + "\n";
         }
-        return result.substring(0, result.length() - 1);
+        if (result.length() == 0) {
+            return "没有加载任何功能！";
+        } else {
+            return result.substring(0, result.length() - 1);
+        }
     }
 
     /**

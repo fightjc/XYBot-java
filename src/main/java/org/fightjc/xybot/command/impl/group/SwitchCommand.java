@@ -1,6 +1,7 @@
-package org.fightjc.xybot.command.impl.friend;
+package org.fightjc.xybot.command.impl.group;
 
-import net.mamoe.mirai.contact.Friend;
+import net.mamoe.mirai.contact.Group;
+import net.mamoe.mirai.contact.Member;
 import net.mamoe.mirai.message.data.Message;
 import net.mamoe.mirai.message.data.MessageChain;
 import net.mamoe.mirai.message.data.PlainText;
@@ -11,7 +12,7 @@ import org.fightjc.xybot.util.BotSwitch;
 import java.util.ArrayList;
 
 @CommandAnnotate
-public class SwitchCommand extends AdminFriendCommand {
+public class SwitchCommand extends AdminGroupCommand {
 
     @Override
     public Command property() {
@@ -19,7 +20,7 @@ public class SwitchCommand extends AdminFriendCommand {
     }
 
     @Override
-    protected Message executeHandle(Friend sender, ArrayList<String> args, MessageChain messageChain, Friend subject) throws Exception {
+    protected Message executeHandle(Member sender, ArrayList<String> args, MessageChain messageChain, Group subject) throws Exception {
         if (args.size() != 2) {
             return new PlainText("使用方式：开关 [开启/关闭] [组件名]\n当前组件有：\n" + BotSwitch.getList());
         }

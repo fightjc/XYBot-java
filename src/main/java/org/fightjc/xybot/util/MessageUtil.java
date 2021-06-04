@@ -1,7 +1,6 @@
 package org.fightjc.xybot.util;
 
 import net.mamoe.mirai.message.data.MessageChain;
-import net.mamoe.mirai.message.data.SingleMessage;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

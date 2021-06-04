@@ -1,39 +1,63 @@
 package org.fightjc.xybot.util;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import org.fightjc.xybot.pojo.Gacha;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class BotGacha {
 
     /**
      * 所有签内容和权重
      */
-    Map<Gacha, Integer> items;
+    private Map<Gacha, Integer> items;
 
     /**
      * 总值
      */
-    int sum;
+    private int sum;
 
     /**
      * 标记已经进行过抽签的人Id
      */
-    ArrayList<Long> gachaRecord;
+    private ArrayList<Long> gachaRecord;
+
+    private BotGacha() {
+        this.items = new HashMap<>();
+        this.sum = 0;
+        this.gachaRecord = new ArrayList<>();
+    }
+
+    private static class Lazy {
+        private static final BotGacha instance = new BotGacha();
+    }
+
+    public static final BotGacha getInstance() {
+        return BotGacha.Lazy.instance;
+    }
 
     /**
-     * 标记当天
+     * 加载签信息
      */
-    String currentDateString;
+    public void reloadItems() {
+        items.clear();
+        gachaRecord.clear();
 
-    public BotGacha(Map<Gacha, Integer> items) {
-        this.items = items;
-        this.sum = items.values().stream().mapToInt(x -> x).sum();
-        this.gachaRecord = new ArrayList<>();
-        this.currentDateString = MessageUtil.getCurrentDate();
+        String gcFilePath = BotUtil.getGachaFilePath();
+        JSONObject jsonObject = BotUtil.readJsonFile(gcFilePath);
+        JSONArray gachaArray = jsonObject.getJSONArray("gacha");
+        for (int i = 0; i < gachaArray.size(); i++) {
+            JSONObject gacha = gachaArray.getJSONObject(i);
+            String title = gacha.getString("title");
+            String content = gacha.getString("content");
+            Integer weight = gacha.getInteger("weight");
+            items.put(new Gacha(title, content), weight);
+        }
+
+        sum = items.values().stream().mapToInt(x -> x).sum();
     }
 
     /**
@@ -46,6 +70,7 @@ public class BotGacha {
         if (checkHasGacha(id)) {
             return "你今天已经抽过签了，欢迎明天再来~";
         }
+        gachaRecord.add(id);
 
         int sum = 0;
         int rate = getGachaRate(id);
@@ -62,19 +87,19 @@ public class BotGacha {
     }
 
     /**
+     * 清除已抽签记录
+     */
+    public void clearRecord() {
+        gachaRecord.clear();
+    }
+
+    /**
      * 判断是否已经抽签
      * @param id
      * @return
      */
     private boolean checkHasGacha(Long id) {
-        String tempDateString = MessageUtil.getCurrentDate();
-        if (!tempDateString.equals(currentDateString)) {
-            currentDateString = tempDateString;
-            gachaRecord.clear();
-        }
-        boolean result = gachaRecord.contains(id);
-        if (!result) gachaRecord.add(id);
-        return result;
+        return gachaRecord.contains(id);
     }
 
     /**
@@ -83,7 +108,11 @@ public class BotGacha {
      * @return
      */
     private int getGachaRate(Long id) {
-        String seed = id + MessageUtil.getCurrentDate();
-        return Math.abs(Md5Util.bytes2Int(Md5Util.getMd5Byte(seed))) % sum;
+        String seed = id + MessageUtil.getCurrentDateTime();
+        if (sum != 0) {
+            return Math.abs(Md5Util.bytes2Int(Md5Util.getMd5Byte(seed))) % sum;
+        } else {
+            return 0;
+        }
     }
 }

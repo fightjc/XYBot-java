@@ -1,7 +1,6 @@
 package org.fightjc.xybot.db;
 
 import org.fightjc.xybot.util.BotUtil;
-import org.fightjc.xybot.util.MessageUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

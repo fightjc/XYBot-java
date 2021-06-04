@@ -3,7 +3,6 @@ package org.fightjc.xybot.command;
 import net.mamoe.mirai.contact.Friend;
 import net.mamoe.mirai.message.data.Message;
 import net.mamoe.mirai.message.data.MessageChain;
-import org.fightjc.xybot.command.BaseCommand;
 
 import java.util.ArrayList;
 

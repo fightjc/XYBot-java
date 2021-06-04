@@ -2,9 +2,7 @@ package org.fightjc.xybot.events;
 
 import kotlin.coroutines.CoroutineContext;
 import net.mamoe.mirai.event.*;
-import net.mamoe.mirai.event.events.GroupMessageEvent;
 import net.mamoe.mirai.event.events.MemberJoinEvent;
-import org.fightjc.xybot.util.MessageUtil;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
