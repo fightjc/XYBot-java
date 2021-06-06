@@ -5,10 +5,9 @@ import com.alibaba.fastjson.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.*;
 
 public class BotUtil {
 
@@ -82,6 +81,22 @@ public class BotUtil {
             JSONObject jsonObject = JSONObject.parseObject(readJson);
             return jsonObject;
         } catch (JSONException e) {
+            logger.error(e.getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * 读取Image文件并返回BufferedImage对象
+     * @param filePath
+     * @return
+     */
+    public static BufferedImage readImageFile(String filePath) {
+        File pngFile = new File(filePath);
+        try {
+            BufferedImage image = ImageIO.read(pngFile);
+            return image;
+        } catch (IOException e) {
             logger.error(e.getMessage());
             return null;
         }

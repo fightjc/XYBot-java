@@ -1,4 +1,4 @@
-package org.fightjc.xybot.command.impl.group;
+package org.fightjc.xybot.command.impl;
 
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.contact.Member;
@@ -8,7 +8,9 @@ import net.mamoe.mirai.message.data.MessageChain;
 import net.mamoe.mirai.message.data.PlainText;
 import org.fightjc.xybot.annotate.CommandAnnotate;
 import org.fightjc.xybot.annotate.SwitchAnnotate;
+import org.fightjc.xybot.command.impl.group.MemberGroupCommand;
 import org.fightjc.xybot.pojo.Command;
+import org.fightjc.xybot.pojo.ResultOutput;
 import org.fightjc.xybot.util.BotGacha;
 
 import java.util.ArrayList;
@@ -29,11 +31,10 @@ public class DailyLuckCommand extends MemberGroupCommand {
 
     @Override
     protected Message executeHandle(Member sender, ArrayList<String> args, MessageChain messageChain, Group subject) throws Exception {
-
-        String content = BotGacha.getInstance().getGacha(sender.getId());
+        ResultOutput result = BotGacha.getInstance().getGacha(sender.getId());
 
         At at = new At(sender.getId());
-        PlainText plainText = new PlainText(content);
+        PlainText plainText = new PlainText(result.getInfo());
         return at.plus(plainText);
     }
 }

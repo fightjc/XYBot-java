@@ -2,7 +2,9 @@ package org.fightjc.xybot.util;
 
 import org.fightjc.xybot.pojo.ResultOutput;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -10,10 +12,18 @@ import java.util.Map;
  */
 public class BotSwitch {
 
+    /**
+     * 记录所有功能和默认开关
+     */
     private static final Map<String, Boolean> switchList = new HashMap<>();
 
-    public static void init(String name, Boolean isOn) {
-        switchList.put(name, isOn);
+    /**
+     * 记录每个群具体开放的功能和开关
+     */
+//    private static final Map<String, Boolean> switchRecordList = new HashMap<>();
+
+    public static void registerSwitch(String name, Boolean isAutoOn) {
+        switchList.put(name, isAutoOn);
     }
 
     /**
@@ -24,9 +34,9 @@ public class BotSwitch {
     public static ResultOutput<String> open(String name) {
         if (switchList.containsKey(name)) {
             switchList.put(name, true);
-            return new ResultOutput<>(true, "[" + name + "]已开启");
+            return new ResultOutput<>(true, "[" + name + "] 已开启");
         } else {
-            return new ResultOutput<>(false, "[" + name + "]功能不存在");
+            return new ResultOutput<>(false, "[" + name + "] 功能不存在");
         }
     }
 
@@ -38,9 +48,9 @@ public class BotSwitch {
     public static ResultOutput<String> close(String name) {
         if (switchList.containsKey(name)) {
             switchList.put(name, false);
-            return new ResultOutput<>(true, "[" + name + "]已关闭");
+            return new ResultOutput<>(true, "[" + name + "] 已关闭");
         } else {
-            return new ResultOutput<>(false, "[" + name + "]功能不存在");
+            return new ResultOutput<>(false, "[" + name + "] 功能不存在");
         }
     }
 
@@ -68,4 +78,14 @@ public class BotSwitch {
     public static boolean check(String name) {
         return switchList.getOrDefault(name, false);
     }
+
+    /**
+     * 统一生成开关key
+     * @param func
+     * @param groupId
+     * @return
+     */
+//    private static String generateKey(String func, Long groupId) {
+//        return func + "," + groupId;
+//    }
 }
