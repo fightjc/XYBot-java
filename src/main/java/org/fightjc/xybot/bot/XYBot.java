@@ -36,7 +36,9 @@ public class XYBot {
 
         // 注册事件
         for (ListenerHost event : events) {
-            GlobalEventChannel.INSTANCE.registerListenerHost(event);
+            // 给当前登陆的bot注册事件
+            miraiBot.getEventChannel().registerListenerHost(event);
+//            GlobalEventChannel.INSTANCE.registerListenerHost(event);
         }
     }
 }
