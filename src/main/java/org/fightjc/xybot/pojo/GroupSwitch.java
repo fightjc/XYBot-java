@@ -1,6 +1,8 @@
 package org.fightjc.xybot.pojo;
 
 public class GroupSwitch {
+    Integer id;
+
     Long groupId;
 
     String name;

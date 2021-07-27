@@ -43,13 +43,17 @@ public class DBMigrationConfig {
     public List<DBMigrationTable> getDBMigrationTables() {
         List<DBMigrationTable> tables = new ArrayList<>();
 
-        // migration demo
-//        String remark = "init";
-//        List<String> sqlList = new ArrayList<>();
-//        String sql = "";
-//        sqlList.add(sql);
-//        DBMigrationTable table = new DBMigrationTable(0, remark, sqlList);
-//        tables.add(table);
+        // migration
+        String remark = "addGroupSwitch";
+        List<String> sqlList = new ArrayList<>();
+        String createGroupSwitch = "create table BotGroupSwitch(" +
+                "Id INTEGER PRIMARY KEY autoincrement," +
+                "GroupId integer," +
+                "Name varchar(255)," +
+                "IsOn varchar(1));";
+        sqlList.add(createGroupSwitch);
+        DBMigrationTable table = new DBMigrationTable(0, remark, sqlList);
+        tables.add(table);
 
         return tables;
     }
