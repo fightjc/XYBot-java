@@ -2,15 +2,41 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.fightjc.xybot.dao.GroupSwitchDao">
 
-    <select id="getAllGroupSwitches" resultType="org.fightjc.xybot.pojo.GroupSwitch">
-
+    <select id="getAllGroupSwitches" parameterType="int" resultType="org.fightjc.xybot.pojo.GroupSwitch">
+        select
+            *
+        from GroupSwitch
+        where
+            GroupId = #{groupId};
     </select>
 
-    <update id="updateGroupSwitch" parameterType="org.fightjc.xybot.pojo.GroupSwitch">
+    <select id="getGroupSwitch" resultType="org.fightjc.xybot.pojo.GroupSwitch">
+        select
+            *
+        from GroupSwitch
+        where
+            GroupId = #{groupId} and Name = #{name};
+    </select>
 
+    <update id="createGroupSwitch" parameterType="org.fightjc.xybot.pojo.GroupSwitch">
+        insert into GroupSwitch
+            (GroupId, Name, IsOn)
+        values
+            (#{groupId}, #{name}, #{isOn});
+    </update>
+
+    <update id="updateGroupSwitch" parameterType="org.fightjc.xybot.pojo.GroupSwitch">
+        update GroupSwitch
+        set
+            IsOn = #{isOn}
+        where
+            GroupId = #{groupId} and Name = #{name};
     </update>
 
     <update id="createGroupSwitchRecord" parameterType="org.fightjc.xybot.pojo.GroupSwitchRecord">
-
+        insert into GroupSwitchRecord
+            (GroupId, Name, IsOn, ModifiedUserId, ModifiedTime)
+        values
+            (#{groupId}, #{name}, #{isOn} #{modifiedUserId}, #{modifiedTime});
     </update>
 </mapper>

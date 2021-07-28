@@ -29,15 +29,15 @@ public class SwitchCommand extends AdminGroupCommand {
         String opt = args.get(0);
 
         if (opt.equals("列表")) {
-            return new PlainText("当前组件有：\n" + BotSwitch.getList());
+            return new PlainText("当前组件有：\n" + BotSwitch.getInstance().getList(subject.getId()));
         }
 
         String componentName = args.get(1);
         switch (opt) {
             case "开启":
-                return new PlainText(BotSwitch.open(componentName).getInfo());
+                return new PlainText(BotSwitch.getInstance().open(subject.getId(), componentName, sender.getId()).getInfo());
             case "关闭":
-                return new PlainText(BotSwitch.close(componentName).getInfo());
+                return new PlainText(BotSwitch.getInstance().close(subject.getId(), componentName, sender.getId()).getInfo());
             default:
                 return new PlainText("使用方式：开关 [列表] [开启/关闭 组件名]");
         }

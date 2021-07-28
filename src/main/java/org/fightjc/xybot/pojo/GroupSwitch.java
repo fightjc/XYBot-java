@@ -1,17 +1,29 @@
 package org.fightjc.xybot.pojo;
 
 public class GroupSwitch {
-    Integer id;
+    private Integer id;
 
-    Long groupId;
+    private Long groupId;
 
-    String name;
+    private String name;
 
-    boolean isOn;
+    private boolean isOn;
 
     public GroupSwitch(Long groupId, String name, boolean isOn) {
         this.groupId = groupId;
         this.name = name;
         this.isOn = isOn;
+    }
+
+    public Long getGroupId() {
+        return groupId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public boolean isOn() {
+        return isOn;
     }
 }

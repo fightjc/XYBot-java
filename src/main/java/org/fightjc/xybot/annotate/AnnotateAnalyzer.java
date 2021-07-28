@@ -39,7 +39,7 @@ public class AnnotateAnalyzer implements ApplicationListener<ContextRefreshedEve
             for (Object bean: switchBeans.values()) {
                 if (bean instanceof BaseCommand) {
                     SwitchAnnotate switchAnnotate = bean.getClass().getAnnotation(SwitchAnnotate.class);
-                    BotSwitch.registerSwitch(switchAnnotate.name(), switchAnnotate.autoOn());
+                    BotSwitch.getInstance().registerSwitch(switchAnnotate.name(), switchAnnotate.autoOn());
                 }
             }
         }
