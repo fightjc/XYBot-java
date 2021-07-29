@@ -38,6 +38,6 @@
         insert into GroupSwitchRecord
             (GroupId, Name, IsOn, ModifiedUserId, ModifiedTime)
         values
-            (#{groupId}, #{name}, #{isOn} #{modifiedUserId}, #{modifiedTime});
+            (#{groupId}, #{name}, #{isOn}, #{modifiedUserId}, #{modifiedTime});
     </update>
 </mapper>
