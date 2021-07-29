@@ -50,6 +50,7 @@ public class XYBotLoader implements ApplicationRunner {
         prepareDatabase();
         // 启动bot
         startupBot();
+        //TODO: 监听群加载事件
     }
 
     private void prepareDatabase() {

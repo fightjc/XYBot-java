@@ -91,7 +91,7 @@ public class CommandEvents extends SimpleListenerHost {
             if (groupCommand != null) {
                 SwitchAnnotate annotate = groupCommand.getClass().getAnnotation(SwitchAnnotate.class);
                 // 如果是动态组件指令则查询是否有开启该指令
-                if (annotate != null && !BotSwitch.getInstance().check(event.getGroup().getId(), annotate.name())) {
+                if (annotate != null && !BotSwitch.getInstance().getGroupSwitchStatus(event.getSubject().getId(), annotate.name()).getObject()) {
                     return ListeningStatus.LISTENING;
                 }
                 // 执行指令
@@ -124,7 +124,7 @@ public class CommandEvents extends SimpleListenerHost {
             if (friendCommand != null) {
                 SwitchAnnotate annotate = friendCommand.getClass().getAnnotation(SwitchAnnotate.class);
                 // 如果是动态组件指令则查询是否有开启该指令
-                if (annotate != null && !BotSwitch.getInstance().check(event.getSender().getId(), annotate.name())) {
+                if (annotate != null && !BotSwitch.getInstance().getGroupSwitchStatus(event.getSubject().getId(), annotate.name()).getObject()) {
                     return ListeningStatus.LISTENING;
                 }
                 // 执行指令
@@ -144,7 +144,7 @@ public class CommandEvents extends SimpleListenerHost {
     @Override
     public void handleException(@NotNull CoroutineContext context, @NotNull Throwable exception) {
         super.handleException(context, exception);
-        logger.error("CommandEvents", exception.getMessage());
+        logger.error(exception.getMessage());
     }
 
     /**

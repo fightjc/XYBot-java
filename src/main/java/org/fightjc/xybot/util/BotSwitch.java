@@ -1,10 +1,6 @@
 package org.fightjc.xybot.util;
 
-import org.fightjc.xybot.dao.GroupSwitchDao;
-import org.fightjc.xybot.pojo.GroupSwitch;
-import org.fightjc.xybot.pojo.GroupSwitchRecord;
 import org.fightjc.xybot.pojo.ResultOutput;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.*;
 
@@ -18,54 +14,51 @@ public class BotSwitch {
      */
     private Map<String, Boolean> switchList;
 
-    @Autowired
-    private GroupSwitchDao groupSwitchDao;
+    /**
+     * 记录群功能和开关
+     */
+    private Map<String, Boolean> groupSwitchList;
 
-    private BotSwitch() {
+    public BotSwitch() {
         switchList = new HashMap<>();
+        groupSwitchList = new HashMap<>();
     }
 
     private static class Lazy {
         private static final BotSwitch instance = new BotSwitch();
     }
 
-    public static final BotSwitch getInstance() { return BotSwitch.Lazy.instance; }
+    public static final BotSwitch getInstance() { return Lazy.instance; }
 
     public void registerSwitch(String name, Boolean isAutoOn) {
         switchList.put(name, isAutoOn);
     }
 
     /**
-     * 开启指定功能
+     * 获取指定功能开关选项
+     * @param groupId
      * @param name
      * @return
      */
-    public ResultOutput<String> open(Long groupId, String name, Long modifiedUserId) {
-        if (switchList.containsKey(name)) {
-            // 更新数据库
-            GroupSwitch groupSwitch = new GroupSwitch(groupId, name, true);
-            groupSwitchDao.updateGroupSwitch(groupSwitch);
-            groupSwitchDao.createGroupSwitchRecord(new GroupSwitchRecord(groupSwitch, modifiedUserId));
-            return new ResultOutput<>(true, "[" + name + "] 已开启");
+    public ResultOutput<Boolean> getGroupSwitchStatus(Long groupId, String name) {
+        String key = getGroupSwitchMapKey(groupId, name);
+        if (groupSwitchList.containsKey(key)) {
+            return new ResultOutput<>(true, "", groupSwitchList.get(key));
         } else {
-            return new ResultOutput<>(false, "[" + name + "] 功能不存在");
+            return getSwitchDefaultValue(name);
         }
     }
 
     /**
-     * 关闭指定功能
+     * 获取指定功能默认开关选项
      * @param name
      * @return
      */
-    public ResultOutput<String> close(Long groupId, String name, Long modifiedUserId) {
+    public ResultOutput<Boolean> getSwitchDefaultValue(String name) {
         if (switchList.containsKey(name)) {
-            // 更新数据库
-            GroupSwitch groupSwitch = new GroupSwitch(groupId, name, false);
-            groupSwitchDao.updateGroupSwitch(groupSwitch);
-            groupSwitchDao.createGroupSwitchRecord(new GroupSwitchRecord(groupSwitch, modifiedUserId));
-            return new ResultOutput<>(true, "[" + name + "] 已关闭");
+            return new ResultOutput<>(true, "", switchList.getOrDefault(name, false));
         } else {
-            return new ResultOutput<>(false, "[" + name + "] 功能不存在");
+            return new ResultOutput<>(false, "[" + name + "] 功能不存在", false);
         }
     }
 
@@ -73,46 +66,29 @@ public class BotSwitch {
      * 列出所有已注册功能的开关状态
      * @return
      */
-    public String getList(Long groupId) {
-        String result = "";
-        List<GroupSwitch> groupSwitchList = groupSwitchDao.getAllGroupSwitches(groupId);
-        for (String key : switchList.keySet()) {
-            GroupSwitch groupSwitch = groupSwitchList.stream()
-                    .filter(gs -> gs.getName().equals(key))
-                    .findFirst()
-                    .orElse(null);
-            if (groupSwitch == null) {
-                result += key + " " + (switchList.getOrDefault(key, false) ? "开启中" : "未开启") + "\n";
-            } else {
-                result += groupSwitch.getName() + " " + (groupSwitch.isOn() ? "开启中" : "未开启") + "\n";
-            }
-        }
-        if (result.length() == 0) {
-            return "没有加载任何功能！";
-        } else {
-            return result.substring(0, result.length() - 1);
-        }
+    public Map<String, Boolean> getSwitchList() {
+        return switchList;
     }
 
     /**
-     * 检查指定功能是否开启
+     * 更新群功能开关列表
+     * @param groupId
      * @param name
+     * @param isOn
      * @return
      */
-    public boolean check(Long groupId, String name) {
-        GroupSwitch groupSwitch = groupSwitchDao.getGroupSwitch(groupId, name);
-        if (groupSwitch == null) {
-            boolean status = switchList.getOrDefault(name, false);
-
-            // 插入默认值
-            GroupSwitch temp = new GroupSwitch(groupId, name, status);
-            groupSwitchDao.createGroupSwitch(temp);
-            groupSwitchDao.createGroupSwitchRecord(new GroupSwitchRecord(temp, 0L));
-
-            return status;
+    public ResultOutput<String> createOrUpdateGroupSwitch(Long groupId, String name, boolean isOn) {
+        String key = getGroupSwitchMapKey(groupId, name);
+        if (groupSwitchList.containsKey(key)) {
+            groupSwitchList.replace(key, isOn);
         } else {
-            return groupSwitch.isOn();
+            groupSwitchList.put(key, isOn);
         }
+
+        return new ResultOutput(true, "");
     }
 
+    private String getGroupSwitchMapKey(Long groupId, String name) {
+        return name + groupId.toString();
+    }
 }

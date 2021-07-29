@@ -8,12 +8,21 @@ import net.mamoe.mirai.message.data.PlainText;
 import org.fightjc.xybot.annotate.CommandAnnotate;
 import org.fightjc.xybot.command.impl.group.AdminGroupCommand;
 import org.fightjc.xybot.pojo.Command;
+import org.fightjc.xybot.pojo.GroupSwitch;
+import org.fightjc.xybot.pojo.ResultOutput;
+import org.fightjc.xybot.service.GroupSwitchService;
 import org.fightjc.xybot.util.BotSwitch;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @CommandAnnotate
 public class SwitchCommand extends AdminGroupCommand {
+
+    @Autowired
+    protected GroupSwitchService groupSwitchService;
 
     @Override
     public Command property() {
@@ -27,17 +36,45 @@ public class SwitchCommand extends AdminGroupCommand {
         }
 
         String opt = args.get(0);
-
-        if (opt.equals("列表")) {
-            return new PlainText("当前组件有：\n" + BotSwitch.getInstance().getList(subject.getId()));
-        }
-
-        String componentName = args.get(1);
         switch (opt) {
+            case "列表":
+                // 获取默认功能开关状态
+                Map<String, Boolean> switchList = BotSwitch.getInstance().getSwitchList();
+                // 获取对应数据库记录
+                List<GroupSwitch> groupSwitchList = groupSwitchService.getGroupSwitchesByGroupId(subject.getId());
+
+                StringBuilder message = new StringBuilder();
+                for (String key : switchList.keySet()) {
+                    // 查看是否已有记录
+                    GroupSwitch groupSwitch = groupSwitchList.stream()
+                            .filter(gs -> gs.getName().equals(key))
+                            .findFirst()
+                            .orElse(null);
+                    if (groupSwitch == null) {
+                        message.append(key).append(" ").append(switchList.getOrDefault(key, false) ? "开启中" : "未开启").append("\n");
+                    } else {
+                        message.append(groupSwitch.getName()).append(" ").append(groupSwitch.isOn() ? "开启中" : "未开启").append("\n");
+                    }
+                }
+
+                return new PlainText("当前组件有：\n" + message.toString());
             case "开启":
-                return new PlainText(BotSwitch.getInstance().open(subject.getId(), componentName, sender.getId()).getInfo());
             case "关闭":
-                return new PlainText(BotSwitch.getInstance().close(subject.getId(), componentName, sender.getId()).getInfo());
+                String componentName = args.get(1);
+
+                // 检测功能是否存在
+                ResultOutput<Boolean> result = BotSwitch.getInstance().getSwitchDefaultValue(componentName);
+                if (!result.getSuccess()) {
+                    return new PlainText(result.getInfo());
+                }
+
+                // 写入数据库
+                groupSwitchService.createOrUpdateGroupSwitch(subject.getId(), componentName, opt.equals("开启"), sender.getId());
+                // 更新工具类
+                BotSwitch.getInstance().createOrUpdateGroupSwitch(subject.getId(), componentName, opt.equals("开启"));
+
+                String info = "[" + componentName + "] " + (opt.equals("开启") ? "已开启" : "已关闭");
+                return new PlainText(info);
             default:
                 return new PlainText("使用方式：开关 [列表] [开启/关闭 组件名]");
         }

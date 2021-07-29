@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.fightjc.xybot.dao.GroupSwitchDao">
 
-    <select id="getAllGroupSwitches" parameterType="int" resultType="org.fightjc.xybot.pojo.GroupSwitch">
+    <select id="getAllGroupSwitches" parameterType="Long" resultType="org.fightjc.xybot.pojo.GroupSwitch">
         select
             *
         from GroupSwitch
@@ -15,7 +15,8 @@
             *
         from GroupSwitch
         where
-            GroupId = #{groupId} and Name = #{name};
+            GroupId = #{groupId} and Name = #{name}
+        order by Name asc limit 1;
     </select>
 
     <update id="createGroupSwitch" parameterType="org.fightjc.xybot.pojo.GroupSwitch">
