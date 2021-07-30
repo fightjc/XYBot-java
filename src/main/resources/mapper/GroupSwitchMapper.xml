@@ -6,8 +6,11 @@
         select
             *
         from GroupSwitch
-        where
-            GroupId = #{groupId};
+        <where>
+            <if test="groupId != null">
+                GroupId = #{groupId}
+            </if>>
+        </where>
     </select>
 
     <select id="getGroupSwitch" resultType="org.fightjc.xybot.pojo.GroupSwitch">
@@ -16,14 +19,14 @@
         from GroupSwitch
         where
             GroupId = #{groupId} and Name = #{name}
-        order by Name asc limit 1;
+        order by Name asc limit 1
     </select>
 
     <update id="createGroupSwitch" parameterType="org.fightjc.xybot.pojo.GroupSwitch">
         insert into GroupSwitch
             (GroupId, Name, IsOn)
         values
-            (#{groupId}, #{name}, #{isOn});
+            (#{groupId}, #{name}, #{isOn})
     </update>
 
     <update id="updateGroupSwitch" parameterType="org.fightjc.xybot.pojo.GroupSwitch">
@@ -31,13 +34,13 @@
         set
             IsOn = #{isOn}
         where
-            GroupId = #{groupId} and Name = #{name};
+            GroupId = #{groupId} and Name = #{name}
     </update>
 
     <update id="createGroupSwitchRecord" parameterType="org.fightjc.xybot.pojo.GroupSwitchRecord">
         insert into GroupSwitchRecord
             (GroupId, Name, IsOn, ModifiedUserId, ModifiedTime)
         values
-            (#{groupId}, #{name}, #{isOn}, #{modifiedUserId}, #{modifiedTime});
+            (#{groupId}, #{name}, #{isOn}, #{modifiedUserId}, #{modifiedTime})
     </update>
 </mapper>

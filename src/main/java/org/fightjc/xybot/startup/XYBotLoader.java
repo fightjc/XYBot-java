@@ -6,6 +6,9 @@ import org.fightjc.xybot.bot.XYBot;
 import org.fightjc.xybot.db.DBInitHelper;
 import org.fightjc.xybot.db.DBMigration;
 import org.fightjc.xybot.events.CommandEvents;
+import org.fightjc.xybot.pojo.GroupSwitch;
+import org.fightjc.xybot.service.GroupSwitchService;
+import org.fightjc.xybot.util.BotSwitch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +45,9 @@ public class XYBotLoader implements ApplicationRunner {
     DBMigration dbMigration;
 
     @Autowired
+    GroupSwitchService groupSwitchService;
+
+    @Autowired
     AnnotateAnalyzer annotateAnalyzer;
 
     @Override
@@ -50,7 +56,6 @@ public class XYBotLoader implements ApplicationRunner {
         prepareDatabase();
         // 启动bot
         startupBot();
-        //TODO: 监听群加载事件
     }
 
     private void prepareDatabase() {
@@ -58,6 +63,13 @@ public class XYBotLoader implements ApplicationRunner {
         DBInitHelper.getInstance().prepareDB();
         // 更新数据库
         dbMigration.updateDB();
+
+        // 初始化GroupSwitch
+        List<GroupSwitch> groupSwitchList = groupSwitchService.getGroupSwitchesByGroupId(null);
+        for (GroupSwitch groupSwitch : groupSwitchList) {
+            BotSwitch.getInstance().createOrUpdateGroupSwitch(groupSwitch.getGroupId(), groupSwitch.getName(), groupSwitch.isOn());
+        }
+
     }
 
     private void startupBot() {
