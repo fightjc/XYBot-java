@@ -50,19 +50,23 @@ public class GenshinServiceImpl implements GenshinService {
         }
     }
 
-    @Override
+    /**
+     * 获取每日素材汇总图片
+     * @param day
+     * @return
+     */
     public ResultOutput<BufferedImage> getDailyMaterial(DAILY_MATERIAL_WEEK day) {
         if (day == DAILY_MATERIAL_WEEK.SUN) {
-            return new ResultOutput(true, "笨蛋，今天啥资源都有哦～", null);
+            return new ResultOutput<>(true, "笨蛋，周日啥资源都有哦～");
         }
 
         String pngPath = BotUtil.getResourceFolderPath() + "/genshin/dailymaterial_" + day.id + ".png";
         BufferedImage rawImage = BotUtil.readImageFile(pngPath);
 
         if (rawImage == null) {
-            return new ResultOutput(false, "读取图片资源失败", null);
+            return new ResultOutput<>(false, "读取图片资源失败");
         }
 
-        return new ResultOutput(true, "读取图片资源成功", rawImage);
+        return new ResultOutput<>(true, "读取图片资源成功", rawImage);
     }
 }

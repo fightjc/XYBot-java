@@ -31,37 +31,34 @@ public class GenshinImagesConfig {
     }
 
     /**
-     * 读取组件图并切割保存为字典对象
+     * 读取雪碧图并切割保存为字典对象
      * @param component
      * @return
      */
     private Map<String, BufferedImage> getImageMap(String component) {
         Map<String, BufferedImage> imageMap = new HashMap<>();
 
-        //TODO: 暂时不采用临时生成图片方法
-        return imageMap;
+        // 获取图片
+        String pngPath = BotUtil.getResourceFolderPath() + "/" + component + ".png";
+        BufferedImage rawImage = BotUtil.readImageFile(pngPath);
+        if (rawImage == null) return imageMap;
 
-//        // 获取图片
-//        String pngPath = BotUtil.getResourceFolderPath() + "/" + component + ".png";
-//        BufferedImage rawImage = BotUtil.readImageFile(pngPath);
-//        if (rawImage == null) return imageMap;
-//
-//        // 获取json
-//        String jsonPath = BotUtil.getResourceFolderPath() + "/" + component + ".json";
-//        JSONObject jsonObject = BotUtil.readJsonFile(jsonPath);
-//        if (jsonObject == null) return imageMap;
-//
-//        JSONArray jsonArray = jsonObject.getJSONArray(component);
-//        for (int i = 0; i < jsonArray.size(); i++) {
-//            JSONObject object = jsonArray.getJSONObject(i);
-//            String name = object.getString("name");
-//            Integer x = object.getInteger("x");
-//            Integer y = object.getInteger("y");
-//            Integer w = object.getInteger("w");
-//            Integer h = object.getInteger("h");
-//            imageMap.put(name, rawImage.getSubimage(x, y, w, h));
-//        }
-//
-//        return imageMap;
+        // 获取json
+        String jsonPath = BotUtil.getResourceFolderPath() + "/" + component + ".json";
+        JSONObject jsonObject = BotUtil.readJsonFile(jsonPath);
+        if (jsonObject == null) return imageMap;
+
+        JSONArray jsonArray = jsonObject.getJSONArray(component);
+        for (int i = 0; i < jsonArray.size(); i++) {
+            JSONObject object = jsonArray.getJSONObject(i);
+            String name = object.getString("name");
+            Integer x = object.getInteger("x");
+            Integer y = object.getInteger("y");
+            Integer w = object.getInteger("w");
+            Integer h = object.getInteger("h");
+            imageMap.put(name, rawImage.getSubimage(x, y, w, h));
+        }
+
+        return imageMap;
     }
 }
