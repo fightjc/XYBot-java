@@ -1,0 +1,153 @@
+{
+	"name": "胡桃",
+	"title": "雪霁梅香",
+	"description": "「往生堂」七十七代堂主，年纪轻轻就已主掌璃月的葬仪事务。",
+	"rarity": "5",
+	"element": "火",
+	"weapontype": "长柄武器",
+	"substat": "暴击伤害",
+	"gender": "女",
+	"body": "GIRL",
+	"association": "LIYUE",
+	"region": "Liyue",
+	"affiliation": "往生堂",
+	"birthdaymmdd": "7/15",
+	"birthday": "7月15日",
+	"constellation": "引蝶座",
+	"cv": {
+		"english": "布丽安娜·尼克博克",
+		"chinese": "陶典",
+		"japanese": "高桥李依",
+		"korean": "金贺娄"
+	},
+	"costs": {
+		"ascend1": [
+			{
+				"name": "摩拉",
+				"count": 20000
+			},
+			{
+				"name": "燃愿玛瑙碎屑",
+				"count": 1
+			},
+			{
+				"name": "霓裳花",
+				"count": 3
+			},
+			{
+				"name": "骗骗花蜜",
+				"count": 3
+			}
+		],
+		"ascend2": [
+			{
+				"name": "摩拉",
+				"count": 40000
+			},
+			{
+				"name": "燃愿玛瑙断片",
+				"count": 3
+			},
+			{
+				"name": "未熟之玉",
+				"count": 2
+			},
+			{
+				"name": "霓裳花",
+				"count": 10
+			},
+			{
+				"name": "骗骗花蜜",
+				"count": 15
+			}
+		],
+		"ascend3": [
+			{
+				"name": "摩拉",
+				"count": 60000
+			},
+			{
+				"name": "燃愿玛瑙断片",
+				"count": 6
+			},
+			{
+				"name": "未熟之玉",
+				"count": 4
+			},
+			{
+				"name": "霓裳花",
+				"count": 20
+			},
+			{
+				"name": "微光花蜜",
+				"count": 12
+			}
+		],
+		"ascend4": [
+			{
+				"name": "摩拉",
+				"count": 80000
+			},
+			{
+				"name": "燃愿玛瑙块",
+				"count": 3
+			},
+			{
+				"name": "未熟之玉",
+				"count": 8
+			},
+			{
+				"name": "霓裳花",
+				"count": 30
+			},
+			{
+				"name": "微光花蜜",
+				"count": 18
+			}
+		],
+		"ascend5": [
+			{
+				"name": "摩拉",
+				"count": 100000
+			},
+			{
+				"name": "燃愿玛瑙块",
+				"count": 6
+			},
+			{
+				"name": "未熟之玉",
+				"count": 12
+			},
+			{
+				"name": "霓裳花",
+				"count": 45
+			},
+			{
+				"name": "原素花蜜",
+				"count": 12
+			}
+		],
+		"ascend6": [
+			{
+				"name": "摩拉",
+				"count": 120000
+			},
+			{
+				"name": "燃愿玛瑙",
+				"count": 6
+			},
+			{
+				"name": "未熟之玉",
+				"count": 20
+			},
+			{
+				"name": "霓裳花",
+				"count": 60
+			},
+			{
+				"name": "原素花蜜",
+				"count": 24
+			}
+		]
+	}
+}

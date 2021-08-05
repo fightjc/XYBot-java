@@ -1,12 +1,17 @@
-图片素材主要来源[可莉特调][1]
++ 数据来源
+  - [genshin-db][10]
+
++ 图片素材
+  - [可莉特调][20]
 
 |     图片     |      来源      |
 | :----------: | :-----------: |
-| role.png     | [角色雪碧图][2] |
-| material.png | [材料雪碧图][3] |
-| weapon.png   | [武器雪碧图][4] |
+| role.png     | [角色雪碧图][21] |
+| material.png | [材料雪碧图][22] |
+| weapon.png   | [武器雪碧图][23] |
 
-[1]:https://genshin.pub/
-[2]:https://genshin.pub/images/角色雪碧图.png
-[3]:https://genshin.pub/images/材料雪碧图.png
-[4]:https://genshin.pub/images/武器雪碧图.png
+[10]:https://github.com/theBowja/genshin-db/
+[20]:https://genshin.pub/
+[21]:https://genshin.pub/images/角色雪碧图.png
+[22]:https://genshin.pub/images/材料雪碧图.png
+[23]:https://genshin.pub/images/武器雪碧图.png

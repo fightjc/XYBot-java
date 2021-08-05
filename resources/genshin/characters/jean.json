@@ -1,0 +1,153 @@
+{
+	"name": "琴",
+	"title": "蒲公英骑士",
+	"description": "正直严谨的蒲公英骑士，蒙德西风骑士团的代理团长。",
+	"rarity": "5",
+	"element": "风",
+	"weapontype": "单手剑",
+	"substat": "治疗加成",
+	"gender": "女",
+	"body": "LADY",
+	"association": "MONDSTADT",
+	"region": "Mondstadt",
+	"affiliation": "西风骑士团",
+	"birthdaymmdd": "3/14",
+	"birthday": "3月14日",
+	"constellation": "幼狮座",
+	"cv": {
+		"english": "斯蒂芬妮·萨瑟兰",
+		"chinese": "林簌",
+		"japanese": "斋藤千和",
+		"korean": "安荣美"
+	},
+	"costs": {
+		"ascend1": [
+			{
+				"name": "摩拉",
+				"count": 20000
+			},
+			{
+				"name": "自在松石碎屑",
+				"count": 1
+			},
+			{
+				"name": "蒲公英籽",
+				"count": 3
+			},
+			{
+				"name": "破损的面具",
+				"count": 3
+			}
+		],
+		"ascend2": [
+			{
+				"name": "摩拉",
+				"count": 40000
+			},
+			{
+				"name": "自在松石断片",
+				"count": 3
+			},
+			{
+				"name": "飓风之种",
+				"count": 2
+			},
+			{
+				"name": "蒲公英籽",
+				"count": 10
+			},
+			{
+				"name": "破损的面具",
+				"count": 15
+			}
+		],
+		"ascend3": [
+			{
+				"name": "摩拉",
+				"count": 60000
+			},
+			{
+				"name": "自在松石断片",
+				"count": 6
+			},
+			{
+				"name": "飓风之种",
+				"count": 4
+			},
+			{
+				"name": "蒲公英籽",
+				"count": 20
+			},
+			{
+				"name": "污秽的面具",
+				"count": 12
+			}
+		],
+		"ascend4": [
+			{
+				"name": "摩拉",
+				"count": 80000
+			},
+			{
+				"name": "自在松石块",
+				"count": 3
+			},
+			{
+				"name": "飓风之种",
+				"count": 8
+			},
+			{
+				"name": "蒲公英籽",
+				"count": 30
+			},
+			{
+				"name": "污秽的面具",
+				"count": 18
+			}
+		],
+		"ascend5": [
+			{
+				"name": "摩拉",
+				"count": 100000
+			},
+			{
+				"name": "自在松石块",
+				"count": 6
+			},
+			{
+				"name": "飓风之种",
+				"count": 12
+			},
+			{
+				"name": "蒲公英籽",
+				"count": 45
+			},
+			{
+				"name": "不祥的面具",
+				"count": 12
+			}
+		],
+		"ascend6": [
+			{
+				"name": "摩拉",
+				"count": 120000
+			},
+			{
+				"name": "自在松石",
+				"count": 6
+			},
+			{
+				"name": "飓风之种",
+				"count": 20
+			},
+			{
+				"name": "蒲公英籽",
+				"count": 60
+			},
+			{
+				"name": "不祥的面具",
+				"count": 24
+			}
+		]
+	}
+}

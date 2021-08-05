@@ -1,0 +1,153 @@
+{
+	"name": "辛焱",
+	"title": "燥热旋律",
+	"description": "璃月港唯一的摇滚乐手，以音乐和热情歌颂着对「成见」的反抗。",
+	"rarity": "4",
+	"element": "火",
+	"weapontype": "双手剑",
+	"substat": "攻击力",
+	"gender": "女",
+	"body": "GIRL",
+	"association": "LIYUE",
+	"region": "Liyue",
+	"affiliation": "璃月港",
+	"birthdaymmdd": "10/16",
+	"birthday": "10月16日",
+	"constellation": "红檀四弦座",
+	"cv": {
+		"english": "劳拉·斯特尔",
+		"chinese": "王雅欣",
+		"japanese": "高桥智秋",
+		"korean": "金採河"
+	},
+	"costs": {
+		"ascend1": [
+			{
+				"name": "摩拉",
+				"count": 20000
+			},
+			{
+				"name": "燃愿玛瑙碎屑",
+				"count": 1
+			},
+			{
+				"name": "琉璃袋",
+				"count": 3
+			},
+			{
+				"name": "寻宝鸦印",
+				"count": 3
+			}
+		],
+		"ascend2": [
+			{
+				"name": "摩拉",
+				"count": 40000
+			},
+			{
+				"name": "燃愿玛瑙断片",
+				"count": 3
+			},
+			{
+				"name": "常燃火种",
+				"count": 2
+			},
+			{
+				"name": "琉璃袋",
+				"count": 10
+			},
+			{
+				"name": "寻宝鸦印",
+				"count": 15
+			}
+		],
+		"ascend3": [
+			{
+				"name": "摩拉",
+				"count": 60000
+			},
+			{
+				"name": "燃愿玛瑙断片",
+				"count": 6
+			},
+			{
+				"name": "常燃火种",
+				"count": 4
+			},
+			{
+				"name": "琉璃袋",
+				"count": 20
+			},
+			{
+				"name": "藏银鸦印",
+				"count": 12
+			}
+		],
+		"ascend4": [
+			{
+				"name": "摩拉",
+				"count": 80000
+			},
+			{
+				"name": "燃愿玛瑙块",
+				"count": 3
+			},
+			{
+				"name": "常燃火种",
+				"count": 8
+			},
+			{
+				"name": "琉璃袋",
+				"count": 30
+			},
+			{
+				"name": "藏银鸦印",
+				"count": 18
+			}
+		],
+		"ascend5": [
+			{
+				"name": "摩拉",
+				"count": 100000
+			},
+			{
+				"name": "燃愿玛瑙块",
+				"count": 6
+			},
+			{
+				"name": "常燃火种",
+				"count": 12
+			},
+			{
+				"name": "琉璃袋",
+				"count": 45
+			},
+			{
+				"name": "攫金鸦印",
+				"count": 12
+			}
+		],
+		"ascend6": [
+			{
+				"name": "摩拉",
+				"count": 120000
+			},
+			{
+				"name": "燃愿玛瑙",
+				"count": 6
+			},
+			{
+				"name": "常燃火种",
+				"count": 20
+			},
+			{
+				"name": "琉璃袋",
+				"count": 60
+			},
+			{
+				"name": "攫金鸦印",
+				"count": 24
+			}
+		]
+	}
+}

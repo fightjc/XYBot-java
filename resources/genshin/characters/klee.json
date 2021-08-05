@@ -1,0 +1,153 @@
+{
+	"name": "可莉",
+	"title": "逃跑的太阳",
+	"description": "西风骑士团禁闭室的常客，蒙德的爆破大师。人称「逃跑的太阳」。",
+	"rarity": "5",
+	"element": "火",
+	"weapontype": "法器",
+	"substat": "火元素伤害加成",
+	"gender": "女",
+	"body": "LOLI",
+	"association": "MONDSTADT",
+	"region": "Mondstadt",
+	"affiliation": "西风骑士团",
+	"birthdaymmdd": "7/27",
+	"birthday": "7月27日",
+	"constellation": "四叶草座",
+	"cv": {
+		"english": "帕娜姆·巴苏",
+		"chinese": "花玲",
+		"japanese": "久野美咲",
+		"korean": "房莲知"
+	},
+	"costs": {
+		"ascend1": [
+			{
+				"name": "摩拉",
+				"count": 20000
+			},
+			{
+				"name": "燃愿玛瑙碎屑",
+				"count": 1
+			},
+			{
+				"name": "慕风蘑菇",
+				"count": 3
+			},
+			{
+				"name": "导能绘卷",
+				"count": 3
+			}
+		],
+		"ascend2": [
+			{
+				"name": "摩拉",
+				"count": 40000
+			},
+			{
+				"name": "燃愿玛瑙断片",
+				"count": 3
+			},
+			{
+				"name": "常燃火种",
+				"count": 2
+			},
+			{
+				"name": "慕风蘑菇",
+				"count": 10
+			},
+			{
+				"name": "导能绘卷",
+				"count": 15
+			}
+		],
+		"ascend3": [
+			{
+				"name": "摩拉",
+				"count": 60000
+			},
+			{
+				"name": "燃愿玛瑙断片",
+				"count": 6
+			},
+			{
+				"name": "常燃火种",
+				"count": 4
+			},
+			{
+				"name": "慕风蘑菇",
+				"count": 20
+			},
+			{
+				"name": "封魔绘卷",
+				"count": 12
+			}
+		],
+		"ascend4": [
+			{
+				"name": "摩拉",
+				"count": 80000
+			},
+			{
+				"name": "燃愿玛瑙块",
+				"count": 3
+			},
+			{
+				"name": "常燃火种",
+				"count": 8
+			},
+			{
+				"name": "慕风蘑菇",
+				"count": 30
+			},
+			{
+				"name": "封魔绘卷",
+				"count": 18
+			}
+		],
+		"ascend5": [
+			{
+				"name": "摩拉",
+				"count": 100000
+			},
+			{
+				"name": "燃愿玛瑙块",
+				"count": 6
+			},
+			{
+				"name": "常燃火种",
+				"count": 12
+			},
+			{
+				"name": "慕风蘑菇",
+				"count": 45
+			},
+			{
+				"name": "禁咒绘卷",
+				"count": 12
+			}
+		],
+		"ascend6": [
+			{
+				"name": "摩拉",
+				"count": 120000
+			},
+			{
+				"name": "燃愿玛瑙",
+				"count": 6
+			},
+			{
+				"name": "常燃火种",
+				"count": 20
+			},
+			{
+				"name": "慕风蘑菇",
+				"count": 60
+			},
+			{
+				"name": "禁咒绘卷",
+				"count": 24
+			}
+		]
+	}
+}

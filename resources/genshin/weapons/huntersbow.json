@@ -1,0 +1,90 @@
+{
+	"name": "猎弓",
+	"description": "猎手演奏的音乐由两种音色组成。弓弦颤动的声音，和羽箭破空的低啸。",
+	"weapontype": "弓",
+	"rarity": "1",
+	"baseatk": 23,
+	"substat": "",
+	"subvalue": "",
+	"effectname": "",
+	"effect": "",
+	"r1": [],
+	"r2": [],
+	"r3": [],
+	"r4": [],
+	"r5": [],
+	"weaponmaterialtype": "",
+	"costs": {
+		"ascend1": [
+			{
+				"name": "摩拉"
+			},
+			{
+				"name": "凛风奔狼的始龀",
+				"count": 1
+			},
+			{
+				"name": "地脉的旧枝",
+				"count": 1
+			},
+			{
+				"name": "寻宝鸦印",
+				"count": 1
+			}
+		],
+		"ascend2": [
+			{
+				"name": "摩拉",
+				"count": 5000
+			},
+			{
+				"name": "凛风奔狼的裂齿",
+				"count": 1
+			},
+			{
+				"name": "地脉的旧枝",
+				"count": 4
+			},
+			{
+				"name": "寻宝鸦印",
+				"count": 2
+			}
+		],
+		"ascend3": [
+			{
+				"name": "摩拉",
+				"count": 5000
+			},
+			{
+				"name": "凛风奔狼的裂齿",
+				"count": 2
+			},
+			{
+				"name": "地脉的枯叶",
+				"count": 2
+			},
+			{
+				"name": "藏银鸦印",
+				"count": 2
+			}
+		],
+		"ascend4": [
+			{
+				"name": "摩拉",
+				"count": 10000
+			},
+			{
+				"name": "凛风奔狼的断牙",
+				"count": 1
+			},
+			{
+				"name": "地脉的枯叶",
+				"count": 4
+			},
+			{
+				"name": "藏银鸦印",
+				"count": 3
+			}
+		]
+	}
+}
