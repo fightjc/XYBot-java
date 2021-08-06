@@ -39,12 +39,12 @@ public class GenshinImagesConfig {
         Map<String, BufferedImage> imageMap = new HashMap<>();
 
         // 获取图片
-        String pngPath = BotUtil.getResourceFolderPath() + "/" + component + ".png";
+        String pngPath = BotUtil.getGenshinFolderPath() + "/" + component + ".png";
         BufferedImage rawImage = BotUtil.readImageFile(pngPath);
         if (rawImage == null) return imageMap;
 
         // 获取json
-        String jsonPath = BotUtil.getResourceFolderPath() + "/" + component + ".json";
+        String jsonPath = BotUtil.getGenshinFolderPath() + "/" + component + ".json";
         JSONObject jsonObject = BotUtil.readJsonFile(jsonPath);
         if (jsonObject == null) return imageMap;
 

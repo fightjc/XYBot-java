@@ -13,4 +13,10 @@ public interface GenshinService {
      * @return
      */
     ResultOutput<BufferedImage> getDailyMaterial(GenshinServiceImpl.DAILY_MATERIAL_WEEK day);
+
+    /**
+     * 更新每日素材汇总图片
+     * @return
+     */
+    ResultOutput<String> updateDailyMaterial();
 }

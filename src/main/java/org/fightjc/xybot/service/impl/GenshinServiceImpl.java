@@ -69,4 +69,14 @@ public class GenshinServiceImpl implements GenshinService {
 
         return new ResultOutput<>(true, "读取图片资源成功", rawImage);
     }
+
+    /**
+     * 更新每日素材汇总图片
+     * @return
+     */
+    public ResultOutput<String> updateDailyMaterial() {
+
+
+        return new ResultOutput<>(true, "更新每日素材图片成功");
+    }
 }

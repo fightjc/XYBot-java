@@ -13,9 +13,11 @@ public class BotUtil {
 
     private static final Logger logger = LoggerFactory.getLogger(BotUtil.class);
 
-    public static String dbFileName = "botData.db";
-
     public static String rFolderName = "resources";
+
+    public static String gFolderName = "genshin";
+
+    public static String dbFileName = "botData.db";
 
     public static String gachaFileName = "gacha.json";
 
@@ -34,6 +36,10 @@ public class BotUtil {
 
     public static String getResourceFolderPath() {
         return getWorkPath() + rFolderName;
+    }
+
+    public static String getGenshinFolderPath() {
+        return getResourceFolderPath() + "/" + gFolderName;
     }
 
     public static String getDBFilePath() {
