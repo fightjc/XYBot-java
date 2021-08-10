@@ -7,7 +7,8 @@
     "gold.json": "黄金",
     "prosperity.json": "繁荣",
     "resistance.json": "抗争",
-    "transience.json": "浮世"
+    "transience.json": "浮世",
+    "light.json": "天光"
   },
   "names": {
     "诗文": "ballad.json",
@@ -18,17 +19,20 @@
     "天光": "light.json",
     "繁荣": "prosperity.json",
     "抗争": "resistance.json",
-    "浮世": "transience.json"
+    "浮世": "transience.json",
+    "天光": "light.json"
   },
   "aliases": {},
   "categories": {
     "周三": [
       "ballad.json",
-      "gold.json"
+      "gold.json",
+      "light.json"
     ],
     "周六": [
       "ballad.json",
-      "gold.json"
+      "gold.json",
+      "light.json"
     ],
     "周日": [
       "ballad.json",
@@ -38,14 +42,15 @@
       "gold.json",
       "prosperity.json",
       "resistance.json",
-      "transience.json"
+      "transience.json",
+      "light.json"
     ],
     "蒙德": [
       "ballad.json",
       "freedom.json",
       "resistance.json"
     ],
-    "Forsaken Rift": [
+    "忘却之峡": [
       "ballad.json",
       "freedom.json",
       "resistance.json"
@@ -65,7 +70,7 @@
       "gold.json",
       "prosperity.json"
     ],
-    "Taishan Mansion": [
+    "太山府": [
       "diligence.json",
       "gold.json",
       "prosperity.json"
@@ -82,11 +87,13 @@
     ],
     "稻妻": [
       "elegance.json",
-      "transience.json"
+      "transience.json",
+      "light.json"
     ],
-    "Violet Court": [
+    "堇色之庭": [
       "elegance.json",
-      "transience.json"
+      "transience.json",
+      "light.json"
     ]
   }
 }
