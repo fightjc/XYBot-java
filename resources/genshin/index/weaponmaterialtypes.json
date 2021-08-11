@@ -50,10 +50,10 @@
         "远海夷地的玉枝": "adistantsea.json",
         "远海夷地的琼枝": "adistantsea.json",
         "远海夷地的金枝": "adistantsea.json",
-		"鸣神御灵的亲爱": "narukamisaffection.json",
-		"鸣神御灵的欢喜": "narukamisjoy.json",
-		"鸣神御灵的勇武": "narukamisvalor.json",
-		"鸣神御灵的明惠": "narukamiswisdom.json",
+		"鸣神御灵的亲爱": "narukami.json",
+		"鸣神御灵的欢喜": "narukami.json",
+		"鸣神御灵的勇武": "narukami.json",
+		"鸣神御灵的明惠": "narukami.json",
         "今昔剧画之恶尉": "mask.json",
         "今昔剧画之虎啮": "mask.json",
         "今昔剧画之一角": "mask.json",
@@ -94,12 +94,12 @@
 		"周二": [
 			"borealwolf.json",
 			"mistveiledelixir.json",
-            "narukamiswisdom.json"
+            "narukami.json"
 		],
 		"周五": [
 			"borealwolf.json",
 			"mistveiledelixir.json",
-            "narukamiswisdom.json"
+            "narukami.json"
 		],
 		"蒙德": [
 			"borealwolf.json",

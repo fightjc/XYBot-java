@@ -1,11 +1,11 @@
 {
-	"name": "Mist Veiled Elixir",
-	"2starname": "Mist Veiled Lead Elixir",
-	"3starname": "Mist Veiled Mercury Elixir",
-	"4starname": "Mist Veiled Gold Elixir",
-	"5starname": "Mist Veiled Primo Elixir",
-	"day": ["Tuesday", "Friday", "Sunday"],
-	"location": "Mingyun Village",
-	"region": "Liyue",
-	"domainofforgery": "Hidden Palace of Lianshan Formula"
+	"name": "雾海云间",
+	"2starname": "雾海云间的铅丹",
+	"3starname": "雾海云间的汞丹",
+	"4starname": "雾海云间的金丹",
+	"5starname": "雾海云间的转还",
+	"day": ["周二", "周五", "周日"],
+	"location": "明蕴镇",
+	"region": "璃月",
+	"domainofforgery": "震雷连山密宫"
 }

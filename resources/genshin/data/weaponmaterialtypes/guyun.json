@@ -4,8 +4,8 @@
 	"3starname": "Lustrous Stone from Guyun",
 	"4starname": "Relic from Guyun",
 	"5starname": "Divine Body from Guyun",
-	"day": ["Monday", "Thursday", "Sunday"],
-	"location": "Mingyun Village",
-	"region": "Liyue",
-	"domainofforgery": "Hidden Palace of Lianshan Formula"
+	"day": ["周一", "周四", "周日"],
+	"location": "明蕴镇",
+	"region": "璃月",
+	"domainofforgery": "震雷连山密宫"
 }

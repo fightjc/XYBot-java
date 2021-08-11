@@ -1,11 +1,11 @@
 {
-	"name": "Decarabian",
-	"2starname": "Tile of Decarabian's Tower",
-	"3starname": "Debris of Decarabian's City",
-	"4starname": "Fragment of Decarabian's Epic",
-	"5starname": "Scattered Piece of Decarabian's Dream",
-	"day": ["Monday", "Thursday", "Sunday"],
-	"location": "Wolvendom",
-	"region": "Mondstadt",
-	"domainofforgery": "Cecilia Garden"
+	"name": "高塔孤王",
+	"2starname": "高塔孤王的破瓦",
+	"3starname": "高塔孤王的残垣",
+	"4starname": "高塔孤王的断片",
+	"5starname": "高塔孤王的碎梦",
+	"day": ["周一", "周四", "周日"],
+	"location": "奔狼领",
+	"region": "蒙德",
+	"domainofforgery": "塞西莉亚苗圃"
 }

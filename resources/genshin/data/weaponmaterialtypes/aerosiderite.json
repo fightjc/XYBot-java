@@ -1,11 +1,11 @@
 {
-	"name": "Aerosiderite",
-	"2starname": "Grain of Aerosiderite",
-	"3starname": "Piece of Aerosiderite",
-	"4starname": "Bit of Aerosiderite",
-	"5starname": "Chunk of Aerosiderite",
-	"day": ["Wednesday", "Saturday", "Sunday"],
-	"location": "Mingyun Village",
-	"region": "Liyue",
-	"domainofforgery": "Hidden Palace of Lianshan Formula"
+	"name": "漆黑陨铁",
+	"2starname": "漆黑陨铁的一粒",
+	"3starname": "漆黑陨铁的一片",
+	"4starname": "漆黑陨铁的一角",
+	"5starname": "漆黑陨铁的一块",
+	"day": ["周三", "周六", "周日"],
+	"location": "明蕴镇",
+	"region": "璃月",
+	"domainofforgery": "震雷连山密宫"
 }

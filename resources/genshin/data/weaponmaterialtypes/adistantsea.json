@@ -1,0 +1,11 @@
+{
+  "name": "远海夷地",
+  "2starname": "远海夷地的瑚枝",
+  "3starname": "远海夷地的玉枝",
+  "4starname": "远海夷地的琼枝",
+  "5starname": "远海夷地的金枝",
+  "day": ["周一", "周四", "周日"],
+  "location": "鸣神大社",
+  "region": "稻妻",
+  "domainofforgery": "砂流之庭"
+}
