@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.fightjc.xybot.pojo.Gacha;
 import org.fightjc.xybot.pojo.ResultOutput;
+import org.fightjc.xybot.pojo.genshin.CostBean;
+import org.fightjc.xybot.pojo.genshin.TalentBean;
 import org.fightjc.xybot.pojo.genshin.TalentMaterialTypeBean;
 import org.fightjc.xybot.pojo.genshin.WeaponMaterialTypeBean;
 import org.fightjc.xybot.service.GenshinService;
@@ -83,65 +85,98 @@ public class GenshinServiceImpl implements GenshinService {
      * @return
      */
     public ResultOutput<String> updateDailyMaterial() {
-
-
         return new ResultOutput<>(true, "更新每日素材图片成功");
     }
 
     private void getMaterialTypes() {
-        List<String> dayList = new ArrayList<>(); // 星期数组
-        Map<String, List<TalentMaterialTypeBean>> tmtMap = new HashMap<>(); // 天赋材料字典
-        Map<String, List<WeaponMaterialTypeBean>> wmtMap = new HashMap<>(); // 武器材料字典
+        List<String> dayList; // 星期数组
+        List<String> regionList; // 材料来源国家数组
+        List<String> rarityList; // 星级数组
+        Map<String, List<TalentBean>> talentBeanList = new HashMap<>(); // 角色天赋字典，按星级分类
+        Map<String, List<TalentMaterialTypeBean>> tmtMap = new HashMap<>(); // 天赋材料字典，按星期分类
+        Map<String, List<WeaponMaterialTypeBean>> wmtMap = new HashMap<>(); // 武器材料字典，按星期分类
+        String genshinFolderPath =  BotUtil.getGenshinFolderPath();
 
-        // 获取星期数组
-        JSONObject categoriesObject = BotUtil.readJsonFile(BotUtil.getGenshinFolderPath() + "/data/categories.json");
+        // 获取游戏基本数据数组
+        JSONObject categoriesObject = BotUtil.readJsonFile(genshinFolderPath + "/data/categories.json");
         if (categoriesObject == null) return;
         JSONArray dayArray = categoriesObject.getJSONArray("day");
-        for (int i = 0; i < dayArray.size(); i++) {
-            dayList.add(dayArray.getString(i));
-        }
+        if (dayArray == null) return;
+        dayList = dayArray.toJavaList(String.class);
+        JSONArray regionArray = categoriesObject.getJSONArray("region");
+        if (regionArray == null) return;
+        regionList = regionArray.toJavaList(String.class);
+        JSONArray rarityArray = categoriesObject.getJSONArray("rarity");
+        if (rarityArray == null) return;
+        rarityList = rarityArray.toJavaList(String.class);
         categoriesObject.clear(); // paranoia
 
         // 获取天赋材料汇总初始数据
-        JSONObject tmtObject = BotUtil.readJsonFile(BotUtil.getGenshinFolderPath() + "/index/talentmaterialtypes.json");
+        JSONObject tmtObject = BotUtil.readJsonFile(genshinFolderPath + "/index/talentmaterialtypes.json");
         if (tmtObject == null) return;
         JSONObject tmtCategories = tmtObject.getJSONObject("categories");
         if (tmtCategories == null) return;
         tmtObject.clear(); // paranoia
 
         // 获取武器材料汇总初始数据
-        JSONObject wmtObject = BotUtil.readJsonFile(BotUtil.getGenshinFolderPath() + "/index/weaponmaterialtypes.json");
+        JSONObject wmtObject = BotUtil.readJsonFile(genshinFolderPath + "/index/weaponmaterialtypes.json");
         if (wmtObject == null) return;
         JSONObject wmtCategories = wmtObject.getJSONObject("categories");
         if (wmtCategories == null) return;
         wmtObject.clear(); // paranoia
 
-        // 根据星期数组生成字典
-        for (int i = 0; i < dayList.size(); i++) {
-            String day = dayList.get(i);
-
-            // 天赋材料
+        // 根据星期数组生成天赋材料字典
+        for (String day : dayList) {
             JSONArray tmtArray = tmtCategories.getJSONArray(day);
+            if (tmtArray == null) continue;
             List<TalentMaterialTypeBean> tmtList = new ArrayList<>();
             for (int j = 0; j < tmtArray.size(); j++) {
                 TalentMaterialTypeBean tmtBean = getTalentMaterialTypeBean(tmtArray.getString(j));
-                tmtList.add(tmtBean);
+                if (tmtBean != null) tmtList.add(tmtBean);
             }
             tmtMap.put(day, tmtList);
+        }
+        tmtCategories.clear(); // paranoia
 
-            // 武器材料
+        // 根据星期数组生成武器材料字典
+        for (String day : dayList) {
             JSONArray wmtArray = wmtCategories.getJSONArray(day);
             List<WeaponMaterialTypeBean> wmtList = new ArrayList<>();
             for (int j = 0; j < wmtArray.size(); j++) {
                 WeaponMaterialTypeBean wmtBean = getWeaponMaterialTypeBean(wmtArray.getString(j));
-                wmtList.add(wmtBean);
+                if (wmtBean != null) wmtList.add(wmtBean);
             }
             wmtMap.put(day, wmtList);
         }
-        tmtCategories.clear(); // paranoia
         wmtCategories.clear(); // paranoia
 
-        
+        // 获取角色初始数据
+        JSONObject charObject = BotUtil.readJsonFile(genshinFolderPath + "/index/characters.json");
+        if (charObject == null) return;
+        JSONObject charCategories = wmtObject.getJSONObject("categories");
+        if (charCategories == null) return;
+        // 根据星期数组生成字典
+        for (String rarity : rarityList) {
+            JSONArray charArray = charCategories.getJSONArray(rarity);
+            if (charArray == null) continue;
+            List<TalentBean> talentList = new ArrayList<>();
+            for (int j = 0; j < charArray.size(); j++) {
+                TalentBean talentBean = getTalentBean(charArray.getString(j));
+                if (talentBean != null) talentList.add(talentBean);
+            }
+            talentBeanList.put(rarity, talentList);
+        }
+
+        //TODO: 获取武器初始数据
+
+        // 生成图片
+        for (int i = 0; i < dayList.size(); i++) { // 按日期
+            for (int j = 0; j < regionList.size(); j++) { // 按国家
+                //TODO: 角色
+
+                //TODO: 武器
+            }
+        }
     }
 
     /**
@@ -153,22 +188,16 @@ public class GenshinServiceImpl implements GenshinService {
         String filePath = BotUtil.getGenshinFolderPath() + "/data/talentmaterialtypes/" + fileName;
         JSONObject object = BotUtil.readJsonFile(filePath);
         if (object != null) {
-            JSONArray dayArray = object.getJSONArray("day");
-            List<String> dayList = new ArrayList<>();
-            for (int i = 0; i < dayArray.size(); i++) {
-                dayList.add(dayArray.getString(i));
-            }
-            TalentMaterialTypeBean bean = new TalentMaterialTypeBean(
+            return new TalentMaterialTypeBean(
                     object.getString("name"),
                     object.getString("2starname"),
                     object.getString("3starname"),
                     object.getString("4starname"),
-                    dayList,
+                    object.getJSONArray("day").toJavaList(String.class),
                     object.getString("location"),
                     object.getString("region"),
                     object.getString("domainofmastery")
             );
-            return bean;
         }
         return null;
     }
@@ -182,23 +211,63 @@ public class GenshinServiceImpl implements GenshinService {
         String filePath = BotUtil.getGenshinFolderPath() + "/data/weaponmaterialtypes/" + fileName;
         JSONObject object = BotUtil.readJsonFile(filePath);
         if (object != null) {
-            JSONArray dayArray = object.getJSONArray("day");
-            List<String> dayList = new ArrayList<>();
-            for (int i = 0; i < dayArray.size(); i++) {
-                dayList.add(dayArray.getString(i));
-            }
-            WeaponMaterialTypeBean bean = new WeaponMaterialTypeBean(
+            return new WeaponMaterialTypeBean(
                     object.getString("name"),
                     object.getString("2starname"),
                     object.getString("3starname"),
                     object.getString("4starname"),
                     object.getString("5starname"),
-                    dayList,
+                    object.getJSONArray("day").toJavaList(String.class),
                     object.getString("location"),
                     object.getString("region"),
                     object.getString("domainofmastery")
             );
-            return bean;
+        }
+        return null;
+    }
+
+    /**
+     * 获取天赋对象
+     * @param fileName
+     * @return
+     */
+    private TalentBean getTalentBean(String fileName) {
+        String filePath = BotUtil.getGenshinFolderPath() + "/data/talents/" + fileName;
+        JSONObject object = BotUtil.readJsonFile(filePath);
+        if (object != null) {
+            // 天赋升级材料消耗
+            Map<String, List<CostBean>> costMap = new HashMap<>();
+            JSONObject costs = object.getJSONObject("costs");
+            if (costs != null) {
+                for (String key : costs.keySet()) {
+                    List<CostBean> levelList = new ArrayList<>();
+                    JSONArray level = costs.getJSONArray(key);
+                    for (int i = 0; i < level.size(); i++) {
+                        JSONObject cost = level.getJSONObject(i);
+                        if (cost != null) {
+                            CostBean bean = new CostBean(
+                                    cost.getString("name"),
+                                    cost.getIntValue("count")
+                            );
+                            levelList.add(bean);
+                        }
+                    }
+                    costMap.put(key, levelList);
+                }
+            }
+
+            //TODO: 当前只关心消耗材料，后续将补充完整
+            return new TalentBean(
+                    object.getString("name"),
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    costMap
+            );
         }
         return null;
     }

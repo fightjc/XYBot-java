@@ -250,7 +250,7 @@
 			"ningguang.json",
 			"zhongli.json"
 		],
-		"Mondstadt": [
+		"蒙德": [
 			"albedo.json",
 			"amber.json",
 			"barbara.json",
@@ -373,7 +373,7 @@
 		"雷元素伤害加成": [
 			"beidou.json"
 		],
-		"Liyue": [
+		"璃月": [
 			"beidou.json",
 			"chongyun.json",
 			"ganyu.json",
@@ -475,7 +475,7 @@
 			"sayu.json",
 			"xiangling.json"
 		],
-		"Inazuma": [
+		"稻妻": [
 			"kaedeharakazuha.json",
 			"kamisatoayaka.json",
 			"sayu.json",
@@ -508,7 +508,7 @@
 		"水元素伤害加成": [
 			"tartaglia.json"
 		],
-		"Snezhnaya": [
+		"至冬国": [
 			"tartaglia.json"
 		]
 	}
