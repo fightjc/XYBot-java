@@ -27,4 +27,17 @@ public class TalentBean {
         this.passive3 = passive3;
         this.costs = costs;
     }
+
+    public boolean needTalentMaterialType(TalentMaterialTypeBean talentMaterialType) {
+        List<String> typeList = talentMaterialType.getAllTypeNames();
+        for (String key : costs.keySet()) {
+            List<CostBean> costList = costs.get(key);
+            for (CostBean cost : costList) {
+                if (typeList.contains(cost.getName())) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

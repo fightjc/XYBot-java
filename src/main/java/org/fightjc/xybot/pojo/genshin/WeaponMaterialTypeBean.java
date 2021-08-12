@@ -1,5 +1,6 @@
 package org.fightjc.xybot.pojo.genshin;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class WeaponMaterialTypeBean {
@@ -24,5 +25,18 @@ public class WeaponMaterialTypeBean {
         this.location = location;
         this.region = region;
         this.domainOfMastery = domainOfMastery;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public List<String> getAllTypeNames() {
+        return new ArrayList<String>() {{
+            add(star2Name);
+            add(star3Name);
+            add(star4Name);
+            add(star5Name);
+        }};
     }
 }

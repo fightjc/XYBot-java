@@ -1,5 +1,6 @@
 package org.fightjc.xybot.pojo.genshin;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TalentMaterialTypeBean {
@@ -22,5 +23,17 @@ public class TalentMaterialTypeBean {
         this.location = location;
         this.region = region;
         this.domainOfMastery = domainOfMastery;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public List<String> getAllTypeNames() {
+        return new ArrayList<String>() {{
+            add(star2Name);
+            add(star3Name);
+            add(star4Name);
+        }};
     }
 }

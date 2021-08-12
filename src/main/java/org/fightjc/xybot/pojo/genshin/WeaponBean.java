@@ -11,7 +11,7 @@ public class WeaponBean {
     // 装备类型
     String weaponType;
     // 星级
-    int rarity;
+    String rarity;
     int baseAtk;
     String subStat;
     String subValue;
@@ -31,7 +31,7 @@ public class WeaponBean {
     // 突破材料
     Map<String, List<CostBean>> costs;
 
-    public WeaponBean(String name, String description, String weaponType, int rarity, int baseAtk, String subStat,
+    public WeaponBean(String name, String description, String weaponType, String rarity, int baseAtk, String subStat,
                       String subValue, String effectName, String effect, List<String> r1, List<String> r2,
                       List<String> r3, List<String> r4, List<String> r5, Map<String, List<CostBean>> costs) {
         this.name = name;

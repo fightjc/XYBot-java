@@ -4,10 +4,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.fightjc.xybot.pojo.Gacha;
 import org.fightjc.xybot.pojo.ResultOutput;
-import org.fightjc.xybot.pojo.genshin.CostBean;
-import org.fightjc.xybot.pojo.genshin.TalentBean;
-import org.fightjc.xybot.pojo.genshin.TalentMaterialTypeBean;
-import org.fightjc.xybot.pojo.genshin.WeaponMaterialTypeBean;
+import org.fightjc.xybot.pojo.genshin.*;
 import org.fightjc.xybot.service.GenshinService;
 import org.fightjc.xybot.util.BotUtil;
 import org.slf4j.Logger;
@@ -93,6 +90,7 @@ public class GenshinServiceImpl implements GenshinService {
         List<String> regionList; // 材料来源国家数组
         List<String> rarityList; // 星级数组
         Map<String, List<TalentBean>> talentBeanList = new HashMap<>(); // 角色天赋字典，按星级分类
+        Map<String, List<WeaponBean>> weaponBeanList = new HashMap<>(); // 武器字典，按星级分类
         Map<String, List<TalentMaterialTypeBean>> tmtMap = new HashMap<>(); // 天赋材料字典，按星期分类
         Map<String, List<WeaponMaterialTypeBean>> wmtMap = new HashMap<>(); // 武器材料字典，按星期分类
         String genshinFolderPath =  BotUtil.getGenshinFolderPath();
@@ -153,9 +151,9 @@ public class GenshinServiceImpl implements GenshinService {
         // 获取角色初始数据
         JSONObject charObject = BotUtil.readJsonFile(genshinFolderPath + "/index/characters.json");
         if (charObject == null) return;
-        JSONObject charCategories = wmtObject.getJSONObject("categories");
+        JSONObject charCategories = charObject.getJSONObject("categories");
         if (charCategories == null) return;
-        // 根据星期数组生成字典
+        // 根据星级数组生成字典
         for (String rarity : rarityList) {
             JSONArray charArray = charCategories.getJSONArray(rarity);
             if (charArray == null) continue;
@@ -166,15 +164,57 @@ public class GenshinServiceImpl implements GenshinService {
             }
             talentBeanList.put(rarity, talentList);
         }
+        charObject.clear(); // paranoia
 
-        //TODO: 获取武器初始数据
-
+        // 获取武器初始数据
+        JSONObject weapObject = BotUtil.readJsonFile(genshinFolderPath + "/index/weapons.json");
+        if (weapObject == null) return;
+        JSONObject weapCategories = weapObject.getJSONObject("categories");
+        if (weapCategories == null) return;
+        // 根据星级数组生成字典
+        for (String rarity : rarityList) {
+            JSONArray weapArray = weapCategories.getJSONArray(rarity);
+            if (weapArray == null) continue;
+            List<WeaponBean> weaponList = new ArrayList<>();
+            for (int j = 0; j < weapArray.size(); j++) {
+                WeaponBean weaponBean = getWeaponBean(weapArray.getString(j));
+                if (weaponBean != null) weaponList.add(weaponBean);
+            }
+            weaponBeanList.put(rarity, weaponList);
+        }
+        charObject.clear(); // paranoia
+        
         // 生成图片
-        for (int i = 0; i < dayList.size(); i++) { // 按日期
-            for (int j = 0; j < regionList.size(); j++) { // 按国家
-                //TODO: 角色
+        for (String day : dayList) { // 按日期
+//            System.out.println(day);
+            List<TalentMaterialTypeBean> tmtList = tmtMap.get(day);
+            List<WeaponMaterialTypeBean> wmtList = wmtMap.get(day);
+            for (String region : regionList) { // 按国家
+//                System.out.println(region);
+                //TODO: 天赋
+                if (tmtList != null) {
+                    for (TalentMaterialTypeBean tmt : tmtList) {
+                        if (!tmt.getRegion().equals(region)) continue;
+//                        System.out.println(tmt.getName());
+                        for (String rarity : rarityList) { // 按星级
+                            List<TalentBean> talentList = talentBeanList.get(rarity);
+                            if (talentList == null) continue;
+//                            System.out.print(rarity + " :");
+                            for (TalentBean talent : talentList) {
+                                if (talent.needTalentMaterialType(tmt)) {
+//                                    System.out.print(" " + talent.getName());
+                                }
+                            }
+//                            System.out.println();
+                        }
+                    }
+                }
 
                 //TODO: 武器
+                if (wmtList != null) {
+                    for (WeaponMaterialTypeBean wmt : wmtList) {
+                    }
+                }
             }
         }
     }
@@ -228,8 +268,8 @@ public class GenshinServiceImpl implements GenshinService {
 
     /**
      * 获取天赋对象
-     * @param fileName
-     * @return
+     * @param fileName 文件名
+     * @return 天赋对象
      */
     private TalentBean getTalentBean(String fileName) {
         String filePath = BotUtil.getGenshinFolderPath() + "/data/talents/" + fileName;
@@ -266,6 +306,56 @@ public class GenshinServiceImpl implements GenshinService {
                     null,
                     null,
                     null,
+                    costMap
+            );
+        }
+        return null;
+    }
+
+    /**
+     * 获取武器对象
+     * @param fileName 文件名
+     * @return 武器对象
+     */
+    private WeaponBean getWeaponBean(String fileName) {
+        String filePath = BotUtil.getGenshinFolderPath() + "/data/weapons/" + fileName;
+        JSONObject object = BotUtil.readJsonFile(filePath);
+        if (object != null) {
+            // 武器升级材料消耗
+            Map<String, List<CostBean>> costMap = new HashMap<>();
+            JSONObject costs = object.getJSONObject("costs");
+            if (costs != null) {
+                for (String key : costs.keySet()) {
+                    List<CostBean> ascendList = new ArrayList<>();
+                    JSONArray ascend = costs.getJSONArray(key);
+                    for (int i = 0; i < ascend.size(); i++) {
+                        JSONObject cost = ascend.getJSONObject(i);
+                        if (cost != null) {
+                            CostBean bean = new CostBean(
+                                    cost.getString("name"),
+                                    cost.getIntValue("count")
+                            );
+                            ascendList.add(bean);
+                        }
+                    }
+                    costMap.put(key, ascendList);
+                }
+            }
+            return new WeaponBean(
+                    object.getString("name"),
+                    object.getString("description"),
+                    object.getString("weapontype"),
+                    object.getString("rarity"),
+                    object.getIntValue("baseatk"),
+                    object.getString("substat"),
+                    object.getString("subvalue"),
+                    object.getString("effectname"),
+                    object.getString("effect"),
+                    object.getJSONArray("r1").toJavaList(String.class),
+                    object.getJSONArray("r2").toJavaList(String.class),
+                    object.getJSONArray("r3").toJavaList(String.class),
+                    object.getJSONArray("r4").toJavaList(String.class),
+                    object.getJSONArray("r5").toJavaList(String.class),
                     costMap
             );
         }
