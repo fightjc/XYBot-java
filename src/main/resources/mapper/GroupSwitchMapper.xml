@@ -7,9 +7,9 @@
             *
         from GroupSwitch
         <where>
-            <if test="groupId != null">
-                GroupId = #{groupId}
-            </if>>
+            <if test="_parameter != null">
+                GroupId = #{_parameter}
+            </if>
         </where>
     </select>
 

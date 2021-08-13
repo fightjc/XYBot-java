@@ -28,6 +28,10 @@ public class TalentBean {
         this.costs = costs;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public boolean needTalentMaterialType(TalentMaterialTypeBean talentMaterialType) {
         List<String> typeList = talentMaterialType.getAllTypeNames();
         for (String key : costs.keySet()) {

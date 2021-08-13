@@ -50,4 +50,21 @@ public class WeaponBean {
         this.r5 = r5;
         this.costs = costs;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public boolean needWeaponMaterialType(WeaponMaterialTypeBean weaponMaterialType) {
+        List<String> typeList = weaponMaterialType.getAllTypeNames();
+        for (String key : costs.keySet()) {
+            List<CostBean> costList = costs.get(key);
+            for (CostBean cost : costList) {
+                if (typeList.contains(cost.getName())) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

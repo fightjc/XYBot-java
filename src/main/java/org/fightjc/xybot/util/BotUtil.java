@@ -1,5 +1,6 @@
 package org.fightjc.xybot.util;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.JSONObject;
 import org.slf4j.Logger;
@@ -8,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 
 public class BotUtil {
 
@@ -57,22 +59,60 @@ public class BotUtil {
     }
 
     /**
-     * 读取JSON文件并返回JSON对象
-     * @param filePath
-     * @return
+     * 获取JSON文件内容
+     * @param filePath 文件路径
+     * @return JSONObject对象
      */
-    public static JSONObject readJsonFile(String filePath){
+    public static JSONObject readJsonFile(String filePath) {
+        // 读取文件内容
+        String readJson = getTextFile(filePath);
+
+        // 获取json
+        try {
+            return JSONObject.parseObject(readJson);
+        } catch (JSONException e) {
+            logger.error(e.getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * 获取JSON文件内容
+     * @param filePath 文件路径
+     * @param clazz 反序列化对象Class
+     * @param <T> 反序列化对象范型
+     * @return 反序列化对象
+     */
+    public static <T> T readJsonFile(String filePath, Class<T> clazz) {
+        // 读取文件内容
+        String readJson = getTextFile(filePath);
+
+        // 获取json
+        try {
+            return JSON.parseObject(readJson, clazz);
+        } catch (JSONException e) {
+            logger.error(e.getMessage());
+            return null;
+        }
+    }
+
+    /**
+     * 获取Text文件内容
+     * @param filePath 文件路径
+     * @return 文件文本内容
+     */
+    public static String getTextFile(String filePath) {
         BufferedReader reader = null;
-        String readJson = "";
+        StringBuilder content = new StringBuilder();
 
         // 读取文件内容
         try {
             FileInputStream fileInputStream = new FileInputStream(filePath);
-            InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream, "UTF-8");
+            InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream, StandardCharsets.UTF_8);
             reader = new BufferedReader(inputStreamReader);
-            String tempString = null;
+            String tempString;
             while ((tempString = reader.readLine()) != null) {
-                readJson += tempString;
+                content.append(tempString);
             }
         } catch (IOException e) {
             logger.error(e.getMessage());
@@ -83,25 +123,16 @@ public class BotUtil {
                     reader.close();
                 } catch (IOException e){
                     logger.error(e.getMessage());
-                    return null;
                 }
             }
         }
-
-        // 获取json
-        try {
-            JSONObject jsonObject = JSONObject.parseObject(readJson);
-            return jsonObject;
-        } catch (JSONException e) {
-            logger.error(e.getMessage());
-            return null;
-        }
+        return content.toString();
     }
 
     /**
-     * 读取Image文件并返回BufferedImage对象
-     * @param filePath
-     * @return
+     * 读取Image文件内容
+     * @param filePath 文件路径
+     * @return 图片对象
      */
     public static BufferedImage readImageFile(String filePath) {
         File pngFile = new File(filePath);
