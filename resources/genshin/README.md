@@ -1,17 +1,15 @@
 + 数据来源
-  - [genshin-db][10]
+  - [genshin-db][1]
+  - [原神观测枢][2]
 
 + 图片素材
-  - [可莉特调][20]
+  - [paimon-moe][3]
+  - [可莉特调][4]
+  - [原神观测枢][2]
+  - [Genshin Impact Wiki][5]
 
-|     图片     |      来源      |
-| :----------: | :-----------: |
-| role.png     | [角色雪碧图][21] |
-| material.png | [材料雪碧图][22] |
-| weapon.png   | [武器雪碧图][23] |
-
-[10]:https://github.com/theBowja/genshin-db/
-[20]:https://genshin.pub/
-[21]:https://genshin.pub/images/角色雪碧图.png
-[22]:https://genshin.pub/images/材料雪碧图.png
-[23]:https://genshin.pub/images/武器雪碧图.png
+[1]:https://github.com/theBowja/genshin-db
+[2]:https://bbs.mihoyo.com/ys/obc
+[3]:https://github.com/MadeBaruna/paimon-moe
+[4]:https://genshin.pub
+[5]:https://genshin-impact.fandom.com/wiki/Genshin_Impact_Wiki
