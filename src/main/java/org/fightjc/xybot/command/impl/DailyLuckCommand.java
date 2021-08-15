@@ -26,7 +26,7 @@ public class DailyLuckCommand extends MemberGroupCommand {
 
     @Override
     public Command property() {
-        return new Command("每日抽签");
+        return new Command("抽签");
     }
 
     @Override

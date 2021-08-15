@@ -25,18 +25,6 @@ public class GenshinServiceImpl implements GenshinService {
 
     private static final Logger logger = LoggerFactory.getLogger(GenshinServiceImpl.class);
 
-    @Autowired
-    @Qualifier("roleImageMap")
-    Map<String, BufferedImage> roleImageMap;
-
-    @Autowired
-    @Qualifier("materialImageMap")
-    Map<String, BufferedImage> materialImageMap;
-
-    @Autowired
-    @Qualifier("weaponImageMap")
-    Map<String, BufferedImage> weaponImageMap;
-
     /**
      * 星期枚举
      */

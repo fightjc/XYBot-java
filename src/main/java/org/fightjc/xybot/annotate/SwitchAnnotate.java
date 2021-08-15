@@ -8,7 +8,7 @@ import java.lang.annotation.*;
 public @interface SwitchAnnotate {
 
     /**
-     * 开关名称
+     * 登记的开关名称
      * @return
      */
     String name();

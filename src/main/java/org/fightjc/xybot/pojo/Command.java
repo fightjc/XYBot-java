@@ -5,6 +5,7 @@ import java.util.Arrays;
 
 public class Command {
 
+    // 呼叫指令文本
     String name;
 
     ArrayList<String> alias;

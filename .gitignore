@@ -10,6 +10,7 @@ target
 *.db
 device.json
 device.*.json
+versionhistory
 
 # Compiled class file
 *.class
