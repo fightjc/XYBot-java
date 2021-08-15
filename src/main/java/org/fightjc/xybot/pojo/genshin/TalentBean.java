@@ -44,4 +44,28 @@ public class TalentBean {
         }
         return false;
     }
+
+    public static class TalentCombatBean {
+        String name;
+        String info;
+        String description;
+        Map<String, List<String>> attributes;
+
+        public TalentCombatBean(String name, String info, String description, Map<String, List<String>> attributes) {
+            this.name = name;
+            this.info = info;
+            this.description = description;
+            this.attributes = attributes;
+        }
+    }
+
+    public static class TalentPassiveBean {
+        String name;
+        String info;
+
+        public TalentPassiveBean(String name, String info) {
+            this.name = name;
+            this.info = info;
+        }
+    }
 }

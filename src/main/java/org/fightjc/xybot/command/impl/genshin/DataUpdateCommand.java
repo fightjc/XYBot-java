@@ -29,7 +29,7 @@ public class DataUpdateCommand extends AdminFriendCommand {
         StringBuilder result = new StringBuilder("数据更新操作详情：");
 
         // 更新每日素材图片
-        ResultOutput<String> result_udm = genshinService.updateDailyMaterial();
+        ResultOutput result_udm = genshinService.updateDailyMaterial();
         result.append("\n").append(result_udm.getInfo());
 
         return new PlainText(result.toString());

@@ -18,7 +18,6 @@ public class WeaponMaterialTypeBean {
     List<String> day;
     String location;
     String region;
-    @JSONField(name="domainofforgery")
     String domainOfMastery;
 
     public WeaponMaterialTypeBean(String name, String star2Name, String star3Name, String star4Name, String star5Name,
@@ -36,6 +35,26 @@ public class WeaponMaterialTypeBean {
 
     public String getName() {
         return name;
+    }
+
+    public String getStar2Name() {
+        return star2Name;
+    }
+
+    public String getStar3Name() {
+        return star3Name;
+    }
+
+    public String getStar4Name() {
+        return star4Name;
+    }
+
+    public String getStar5Name() {
+        return star5Name;
+    }
+
+    public String getLocation() {
+        return location;
     }
 
     public String getRegion() {

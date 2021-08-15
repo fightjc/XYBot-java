@@ -16,7 +16,6 @@ public class TalentMaterialTypeBean {
     List<String> day;
     String location;
     String region;
-    @JSONField(name="domainofmastery")
     String domainOfMastery;
 
     public TalentMaterialTypeBean(String name, String star2Name, String star3Name, String star4Name, List<String> day,
@@ -33,6 +32,22 @@ public class TalentMaterialTypeBean {
 
     public String getName() {
         return name;
+    }
+
+    public String getStar2Name() {
+        return star2Name;
+    }
+
+    public String getStar3Name() {
+        return star3Name;
+    }
+
+    public String getStar4Name() {
+        return star4Name;
+    }
+
+    public String getLocation() {
+        return location;
     }
 
     public String getRegion() {

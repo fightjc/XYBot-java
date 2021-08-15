@@ -1,13 +1,13 @@
 package org.fightjc.xybot.service.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import org.fightjc.xybot.pojo.Gacha;
+import com.alibaba.fastjson.TypeReference;
 import org.fightjc.xybot.pojo.ResultOutput;
 import org.fightjc.xybot.pojo.genshin.*;
 import org.fightjc.xybot.service.GenshinService;
 import org.fightjc.xybot.util.BotUtil;
+import org.fightjc.xybot.util.genshin.GenshinMaterialDrawHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,7 +68,7 @@ public class GenshinServiceImpl implements GenshinService {
             return new ResultOutput<>(true, "笨蛋，周日啥资源都有哦～");
         }
 
-        String pngPath = BotUtil.getResourceFolderPath() + "/genshin/dailymaterial_" + day.id + ".png";
+        String pngPath = BotUtil.getGenshinFolderPath() + "/dailymaterial_" + day.id + ".png";
         BufferedImage rawImage = BotUtil.readImageFile(pngPath);
 
         if (rawImage == null) {
@@ -82,134 +82,285 @@ public class GenshinServiceImpl implements GenshinService {
      * 更新每日素材汇总图片
      * @return
      */
-    public ResultOutput<String> updateDailyMaterial() {
-        getMaterialTypes();
+    public ResultOutput updateDailyMaterial() {
+        // 获取每日材料整合数据结果
+        ResultOutput<List<MaterialResultDto>> materialResult = getMaterialResult();
+        if (!materialResult.getSuccess()) {
+            return materialResult;
+        }
+
+        // 更新每日素材图片
+        ResultOutput drawResult = GenshinMaterialDrawHelper.drawDailyMaterial(materialResult.getObject());
+        if (!drawResult.getSuccess()) {
+            return drawResult;
+        }
 
         return new ResultOutput<>(true, "更新每日素材图片成功");
     }
 
-    private void getMaterialTypes() {
-        List<String> dayList; // 星期数组
-        List<String> regionList; // 材料来源国家数组
-        List<String> rarityList; // 星级数组
-        Map<String, List<TalentBean>> talentBeanList = new HashMap<>(); // 角色天赋字典，按星级分类
-        Map<String, List<WeaponBean>> weaponBeanList = new HashMap<>(); // 武器字典，按星级分类
+    /**
+     * 从资源文件中提取每日材料整合数据结果
+     * @return
+     */
+    private ResultOutput<List<MaterialResultDto>> getMaterialResult() {
+        Map<String, String> characterNameMap; // 角色名和路径字典
+        Map<String, String> weaponNameMap; // 武器名和路径字典
+        Map<String, String> materialNameMap; // 材料名和路径字典
+
         Map<String, List<TalentMaterialTypeBean>> tmtMap = new HashMap<>(); // 天赋材料字典，按星期分类
         Map<String, List<WeaponMaterialTypeBean>> wmtMap = new HashMap<>(); // 武器材料字典，按星期分类
+        Map<String, List<TalentBean>> talentMap = new HashMap<>(); // 天赋字典，按星级分类
+        Map<String, List<WeaponBean>> weaponMap = new HashMap<>(); // 武器字典，按星级分类
 
-        // 获取游戏基本数据数组
+        //region 获取游戏基础数据数组
+
         JSONObject categoriesObject = BotUtil.readJsonFile(BotUtil.getGenshinFolderPath() + "/data/categories.json");
-        if (categoriesObject == null) return;
-        JSONArray dayArray = categoriesObject.getJSONArray("day");
-        if (dayArray == null) return;
-        dayList = dayArray.toJavaList(String.class);
-        JSONArray regionArray = categoriesObject.getJSONArray("region");
-        if (regionArray == null) return;
-        regionList = regionArray.toJavaList(String.class);
-        JSONArray rarityArray = categoriesObject.getJSONArray("rarity");
-        if (rarityArray == null) return;
-        rarityList = rarityArray.toJavaList(String.class);
-        categoriesObject.clear(); // paranoia
+        if (categoriesObject == null) {
+            logger.error("获取 /data/categories.json 对象失败");
+            return new ResultOutput<>(false, "获取 /data/categories.json 对象失败");
+        }
 
-        // 获取天赋材料汇总初始数据
+        // 星期
+        JSONArray dayArray = categoriesObject.getJSONArray("day");
+        if (dayArray == null) {
+            logger.error("获取 /data/categories.json 中 day 对象失败");
+            return new ResultOutput<>(false, "获取 /data/categories.json 中 day 对象失败");
+        }
+        List<String> dayList = dayArray.toJavaList(String.class);
+
+        // 国家
+        JSONArray regionArray = categoriesObject.getJSONArray("region");
+        if (regionArray == null) {
+            logger.error("获取 /data/categories.json 中 region 对象失败");
+            return new ResultOutput<>(false, "获取 /data/categories.json 中 region 对象失败");
+        }
+        List<String> regionList = regionArray.toJavaList(String.class);
+
+        // 星级
+        JSONArray rarityArray = categoriesObject.getJSONArray("rarity");
+        if (rarityArray == null) {
+            logger.error("获取 /data/categories.json 中 rarity 对象失败");
+            return new ResultOutput<>(false, "获取 /data/categories.json 中 rarity 对象失败");
+        }
+        List<String> rarityList = rarityArray.toJavaList(String.class);
+
+        //endregion
+
+        //region 获取材料名和路径字典
+
+        JSONObject materialObject = BotUtil.readJsonFile(BotUtil.getGenshinFolderPath() + "/index/materials.json");
+        if (materialObject == null) {
+            logger.error("获取 /index/materials.json 对象失败");
+            return new ResultOutput<>(false, "获取 /index/materials.json 对象失败");
+        }
+
+        // 材料名和路径字典
+        materialNameMap = materialObject.getObject("names", new TypeReference<Map<String, String>>(){});
+        if (materialNameMap == null) {
+            logger.error("获取 /index/materials.json 中 names 对象失败");
+            return new ResultOutput<>(false, "获取 /index/materials.json 中 names 对象失败");
+        }
+
+        //endregion
+
+        //region 获取天赋材料字典，按星期分类
+
         JSONObject tmtObject = BotUtil.readJsonFile(BotUtil.getGenshinFolderPath() + "/index/talentmaterialtypes.json");
-        if (tmtObject == null) return;
+        if (tmtObject == null) {
+            logger.error("获取 /index/talentmaterialtypes.json 对象失败");
+            return new ResultOutput<>(false, "获取 /index/talentmaterialtypes.json 对象失败");
+        }
+
         JSONObject tmtCategories = tmtObject.getJSONObject("categories");
-        if (tmtCategories == null) return;
-        tmtObject.clear(); // paranoia
-        // 根据星期数组生成天赋材料字典
+        if (tmtCategories == null) {
+            logger.error("获取 /index/talentmaterialtypes.json 中 categories 对象失败");
+            return new ResultOutput<>(false, "获取 /index/talentmaterialtypes.json 中 categories 对象失败");
+        }
+
+        // 根据星期生成字典
         for (String day : dayList) {
             JSONArray tmtArray = tmtCategories.getJSONArray(day);
             if (tmtArray == null) continue;
             List<TalentMaterialTypeBean> tmtList = new ArrayList<>();
             for (int j = 0; j < tmtArray.size(); j++) {
-                TalentMaterialTypeBean tmtBean = getTalentMaterialTypeBean(tmtArray.getString(j));
-                if (tmtBean != null) tmtList.add(tmtBean);
+                TalentMaterialTypeBean tmtBean = BotUtil.readJsonFile(
+                        BotUtil.getGenshinFolderPath() + "/data/talentmaterialtypes/" + tmtArray.getString(j),
+                        TalentMaterialTypeBean.class);
+                if (tmtBean != null) {
+                    tmtList.add(tmtBean);
+                } else {
+                    logger.error("获取 /data/talentmaterialtypes/" + tmtArray.getString(j) + " 对象失败");
+                }
             }
             tmtMap.put(day, tmtList);
         }
-        tmtCategories.clear(); // paranoia
 
-        // 获取武器材料汇总初始数据
+        //endregion
+
+        //region 获取武器材料字典，按星期分类
+
         JSONObject wmtObject = BotUtil.readJsonFile(BotUtil.getGenshinFolderPath() + "/index/weaponmaterialtypes.json");
-        if (wmtObject == null) return;
+        if (wmtObject == null) {
+            logger.error("获取 /index/weaponmaterialtypes.json 对象失败");
+            return new ResultOutput<>(false, "获取 /index/weaponmaterialtypes.json 对象失败");
+        }
+
         JSONObject wmtCategories = wmtObject.getJSONObject("categories");
-        if (wmtCategories == null) return;
-        wmtObject.clear(); // paranoia
-        // 根据星期数组生成武器材料字典
+        if (wmtCategories == null) {
+            logger.error("获取 /index/weaponmaterialtypes.json 中 categories 对象失败");
+            return new ResultOutput<>(false, "获取 /index/weaponmaterialtypes.json 中 categories 对象失败");
+        }
+
+        // 根据星期生成字典
         for (String day : dayList) {
             JSONArray wmtArray = wmtCategories.getJSONArray(day);
             List<WeaponMaterialTypeBean> wmtList = new ArrayList<>();
             for (int j = 0; j < wmtArray.size(); j++) {
-                WeaponMaterialTypeBean wmtBean = getWeaponMaterialTypeBean(wmtArray.getString(j));
-                if (wmtBean != null) wmtList.add(wmtBean);
+                WeaponMaterialTypeBean wmtBean = BotUtil.readJsonFile(
+                        BotUtil.getGenshinFolderPath() + "/data/weaponmaterialtypes/" + wmtArray.getString(j),
+                        WeaponMaterialTypeBean.class);
+                if (wmtBean != null){
+                    wmtList.add(wmtBean);
+                } else {
+                    logger.error("获取 /data/weaponmaterialtypes/" + wmtArray.getString(j) + " 对象失败");
+                }
             }
             wmtMap.put(day, wmtList);
         }
-        wmtCategories.clear(); // paranoia
 
-        // 获取角色初始数据
+        //endregion
+
+        //region 获取天赋字典，按星级分类
+
         JSONObject charObject = BotUtil.readJsonFile(BotUtil.getGenshinFolderPath() + "/index/characters.json");
-        if (charObject == null) return;
+        if (charObject == null) {
+            logger.error("获取 /index/characters.json 对象失败");
+            return new ResultOutput<>(false, "获取 /index/characters.json 对象失败");
+        }
+
+        // 角色名和路径字典
+        characterNameMap = charObject.getObject("names", new TypeReference<Map<String, String>>(){});
+        if (characterNameMap == null) {
+            logger.error("获取 /index/characters.json 中 names 对象失败");
+            return new ResultOutput<>(false, "获取 /index/characters.json 中 names 对象失败");
+        }
+
         JSONObject charCategories = charObject.getJSONObject("categories");
-        if (charCategories == null) return;
-        // 根据星级数组生成字典
+        if (charCategories == null) {
+            logger.error("获取 /index/characters.json 中 categories 对象失败");
+            return new ResultOutput<>(false, "获取 /index/characters.json 中 categories 对象失败");
+        }
+
+        // 根据星级生成字典
         for (String rarity : rarityList) {
             JSONArray charArray = charCategories.getJSONArray(rarity);
             if (charArray == null) continue;
             List<TalentBean> talentList = new ArrayList<>();
             for (int j = 0; j < charArray.size(); j++) {
-                TalentBean talentBean = getTalentBean(charArray.getString(j));
-                if (talentBean != null) talentList.add(talentBean);
+                TalentBean talentBean = BotUtil.readJsonFile(
+                        BotUtil.getGenshinFolderPath() + "/data/talents/" + charArray.getString(j),
+                        TalentBean.class);
+                if (talentBean != null) {
+                    talentList.add(talentBean);
+                } else {
+                    logger.error("获取 /data/talents/" + charArray.getString(j) + " 对象失败");
+                }
             }
-            talentBeanList.put(rarity, talentList);
+            talentMap.put(rarity, talentList);
         }
-        charObject.clear(); // paranoia
 
-        // 获取武器初始数据
-        JSONObject weapObject = BotUtil.readJsonFile(BotUtil.getGenshinFolderPath() + "/index/weapons.json");
-        if (weapObject == null) return;
-        JSONObject weapCategories = weapObject.getJSONObject("categories");
-        if (weapCategories == null) return;
-        // 根据星级数组生成字典
-        for (String rarity : rarityList) {
-            JSONArray weapArray = weapCategories.getJSONArray(rarity);
-            if (weapArray == null) continue;
-            List<WeaponBean> weaponList = new ArrayList<>();
-            for (int j = 0; j < weapArray.size(); j++) {
-                WeaponBean weaponBean = getWeaponBean(weapArray.getString(j));
-                if (weaponBean != null) weaponList.add(weaponBean);
-            }
-            weaponBeanList.put(rarity, weaponList);
+        //endregion，按星级分类
+
+        //region 获取武器字典，按星级分类
+
+        JSONObject weaponObject = BotUtil.readJsonFile(BotUtil.getGenshinFolderPath() + "/index/weapons.json");
+        if (weaponObject == null) {
+            logger.error("获取 /index/weapons.json 对象失败");
+            return new ResultOutput<>(false, "获取 /index/weapons.json 对象失败");
         }
-        charObject.clear(); // paranoia
-        
-        // 生成图片
-        for (String day : dayList) { // 按日期
+
+        // 武器名和路径字典
+        weaponNameMap = weaponObject.getObject("names", new TypeReference<Map<String, String>>(){});
+        if (weaponNameMap == null) {
+            logger.error("获取 /index/weapons.json 中 names 对象失败");
+            return new ResultOutput<>(false, "获取 /index/weapons.json 中 names 对象失败");
+        }
+
+        JSONObject weaponCategories = weaponObject.getJSONObject("categories");
+        if (weaponCategories == null) {
+            logger.error("获取 /index/weapons.json 中 categories 对象失败");
+            return new ResultOutput<>(false, "获取 /index/weapons.json 中 categories 对象失败");
+        }
+
+        // 根据星级生成字典
+        for (String rarity : rarityList) {
+            JSONArray weaponArray = weaponCategories.getJSONArray(rarity);
+            if (weaponArray == null) continue;
+            List<WeaponBean> weaponList = new ArrayList<>();
+            for (int j = 0; j < weaponArray.size(); j++) {
+                WeaponBean weaponBean = BotUtil.readJsonFile(
+                        BotUtil.getGenshinFolderPath() + "/data/weapons/" + weaponArray.getString(j),
+                        WeaponBean.class);
+                if (weaponBean != null) {
+                    weaponList.add(weaponBean);
+                } else {
+                    logger.error("获取 /data/weapons/" + weaponArray.getString(j) + " 对象失败");
+                }
+            }
+            weaponMap.put(rarity, weaponList);
+        }
+
+        //endregion
+
+        //region 生成每日材料整合数据
+
+        List<MaterialResultDto> materialResultDtoList = new ArrayList<>();
+
+        for (String day : dayList) {
             if (day.equals("周日")) continue;
-            System.out.println(day);
             List<TalentMaterialTypeBean> tmtList = tmtMap.get(day);
             List<WeaponMaterialTypeBean> wmtList = wmtMap.get(day);
-            for (String region : regionList) { // 按国家
-                System.out.println(region);
+
+            MaterialResultDto materialResultDto = new MaterialResultDto();
+            materialResultDto.day = day;
+            materialResultDto.talentMaterialList = new ArrayList<>();
+            materialResultDto.weaponMaterialList = new ArrayList<>();
+
+            for (String region : regionList) {
                 // 天赋
                 if (tmtList != null) {
                     for (TalentMaterialTypeBean tmt : tmtList) {
                         if (!tmt.getRegion().equals(region)) continue;
-                        System.out.println(tmt.getName());
-                        for (String rarity : rarityList) { // 按星级
-                            if (rarity.equals("4") || rarity.equals("5")) { // 只显示4星和5星角色
-                                List<TalentBean> talentList = talentBeanList.get(rarity);
-                                if (talentList == null) continue;
-                                System.out.print(rarity + " :");
-                                for (TalentBean talent : talentList) {
-                                    if (talent.needTalentMaterialType(tmt)) {
-                                        System.out.print(" " + talent.getName());
-                                    }
+
+                        MaterialResultDto.MaterialInfo talentMaterial = new MaterialResultDto.MaterialInfo();
+                        talentMaterial.region = tmt.getRegion();
+                        talentMaterial.location = tmt.getLocation();
+                        talentMaterial.name = tmt.getName();
+                        talentMaterial.star2 = new NameMapBean(tmt.getStar2Name(), materialNameMap.get(tmt.getStar2Name()));
+                        talentMaterial.star3 = new NameMapBean(tmt.getStar3Name(), materialNameMap.get(tmt.getStar3Name()));
+                        talentMaterial.star4 = new NameMapBean(tmt.getStar4Name(), materialNameMap.get(tmt.getStar4Name()));
+
+                        for (String rarity : rarityList) {
+                            if (!rarity.equals("4") && !rarity.equals("5")) continue; // 只显示4星和5星角色
+
+                            List<TalentBean> talentList = talentMap.get(rarity);
+                            if (talentList == null) continue;
+
+                            List<NameMapBean> starResult = new ArrayList<>();
+                            for (TalentBean talent : talentList) {
+                                if (talent.needTalentMaterialType(tmt)) {
+                                    starResult.add(new NameMapBean(talent.getName(), characterNameMap.get(talent.getName())));
                                 }
-                                System.out.println();
+                            }
+
+                            if (rarity.equals("4")) {
+                                talentMaterial.star4Result = starResult;
+                            } else {
+                                talentMaterial.star5Result = starResult;
                             }
                         }
+
+                        materialResultDto.talentMaterialList.add(talentMaterial);
                     }
                 }
 
@@ -217,143 +368,46 @@ public class GenshinServiceImpl implements GenshinService {
                 if (wmtList != null) {
                     for (WeaponMaterialTypeBean wmt : wmtList) {
                         if (!wmt.getRegion().equals(region)) continue;
-                        System.out.println(wmt.getName());
-                        for (String rarity : rarityList) { // 按星级
-                            if (rarity.equals("4") || rarity.equals("5")) { // 只显示4星和5星武器
-                                List<WeaponBean> weaponList = weaponBeanList.get(rarity);
-                                if (weaponList == null) continue;
-                                System.out.print(rarity + " :");
-                                for (WeaponBean weapon : weaponList) {
-                                    if (weapon.needWeaponMaterialType(wmt)) {
-                                        System.out.print(" " + weapon.getName());
-                                    }
+
+                        MaterialResultDto.MaterialInfo weaponMaterial = new MaterialResultDto.MaterialInfo();
+                        weaponMaterial.region = wmt.getRegion();
+                        weaponMaterial.location = wmt.getLocation();
+                        weaponMaterial.name = wmt.getName();
+                        weaponMaterial.star2 = new NameMapBean(wmt.getStar2Name(), materialNameMap.get(wmt.getStar2Name()));
+                        weaponMaterial.star3 = new NameMapBean(wmt.getStar3Name(), materialNameMap.get(wmt.getStar3Name()));
+                        weaponMaterial.star4 = new NameMapBean(wmt.getStar4Name(), materialNameMap.get(wmt.getStar4Name()));
+                        weaponMaterial.star5 = new NameMapBean(wmt.getStar5Name(), materialNameMap.get(wmt.getStar5Name()));
+
+                        for (String rarity : rarityList) {
+                            if (!rarity.equals("4") && !rarity.equals("5")) continue; // 只显示4星和5星武器
+
+                            List<WeaponBean> weaponList = weaponMap.get(rarity);
+                            if (weaponList == null) continue;
+
+                            List<NameMapBean> starResult = new ArrayList<>();
+                            for (WeaponBean weapon : weaponList) {
+                                if (weapon.needWeaponMaterialType(wmt)) {
+                                    starResult.add(new NameMapBean(weapon.getName(), weaponNameMap.get(weapon.getName())));
                                 }
-                                System.out.println();
+                            }
+
+                            if (rarity.equals("4")) {
+                                weaponMaterial.star4Result = starResult;
+                            } else {
+                                weaponMaterial.star5Result = starResult;
                             }
                         }
+
+                        materialResultDto.weaponMaterialList.add(weaponMaterial);
                     }
-                }
-                System.out.println();
-            }
-            System.out.println();
-        }
-    }
-
-    /**
-     * 获取天赋材料对象
-     * @param fileName 文件名
-     * @return 天赋材料对象
-     */
-    private TalentMaterialTypeBean getTalentMaterialTypeBean(String fileName) {
-        String filePath = BotUtil.getGenshinFolderPath() + "/data/talentmaterialtypes/" + fileName;
-        return BotUtil.readJsonFile(filePath, TalentMaterialTypeBean.class);
-    }
-
-    /**
-     * 获取武器材料对象
-     * @param fileName 文件名
-     * @return 武器材料对象
-     */
-    private WeaponMaterialTypeBean getWeaponMaterialTypeBean(String fileName) {
-        String filePath = BotUtil.getGenshinFolderPath() + "/data/weaponmaterialtypes/" + fileName;
-        return BotUtil.readJsonFile(filePath, WeaponMaterialTypeBean.class);
-    }
-
-    /**
-     * 获取天赋对象
-     * @param fileName 文件名
-     * @return 天赋对象
-     */
-    private TalentBean getTalentBean(String fileName) {
-        String filePath = BotUtil.getGenshinFolderPath() + "/data/talents/" + fileName;
-//        return BotUtil.readJsonFile(filePath, TalentBean.class);
-        JSONObject object = BotUtil.readJsonFile(filePath);
-        if (object != null) {
-            // 天赋升级材料消耗
-            Map<String, List<CostBean>> costMap = new HashMap<>();
-            JSONObject costs = object.getJSONObject("costs");
-            if (costs != null) {
-                for (String key : costs.keySet()) {
-                    List<CostBean> levelList = new ArrayList<>();
-                    JSONArray level = costs.getJSONArray(key);
-                    for (int i = 0; i < level.size(); i++) {
-                        JSONObject cost = level.getJSONObject(i);
-                        if (cost != null) {
-                            CostBean bean = new CostBean(
-                                    cost.getString("name"),
-                                    cost.getIntValue("count")
-                            );
-                            levelList.add(bean);
-                        }
-                    }
-                    costMap.put(key, levelList);
                 }
             }
 
-            //TODO: 当前只关心消耗材料，后续将补充完整
-            return new TalentBean(
-                    object.getString("name"),
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    costMap
-            );
+            materialResultDtoList.add(materialResultDto);
         }
-        return null;
-    }
 
-    /**
-     * 获取武器对象
-     * @param fileName 文件名
-     * @return 武器对象
-     */
-    private WeaponBean getWeaponBean(String fileName) {
-        String filePath = BotUtil.getGenshinFolderPath() + "/data/weapons/" + fileName;
-//        return BotUtil.readJsonFile(filePath, WeaponBean.class);
-        JSONObject object = BotUtil.readJsonFile(filePath);
-        if (object != null) {
-            // 武器升级材料消耗
-            Map<String, List<CostBean>> costMap = new HashMap<>();
-            JSONObject costs = object.getJSONObject("costs");
-            if (costs != null) {
-                for (String key : costs.keySet()) {
-                    List<CostBean> ascendList = new ArrayList<>();
-                    JSONArray ascend = costs.getJSONArray(key);
-                    for (int i = 0; i < ascend.size(); i++) {
-                        JSONObject cost = ascend.getJSONObject(i);
-                        if (cost != null) {
-                            CostBean bean = new CostBean(
-                                    cost.getString("name"),
-                                    cost.getIntValue("count")
-                            );
-                            ascendList.add(bean);
-                        }
-                    }
-                    costMap.put(key, ascendList);
-                }
-            }
-            return new WeaponBean(
-                    object.getString("name"),
-                    object.getString("description"),
-                    object.getString("weapontype"),
-                    object.getString("rarity"),
-                    object.getIntValue("baseatk"),
-                    object.getString("substat"),
-                    object.getString("subvalue"),
-                    object.getString("effectname"),
-                    object.getString("effect"),
-                    object.getJSONArray("r1").toJavaList(String.class),
-                    object.getJSONArray("r2").toJavaList(String.class),
-                    object.getJSONArray("r3").toJavaList(String.class),
-                    object.getJSONArray("r4").toJavaList(String.class),
-                    object.getJSONArray("r5").toJavaList(String.class),
-                    costMap
-            );
-        }
-        return null;
+        //endregion
+
+        return new ResultOutput<>(true, "生成每日素材整合数据成功", materialResultDtoList);
     }
 }

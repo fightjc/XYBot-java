@@ -18,5 +18,5 @@ public interface GenshinService {
      * 更新每日素材汇总图片
      * @return
      */
-    ResultOutput<String> updateDailyMaterial();
+    ResultOutput updateDailyMaterial();
 }
