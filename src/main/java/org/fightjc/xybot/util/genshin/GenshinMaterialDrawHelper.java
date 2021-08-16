@@ -1,5 +1,6 @@
 package org.fightjc.xybot.util.genshin;
 
+import com.idrsolutions.image.png.PngCompressor;
 import org.fightjc.xybot.pojo.ResultOutput;
 import org.fightjc.xybot.pojo.genshin.MaterialResultDto;
 import org.fightjc.xybot.pojo.genshin.NameMapBean;
@@ -266,8 +267,18 @@ public class GenshinMaterialDrawHelper {
 
             // 保存文件
             try {
+                // 写入临时图片文件
+                String tempPath = BotUtil.getGenshinFolderPath() + "/dailymaterial_" + dto.getDayNum() + "_temp.png";
+                ImageIO.write(target, "PNG", new File(tempPath));
+
+                // 压缩png
                 String pathName = BotUtil.getGenshinFolderPath() + "/dailymaterial_" + dto.getDayNum() + ".png";
-                ImageIO.write(target, "PNG", new File(pathName));
+                File tempFile = new File(tempPath);
+                File dstFile = new File(pathName);
+                PngCompressor.compress(tempFile, dstFile);
+
+                // 删除临时图片文件
+                tempFile.delete();
             } catch (IOException ioe) {
                 ioe.printStackTrace();
             }

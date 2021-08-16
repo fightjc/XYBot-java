@@ -13,11 +13,11 @@ a mirai base bot
 ## Feature
 1. Auto check the version of database when first run the application, update it if is not match the latest version
 2. Use annotation module to clarify commands and(or) switches
-3. We can enable or disable the command of multiple group in real time
-4. Set scheduled task by using cron job
+3. We can enable or disable the command of multiple groups in real time
+4. Set scheduled tasks by using cron job
 
 ## How to run
-1. Complete setting files `/src/main/resources/application.properties`
+1. Complete setting file `/src/main/resources/application.properties`
 2. Compile the java application
 3. Run the jar `java -jar XYBot.jar`
 4. Have fun
