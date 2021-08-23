@@ -85,6 +85,72 @@ public class GenshinServiceImpl implements GenshinService {
     }
 
     /**
+     * 通过名字查询角色或物品
+     * @param name
+     * @return
+     */
+    public ResultOutput<String> getInfoByName(String name) {
+        // 角色
+        JSONObject charObject = BotUtil.readJsonFile(BotUtil.getGenshinFolderPath() + "/index/characters.json");
+        if (charObject == null) {
+            logger.error("获取 /index/characters.json 对象失败");
+            return new ResultOutput<>(false, "获取 /index/characters.json 对象失败");
+        }
+
+        // 角色名和路径字典
+        Map<String, String> characterNameMap = charObject.getObject("names", new TypeReference<Map<String, String>>(){});
+        if (characterNameMap == null) {
+            logger.error("获取 /index/characters.json 中 names 对象失败");
+            return new ResultOutput<>(false, "获取 /index/characters.json 中 names 对象失败");
+        }
+
+        // 判断是否是角色
+        if (characterNameMap.containsKey(name)) {
+            return getCharacterInfo(characterNameMap.get(name));
+        }
+
+        // 武器
+        JSONObject weaponObject = BotUtil.readJsonFile(BotUtil.getGenshinFolderPath() + "/index/weapons.json");
+        if (weaponObject == null) {
+            logger.error("获取 /index/weapons.json 对象失败");
+            return new ResultOutput<>(false, "获取 /index/weapons.json 对象失败");
+        }
+
+        // 武器名和路径字典
+        Map<String, String> weaponNameMap = weaponObject.getObject("names", new TypeReference<Map<String, String>>(){});
+        if (weaponNameMap == null) {
+            logger.error("获取 /index/weapons.json 中 names 对象失败");
+            return new ResultOutput<>(false, "获取 /index/weapons.json 中 names 对象失败");
+        }
+
+        // 判断是否是武器
+        if (weaponNameMap.containsKey(name)) {
+            return getWeaponInfo(weaponNameMap.get(name));
+        }
+
+        // 材料
+        JSONObject materialObject = BotUtil.readJsonFile(BotUtil.getGenshinFolderPath() + "/index/materials.json");
+        if (materialObject == null) {
+            logger.error("获取 /index/materials.json 对象失败");
+            return new ResultOutput<>(false, "获取 /index/materials.json 对象失败");
+        }
+
+        // 材料名和路径字典
+        Map<String, String> materialNameMap = materialObject.getObject("names", new TypeReference<Map<String, String>>(){});
+        if (materialNameMap == null) {
+            logger.error("获取 /index/materials.json 中 names 对象失败");
+            return new ResultOutput<>(false, "获取 /index/materials.json 中 names 对象失败");
+        }
+
+        // 判断是否是材料
+        if (materialNameMap.containsKey(name)) {
+            return getMaterialInfo(materialNameMap.get(name));
+        }
+
+        return new ResultOutput<>(false, "找不到 " + name + " 的相关信息，以后即使知道也不告诉你");
+    }
+
+    /**
      * 从资源文件中提取每日材料整合数据结果
      * @return
      */
@@ -395,5 +461,49 @@ public class GenshinServiceImpl implements GenshinService {
         //endregion
 
         return new ResultOutput<>(true, "生成每日素材整合数据成功", materialResultDtoList);
+    }
+
+    /**
+     * 获取角色信息
+     * @param filePath
+     * @return
+     */
+    private ResultOutput<String> getCharacterInfo(String filePath) {
+        return new ResultOutput<>(true, "", "");
+    }
+
+    /**
+     *  获取武器信息
+     * @param filePath
+     * @return
+     */
+    private ResultOutput<String> getWeaponInfo(String filePath) {
+        // 武器主属性信息
+        WeaponBean weaponBean = BotUtil.readJsonFile(
+                BotUtil.getGenshinFolderPath() + "/data/weapons/" + filePath,
+                WeaponBean.class);
+        if (weaponBean == null) {
+            logger.error("获取 /data/weapons/" + filePath + " 对象失败");
+            return new ResultOutput<>(false, "获取 /data/weapons/" + filePath + " 对象失败");
+        }
+
+        String sb = weaponBean.getName() + "\n" +
+                "武器类型：" + weaponBean.getWeaponType() + "\n" +
+                "星级：" + weaponBean.getRarity() + "\n" +
+                "副词缀：" + weaponBean.getSubStat() +  "\n" +
+                "描述：" + weaponBean.getDescription() + "\n" +
+                "效果名称：" + weaponBean.getEffectName() + "\n" +
+                "效果描述：" + weaponBean.getLongEffect() + "\n";
+
+        return new ResultOutput<>(true, "", sb);
+    }
+
+    /**
+     * 获取材料信息
+     * @param filePath
+     * @return
+     */
+    private ResultOutput<String> getMaterialInfo(String filePath) {
+        return new ResultOutput<>(true, "", "");
     }
 }

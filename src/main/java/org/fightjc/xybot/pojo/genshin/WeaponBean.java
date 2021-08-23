@@ -1,5 +1,6 @@
 package org.fightjc.xybot.pojo.genshin;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -53,6 +54,41 @@ public class WeaponBean {
 
     public String getName() {
         return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getWeaponType() {
+        return weaponType;
+    }
+
+    public String getRarity() {
+        return rarity;
+    }
+
+    public String getSubStat() {
+        return subStat;
+    }
+
+    public String getEffectName() {
+        return effectName;
+    }
+
+    public String getLongEffect() {
+        String result = effect;
+        int count = r1.size();
+        for (int i = 0; i < count; i++) {
+            String sb = r1.get(i) +
+                    "/" + r2.get(i) +
+                    "/" + r3.get(i) +
+                    "/" + r4.get(i) +
+                    "/" + r5.get(i);
+            result = result.replace("{" + i + "}", sb);
+        }
+
+        return result;
     }
 
     public boolean needWeaponMaterialType(WeaponMaterialTypeBean weaponMaterialType) {

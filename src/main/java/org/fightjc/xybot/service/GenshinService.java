@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
 public interface GenshinService {
 
     /**
-     * 获取每日角色天赋突破材料汇总图
+     * 获取每日素材汇总图片
      * @param day
      * @return
      */
@@ -19,4 +19,11 @@ public interface GenshinService {
      * @return
      */
     ResultOutput updateDailyMaterial();
+
+    /**
+     * 通过名字查询角色或物品
+     * @param name
+     * @return
+     */
+    ResultOutput<String> getInfoByName(String name);
 }
