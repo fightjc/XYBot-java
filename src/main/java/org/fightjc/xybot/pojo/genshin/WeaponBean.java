@@ -13,23 +13,27 @@ public class WeaponBean {
     String weaponType;
     // 星级
     String rarity;
+    // 基础攻击
     int baseAtk;
+    // 副词缀
     String subStat;
+    // 副词缀初始值
     String subValue;
-
-    //region 装备特效
-
+    // 效果名称
     String effectName;
+    // 效果描述
     String effect;
+    // 精炼1
     List<String> r1;
+    // 精炼2
     List<String> r2;
+    // 精炼3
     List<String> r3;
+    // 精炼4
     List<String> r4;
+    // 精炼5
     List<String> r5;
-
-    //endregion
-
-    // 突破材料
+    // 突破材料，一星和二星装备只有4条
     Map<String, List<CostBean>> costs;
 
     public WeaponBean(String name, String description, String weaponType, String rarity, int baseAtk, String subStat,

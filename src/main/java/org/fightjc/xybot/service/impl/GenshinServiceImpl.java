@@ -469,7 +469,56 @@ public class GenshinServiceImpl implements GenshinService {
      * @return
      */
     private ResultOutput<String> getCharacterInfo(String filePath) {
-        return new ResultOutput<>(true, "", "");
+        // 角色主属性信息
+        CharacterBean characterBean = BotUtil.readJsonFile(
+                BotUtil.getGenshinFolderPath() + "/data/characters/" + filePath,
+                CharacterBean.class);
+        if (characterBean == null) {
+            logger.error("获取 /data/characters/" + filePath + " 对象失败");
+            return new ResultOutput<>(false, "获取 /data/characters/" + filePath + " 对象失败");
+        }
+
+//        // 角色天赋
+//        TalentBean talentBean = BotUtil.readJsonFile(
+//                BotUtil.getGenshinFolderPath() + "/data/talents/" + filePath,
+//                TalentBean.class);
+//        if (talentBean == null) {
+//            logger.error("获取 /data/talents/" + filePath + " 对象失败");
+//            return new ResultOutput<>(false, "获取 /data/talents/" + filePath + " 对象失败");
+//        }
+
+        // 角色命座
+        ConstellationBean constellationBean = BotUtil.readJsonFile(
+                BotUtil.getGenshinFolderPath() + "/data/constellations/" + filePath,
+                ConstellationBean.class);
+        if (constellationBean == null) {
+            logger.error("获取 /data/constellations/" + filePath + " 对象失败");
+            return new ResultOutput<>(false, "获取 /data/constellations/" + filePath + " 对象失败");
+        }
+
+        String info = characterBean.getName() + "\n" +
+                "星级：" + characterBean.getRarity() + "\n" +
+                "神之眼:" + characterBean.getElement() + "\n" +
+                "武器类型：" + characterBean.getWeaponType() + "\n" +
+                "升级属性：" + characterBean.getSubStat() + "\n" +
+                "生日：" + characterBean.getBirthday() + "\n" +
+                "\n" +
+                "命之座：" + "\n" +
+                "1. " + constellationBean.getC1().getName() + "\n" +
+                constellationBean.getC1().getEffect() + "\n" +
+                "2. " + constellationBean.getC2().getName() + "\n" +
+                constellationBean.getC2().getEffect() + "\n" +
+                "3. " + constellationBean.getC3().getName() + "\n" +
+                constellationBean.getC3().getEffect() + "\n" +
+                "4. " + constellationBean.getC4().getName() + "\n" +
+                constellationBean.getC4().getEffect() + "\n" +
+                "5. " + constellationBean.getC5().getName() + "\n" +
+                constellationBean.getC5().getEffect() + "\n" +
+                "6. " + constellationBean.getC6().getName() + "\n" +
+                constellationBean.getC6().getEffect();
+
+
+        return new ResultOutput<>(true, "", info);
     }
 
     /**
@@ -478,7 +527,7 @@ public class GenshinServiceImpl implements GenshinService {
      * @return
      */
     private ResultOutput<String> getWeaponInfo(String filePath) {
-        // 武器主属性信息
+        // 武器信息
         WeaponBean weaponBean = BotUtil.readJsonFile(
                 BotUtil.getGenshinFolderPath() + "/data/weapons/" + filePath,
                 WeaponBean.class);
@@ -487,7 +536,7 @@ public class GenshinServiceImpl implements GenshinService {
             return new ResultOutput<>(false, "获取 /data/weapons/" + filePath + " 对象失败");
         }
 
-        String sb = weaponBean.getName() + "\n" +
+        String info = weaponBean.getName() + "\n" +
                 "武器类型：" + weaponBean.getWeaponType() + "\n" +
                 "星级：" + weaponBean.getRarity() + "\n" +
                 "副词缀：" + weaponBean.getSubStat() +  "\n" +
@@ -495,7 +544,7 @@ public class GenshinServiceImpl implements GenshinService {
                 "效果名称：" + weaponBean.getEffectName() + "\n" +
                 "效果描述：" + weaponBean.getLongEffect() + "\n";
 
-        return new ResultOutput<>(true, "", sb);
+        return new ResultOutput<>(true, "", info);
     }
 
     /**

@@ -43,6 +43,29 @@ public class CharacterBean {
         this.constellation = constellation;
         this.cv = cv;
         this.costs = costs;
+    }
 
+    public String getName() {
+        return name;
+    }
+
+    public String getRarity() {
+        return rarity;
+    }
+
+    public String getElement() {
+        return element;
+    }
+
+    public String getWeaponType() {
+        return weaponType;
+    }
+
+    public String getSubStat() {
+        return subStat;
+    }
+
+    public String getBirthday() {
+        return birthday;
     }
 }
