@@ -2,10 +2,7 @@ package org.fightjc.xybot.command.impl.genshin;
 
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.contact.Member;
-import net.mamoe.mirai.message.data.At;
-import net.mamoe.mirai.message.data.Message;
-import net.mamoe.mirai.message.data.MessageChain;
-import net.mamoe.mirai.message.data.PlainText;
+import net.mamoe.mirai.message.data.*;
 import org.fightjc.xybot.annotate.CommandAnnotate;
 import org.fightjc.xybot.annotate.SwitchAnnotate;
 import org.fightjc.xybot.command.impl.group.MemberGroupCommand;
@@ -41,7 +38,7 @@ public class GenshinSearchCommand extends MemberGroupCommand {
         String item = args.get(0);
         ResultOutput<String> result = genshinService.getInfoByName(item);
         if (result.getSuccess()) {
-            return at.plus(new PlainText(result.getObject()));
+            return at.plus(new LightApp(result.getObject()));
         } else {
             return at.plus(new PlainText(result.getInfo()));
         }

@@ -89,7 +89,7 @@ public class WeaponBean {
                     "/" + r3.get(i) +
                     "/" + r4.get(i) +
                     "/" + r5.get(i);
-            result = result.replace("{" + i + "}", sb);
+            result = result.replace("{" + i + "}", "[" + sb + "]");
         }
 
         return result;

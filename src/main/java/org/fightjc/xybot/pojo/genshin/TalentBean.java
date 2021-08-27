@@ -32,6 +32,34 @@ public class TalentBean {
         return name;
     }
 
+    public TalentCombatBean getCombat1() {
+        return combat1;
+    }
+
+    public TalentCombatBean getCombat2() {
+        return combat2;
+    }
+
+    public TalentCombatBean getCombat3() {
+        return combat3;
+    }
+
+    public TalentCombatBean getCombatSp() {
+        return combatSp;
+    }
+
+    public TalentPassiveBean getPassive1() {
+        return passive1;
+    }
+
+    public TalentPassiveBean getPassive2() {
+        return passive2;
+    }
+
+    public TalentPassiveBean getPassive3() {
+        return passive3;
+    }
+
     public boolean needTalentMaterialType(TalentMaterialTypeBean talentMaterialType) {
         List<String> typeList = talentMaterialType.getAllTypeNames();
         for (String key : costs.keySet()) {
@@ -57,6 +85,14 @@ public class TalentBean {
             this.description = description;
             this.attributes = attributes;
         }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getInfo() {
+            return info;
+        }
     }
 
     public static class TalentPassiveBean {
@@ -66,6 +102,14 @@ public class TalentBean {
         public TalentPassiveBean(String name, String info) {
             this.name = name;
             this.info = info;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getInfo() {
+            return info;
         }
     }
 }

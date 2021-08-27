@@ -3,6 +3,8 @@ package org.fightjc.xybot.service.impl;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
+import com.sun.prism.j2d.J2DPipeline;
+import net.mamoe.mirai.message.code.MiraiCode;
 import org.fightjc.xybot.pojo.ResultOutput;
 import org.fightjc.xybot.pojo.genshin.*;
 import org.fightjc.xybot.service.GenshinService;
@@ -478,14 +480,14 @@ public class GenshinServiceImpl implements GenshinService {
             return new ResultOutput<>(false, "获取 /data/characters/" + filePath + " 对象失败");
         }
 
-//        // 角色天赋
-//        TalentBean talentBean = BotUtil.readJsonFile(
-//                BotUtil.getGenshinFolderPath() + "/data/talents/" + filePath,
-//                TalentBean.class);
-//        if (talentBean == null) {
-//            logger.error("获取 /data/talents/" + filePath + " 对象失败");
-//            return new ResultOutput<>(false, "获取 /data/talents/" + filePath + " 对象失败");
-//        }
+        // 角色天赋
+        TalentBean talentBean = BotUtil.readJsonFile(
+                BotUtil.getGenshinFolderPath() + "/data/talents/" + filePath,
+                TalentBean.class);
+        if (talentBean == null) {
+            logger.error("获取 /data/talents/" + filePath + " 对象失败");
+            return new ResultOutput<>(false, "获取 /data/talents/" + filePath + " 对象失败");
+        }
 
         // 角色命座
         ConstellationBean constellationBean = BotUtil.readJsonFile(
@@ -496,27 +498,62 @@ public class GenshinServiceImpl implements GenshinService {
             return new ResultOutput<>(false, "获取 /data/constellations/" + filePath + " 对象失败");
         }
 
-        String info = characterBean.getName() + "\n" +
-                "星级：" + characterBean.getRarity() + "\n" +
-                "神之眼:" + characterBean.getElement() + "\n" +
-                "武器类型：" + characterBean.getWeaponType() + "\n" +
-                "升级属性：" + characterBean.getSubStat() + "\n" +
-                "生日：" + characterBean.getBirthday() + "\n" +
-                "\n" +
-                "命之座：" + "\n" +
-                "1. " + constellationBean.getC1().getName() + "\n" +
-                constellationBean.getC1().getEffect() + "\n" +
-                "2. " + constellationBean.getC2().getName() + "\n" +
-                constellationBean.getC2().getEffect() + "\n" +
-                "3. " + constellationBean.getC3().getName() + "\n" +
-                constellationBean.getC3().getEffect() + "\n" +
-                "4. " + constellationBean.getC4().getName() + "\n" +
-                constellationBean.getC4().getEffect() + "\n" +
-                "5. " + constellationBean.getC5().getName() + "\n" +
-                constellationBean.getC5().getEffect() + "\n" +
-                "6. " + constellationBean.getC6().getName() + "\n" +
-                constellationBean.getC6().getEffect();
+        // 角色图标
+        JSONObject imagesMap = BotUtil.readJsonFile(BotUtil.getGenshinFolderPath() + "/images/characters.json");
+        if (imagesMap == null) {
+            logger.error("获取 /images/characters.json 对象失败");
+            return new ResultOutput<>(false, "获取 /images/characters.json 对象失败");
+        }
+        JSONObject characterMap = imagesMap.getJSONObject(filePath);
+        if (characterMap == null) {
+            logger.error("获取 /images/characters.json 对象失败");
+            return new ResultOutput<>(false, "获取 /images/characters.json 中 " + filePath + " 对象失败");
+        }
 
+        //TODO: 太长了卡片显示不全
+        String info =
+                "{" +
+                    "\"app\":\"com.tencent.miniapp\"," +
+                    "\"view\":\"notification\"," +
+                    "\"prompt\":\"角色\"," +
+                    "\"desc\":\"\"," +
+                    "\"ver\":\"0.0.0.1\"," +
+                    "\"meta\":{" +
+                        "\"notification\":{" +
+                            "\"appInfo\":{" +
+                                "\"appName\":\""+ characterBean.getName() + "\"," +
+                                "\"appType\":4," +
+                                "\"appid\":1109659848," +
+                                "\"iconUrl\":\"" + characterMap.getString("icon") + "\"" +
+                            "}," +
+                            "\"data\":[" +
+                                "{\"title\":\"星级\",\"value\":\"" + characterBean.getRarity() +"\"}," +
+                                "{\"title\":\"神之眼\",\"value\":\"" + characterBean.getElement() + "\"}," +
+                                "{\"title\":\"武器类型\",\"value\":\"" + characterBean.getWeaponType() + "\"}," +
+                                "{\"title\":\"升级属性\",\"value\":\"" + characterBean.getSubStat() + "\"}," +
+                                "{\"title\":\"生日\",\"value\":\"" + characterBean.getBirthday() + "\"}," +
+                                "{\"title\":\"天赋\",\"value\":\"\"}," +
+                                "{\"title\":\"" + talentBean.getCombat1().getName() + "\",\"value\":\"" + talentBean.getCombat1().getInfo() + "\"}," +
+                                "{\"title\":\"" + talentBean.getCombat2().getName() + "\",\"value\":\"" + talentBean.getCombat2().getInfo() + "\"}," +
+                                "{\"title\":\"" + talentBean.getCombat3().getName() + "\",\"value\":\"" + talentBean.getCombat3().getInfo() + "\"}," +
+                                (talentBean.getCombatSp() == null ?
+                                        "" : "{\"title\":\"" + talentBean.getCombatSp().getName() + "\",\"value\":\"" + talentBean.getCombatSp().getInfo() + "\"},") +
+                                "{\"title\":\"" + talentBean.getPassive1().getName() + "\",\"value\":\"" + talentBean.getPassive1().getInfo() + "\"}," +
+                                "{\"title\":\"" + talentBean.getPassive2().getName() + "\",\"value\":\"" + talentBean.getPassive2().getInfo() + "\"}," +
+                                (talentBean.getPassive3() == null ?
+                                        "" : "{\"title\":\"" + talentBean.getPassive3().getName() + "\",\"value\":\"" + talentBean.getPassive3().getInfo() + "\"},") +
+                                "{\"title\":\"命之座\",\"value\":\"-\"}," +
+                                "{\"title\":\"1." + constellationBean.getC1().getName() + "\",\"value\":\"" + constellationBean.getC1().getEffect() + "\"}," +
+                                "{\"title\":\"2." + constellationBean.getC2().getName() + "\",\"value\":\"" + constellationBean.getC2().getEffect() + "\"}," +
+                                "{\"title\":\"3." + constellationBean.getC3().getName() + "\",\"value\":\"" + constellationBean.getC3().getEffect() + "\"}," +
+                                "{\"title\":\"4." + constellationBean.getC4().getName() + "\",\"value\":\"" + constellationBean.getC4().getEffect() + "\"}," +
+                                "{\"title\":\"5." + constellationBean.getC5().getName() + "\",\"value\":\"" + constellationBean.getC5().getEffect() + "\"}," +
+                                "{\"title\":\"6." + constellationBean.getC6().getName() + "\",\"value\":\"" + constellationBean.getC6().getEffect() + "\"}" +
+                            "]" +
+                        "}" +
+                    "}" +
+                "}";
+        info = info.replace("\n", "\\n");
 
         return new ResultOutput<>(true, "", info);
     }
@@ -536,13 +573,44 @@ public class GenshinServiceImpl implements GenshinService {
             return new ResultOutput<>(false, "获取 /data/weapons/" + filePath + " 对象失败");
         }
 
-        String info = weaponBean.getName() + "\n" +
-                "武器类型：" + weaponBean.getWeaponType() + "\n" +
-                "星级：" + weaponBean.getRarity() + "\n" +
-                "副词缀：" + weaponBean.getSubStat() +  "\n" +
-                "描述：" + weaponBean.getDescription() + "\n" +
-                "效果名称：" + weaponBean.getEffectName() + "\n" +
-                "效果描述：" + weaponBean.getLongEffect() + "\n";
+        // 武器图标
+        JSONObject imagesMap = BotUtil.readJsonFile(BotUtil.getGenshinFolderPath() + "/images/weapons.json");
+        if (imagesMap == null) {
+            logger.error("获取 /images/weapons.json 对象失败");
+            return new ResultOutput<>(false, "获取 /images/weapons.json 对象失败");
+        }
+        JSONObject weaponMap = imagesMap.getJSONObject(filePath);
+        if (weaponMap == null) {
+            logger.error("获取 /images/weapons.json 对象失败");
+            return new ResultOutput<>(false, "获取 /images/weapons.json 中 " + filePath + " 对象失败");
+        }
+
+        String info =
+                "{" +
+                    "\"app\":\"com.tencent.miniapp\"," +
+                    "\"view\":\"notification\"," +
+                    "\"prompt\":\"武器\"," +
+                    "\"desc\":\"\"," +
+                    "\"ver\":\"0.0.0.1\"," +
+                    "\"meta\":{" +
+                        "\"notification\":{" +
+                            "\"appInfo\":{" +
+                                "\"appName\":\""+ weaponBean.getName() + "\"," +
+                                "\"appType\":4," +
+                                "\"appid\":1109659848," +
+                                "\"iconUrl\":\"" + weaponMap.getString("awakenicon") + "\"" +
+                            "}," +
+                            "\"data\":[" +
+                                "{\"title\":\"武器类型\",\"value\":\"" + weaponBean.getWeaponType() +"\"}," +
+                                "{\"title\":\"星级\",\"value\":\"" + weaponBean.getRarity() + "\"}," +
+                                "{\"title\":\"副词缀\",\"value\":\"" + weaponBean.getSubStat() + "\"}," +
+                                "{\"title\":\"描述\",\"value\":\"" + weaponBean.getDescription() + "\"}," +
+                                "{\"title\":\"效果名称\",\"value\":\"" + weaponBean.getEffectName() + "\"}," +
+                                "{\"title\":\"效果描述\",\"value\":\"" + weaponBean.getLongEffect() + "\"}" +
+                            "]" +
+                        "}" +
+                    "}" +
+                "}";
 
         return new ResultOutput<>(true, "", info);
     }
