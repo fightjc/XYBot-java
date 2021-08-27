@@ -3,6 +3,7 @@ package org.fightjc.xybot.events;
 import kotlin.coroutines.CoroutineContext;
 import net.mamoe.mirai.event.*;
 import net.mamoe.mirai.event.events.MemberJoinEvent;
+import net.mamoe.mirai.event.events.MemberLeaveEvent;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +16,8 @@ public class GroupEvents extends SimpleListenerHost {
 
     @Override
     public void handleException(@NotNull CoroutineContext context, @NotNull Throwable exception) {
-        // 处理事件处理时抛出的异常
+        super.handleException(context, exception);
+        logger.error(exception.getMessage());
     }
 
     /**
@@ -25,21 +27,35 @@ public class GroupEvents extends SimpleListenerHost {
      */
     @NotNull
     @EventHandler(priority = EventPriority.NORMAL)
-    public ListeningStatus onMemberJoin(@NotNull MemberJoinEvent event) {
-        //String name = event.getMember().getNameCard();
-        //event.getGroup().sendMessage("欢迎 " + name);
+    public ListeningStatus onMemberJoin(@NotNull MemberJoinEvent event) throws Exception {
+        String name = event.getMember().getNameCard();
+        event.getGroup().sendMessage("欢迎新人 " + name);
 
         return ListeningStatus.LISTENING;
     }
 
     /**
-     * 收到群消息
+     * 离群事件
      * @param event
      * @return
      */
+    @NotNull
+    @EventHandler(priority = EventPriority.NORMAL)
+    public ListeningStatus onMemberLeave(@NotNull MemberLeaveEvent event) throws Exception {
+        String name = event.getMember().getNameCard();
+        event.getGroup().sendMessage("啊，再见了朋友  " + name);
+
+        return ListeningStatus.LISTENING;
+    }
+
+//    /**
+//     * 收到群消息
+//     * @param event
+//     * @return
+//     */
 //    @NotNull
 //    @EventHandler(priority = EventPriority.NORMAL)
-//    public ListeningStatus onReceiveGroupMessage(@NotNull GroupMessageEvent event) {
+//    public ListeningStatus onReceiveGroupMessage(@NotNull GroupMessageEvent event) throws Exception {
 //        //String textMessage = MessageUtil.filterMessage(event.getMessage());
 //        //String text = event.getMessage().contentToString();
 //        //event.getGroup().getId()

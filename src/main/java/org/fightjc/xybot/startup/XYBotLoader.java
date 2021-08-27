@@ -38,7 +38,7 @@ public class XYBotLoader implements ApplicationRunner {
     String logNetPath;
 
     @Autowired
-    @Qualifier("botEvents")
+    @Qualifier("allBotEvents")
     List<ListenerHost> events;
 
     @Autowired
