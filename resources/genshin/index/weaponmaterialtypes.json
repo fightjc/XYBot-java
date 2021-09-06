@@ -6,9 +6,9 @@
 		"decarabian.json": "高塔孤王",
 		"guyun.json": "孤云寒林",
 		"mistveiledelixir.json": "雾海云间",
-        "adistantsea.json": "远海夷地",
-        "narukami.json": "鸣神御灵",
-        "mask.json": "今昔剧画"
+    "adistantsea.json": "远海夷地",
+    "narukami.json": "鸣神御灵",
+    "mask.json": "今昔剧画"
 	},
 	"names": {
 		"漆黑陨铁": "aerosiderite.json",
@@ -17,9 +17,9 @@
 		"高塔孤王": "decarabian.json",
 		"孤云寒林": "guyun.json",
 		"雾海云间": "mistveiledelixir.json",
-        "远海夷地": "adistantsea.json",
-        "鸣神御灵": "narukami.json",
-        "今昔剧画": "mask.json"
+    "远海夷地": "adistantsea.json",
+    "鸣神御灵": "narukami.json",
+    "今昔剧画": "mask.json"
 	},
 	"aliases": {
 		"漆黑陨铁的一粒": "aerosiderite.json",
@@ -46,29 +46,29 @@
 		"雾海云间的汞丹": "mistveiledelixir.json",
 		"雾海云间的金丹": "mistveiledelixir.json",
 		"雾海云间的转还": "mistveiledelixir.json",
-        "远海夷地的瑚枝": "adistantsea.json",
-        "远海夷地的玉枝": "adistantsea.json",
-        "远海夷地的琼枝": "adistantsea.json",
-        "远海夷地的金枝": "adistantsea.json",
+		"远海夷地的瑚枝": "adistantsea.json",
+		"远海夷地的玉枝": "adistantsea.json",
+		"远海夷地的琼枝": "adistantsea.json",
+		"远海夷地的金枝": "adistantsea.json",
 		"鸣神御灵的亲爱": "narukami.json",
 		"鸣神御灵的欢喜": "narukami.json",
 		"鸣神御灵的勇武": "narukami.json",
 		"鸣神御灵的明惠": "narukami.json",
-        "今昔剧画之恶尉": "mask.json",
-        "今昔剧画之虎啮": "mask.json",
-        "今昔剧画之一角": "mask.json",
-        "今昔剧画之鬼人": "mask.json"
+		"今昔剧画之恶尉": "mask.json",
+		"今昔剧画之虎啮": "mask.json",
+		"今昔剧画之一角": "mask.json",
+		"今昔剧画之鬼人": "mask.json"
 	},
 	"categories": {
 		"周三": [
 			"aerosiderite.json",
 			"dandeliongladiator.json",
-            "mask.json"
+			"mask.json"
 		],
 		"周六": [
 			"aerosiderite.json",
 			"dandeliongladiator.json",
-            "mask.json"
+			"mask.json"
 		],
 		"周日": [
 			"aerosiderite.json",
@@ -77,9 +77,9 @@
 			"decarabian.json",
 			"guyun.json",
 			"mistveiledelixir.json",
-            "adistantsea.json",
-            "narukami.json",
-            "mask.json"
+			"adistantsea.json",
+			"narukami.json",
+			"mask.json"
 		],
 		"璃月": [
 			"aerosiderite.json",
@@ -94,12 +94,12 @@
 		"周二": [
 			"borealwolf.json",
 			"mistveiledelixir.json",
-            "narukami.json"
+			"narukami.json"
 		],
 		"周五": [
 			"borealwolf.json",
 			"mistveiledelixir.json",
-            "narukami.json"
+			"narukami.json"
 		],
 		"蒙德": [
 			"borealwolf.json",
@@ -114,22 +114,22 @@
 		"周一": [
 			"decarabian.json",
 			"guyun.json",
-            "adistantsea.json"
+			"adistantsea.json"
 		],
 		"周四": [
 			"decarabian.json",
 			"guyun.json",
-            "adistantsea.json"
+			"adistantsea.json"
 		],
-        "稻妻": [
-            "adistantsea.json",
-            "narukami.json",
-            "mask.json"
-        ],
-        "砂流之庭": [
-            "adistantsea.json",
-            "narukami.json",
-            "mask.json"
-        ]
+		"稻妻": [
+			"adistantsea.json",
+			"narukami.json",
+			"mask.json"
+		],
+		"砂流之庭": [
+			"adistantsea.json",
+			"narukami.json",
+			"mask.json"
+		]
 	}
 }
