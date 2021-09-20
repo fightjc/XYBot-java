@@ -57,6 +57,13 @@
         </dependency>
 
         <dependency>
+            <groupId>net.mamoe</groupId>
+            <artifactId>mirai-core-jvm</artifactId>
+            <version>${mirai.version}</version>
+        </dependency>
+
+        <!-- suitable for mirai 2.7.1-dev-1 -->
+        <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-reflect</artifactId>
             <version>${kotlin.version}</version>
@@ -72,12 +79,6 @@
             <groupId>org.jetbrains.kotlinx</groupId>
             <artifactId>kotlinx-coroutines-core-jvm</artifactId>
             <version>1.5.2</version>
-        </dependency>
-
-        <dependency>
-            <groupId>net.mamoe</groupId>
-            <artifactId>mirai-core-jvm</artifactId>
-            <version>${mirai.version}</version>
         </dependency>
 
         <!-- 阿里JSON解析器 -->

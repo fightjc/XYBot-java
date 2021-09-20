@@ -7,8 +7,8 @@ a mirai base bot
 | java | 1.8.0_291 |
 | springboot| 2.4.1 |
 | mybatis | 2.0.1 |
-| mirai-core-jvm | 2.6.1 |
-| sqlite | latest |
+| mirai-core-jvm | 2.7.1-dev-1 |
+| sqlite-jdbc | 3.32.3.3 |
 
 ## Feature
 1. Auto check the version of database when first run the application, update it if is not match the latest version
