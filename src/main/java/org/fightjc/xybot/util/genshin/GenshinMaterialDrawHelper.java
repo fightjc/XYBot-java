@@ -49,7 +49,7 @@ public class GenshinMaterialDrawHelper {
     private final static Font TEXT_1 = new Font("Microsoft YaHei", Font.PLAIN, 18); // 解释文字
 
     // 文本对齐方向
-    public enum TEXT_ALIGNMENT {
+    enum TEXT_ALIGNMENT {
         LEFT, CENTER, RIGHT;
     }
 

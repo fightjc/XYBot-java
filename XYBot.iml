@@ -20,7 +20,6 @@
     <orderEntry type="library" name="Maven: ch.qos.logback:logback-core:1.2.3" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:slf4j-api:1.7.30" level="project" />
     <orderEntry type="library" name="Maven: org.apache.logging.log4j:log4j-to-slf4j:2.13.3" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.logging.log4j:log4j-api:2.13.3" level="project" />
     <orderEntry type="library" name="Maven: org.slf4j:jul-to-slf4j:1.7.30" level="project" />
     <orderEntry type="library" name="Maven: jakarta.annotation:jakarta.annotation-api:1.3.5" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-core:5.3.2" level="project" />
@@ -51,54 +50,44 @@
     <orderEntry type="library" name="Maven: org.mybatis.spring.boot:mybatis-spring-boot-autoconfigure:2.0.1" level="project" />
     <orderEntry type="library" name="Maven: org.mybatis:mybatis:3.5.1" level="project" />
     <orderEntry type="library" name="Maven: org.mybatis:mybatis-spring:2.0.1" level="project" />
-    <orderEntry type="library" name="Maven: org.xerial:sqlite-jdbc:3.21.0.1" level="project" />
-    <orderEntry type="library" name="Maven: net.mamoe:mirai-core-jvm:2.6.1" level="project" />
-    <orderEntry type="library" name="Maven: net.mamoe:mirai-core-api-jvm:2.6.1" level="project" />
-    <orderEntry type="library" name="Maven: org.jetbrains.kotlin:kotlin-serialization:1.4.30" level="project" />
-    <orderEntry type="library" name="Maven: org.jetbrains.kotlin:kotlin-gradle-plugin-api:1.4.30" level="project" />
-    <orderEntry type="library" name="Maven: org.jetbrains.kotlin:kotlin-reflect:1.4.21" level="project" />
+    <orderEntry type="library" name="Maven: org.xerial:sqlite-jdbc:3.32.3.3" level="project" />
+    <orderEntry type="library" name="Maven: org.jetbrains.kotlin:kotlin-reflect:1.5.30" level="project" />
+    <orderEntry type="library" name="Maven: org.jetbrains.kotlin:kotlin-stdlib:1.5.30" level="project" />
+    <orderEntry type="library" name="Maven: org.jetbrains:annotations:13.0" level="project" />
+    <orderEntry type="library" name="Maven: org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2" level="project" />
+    <orderEntry type="library" name="Maven: org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.5.2" level="project" />
+    <orderEntry type="library" name="Maven: org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.5.30" level="project" />
+    <orderEntry type="library" name="Maven: org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.5.30" level="project" />
+    <orderEntry type="library" name="Maven: org.jetbrains.kotlin:kotlin-stdlib-common:1.5.30" level="project" />
+    <orderEntry type="library" name="Maven: net.mamoe:mirai-core-jvm:2.7.1-dev-1" level="project" />
+    <orderEntry type="library" name="Maven: net.mamoe:mirai-core-api-jvm:2.7.1-dev-1" level="project" />
     <orderEntry type="library" name="Maven: org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.4.2" level="project" />
-    <orderEntry type="library" name="Maven: org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2" level="project" />
-    <orderEntry type="library" name="Maven: io.ktor:ktor-client-okhttp:1.5.1" level="project" />
+    <orderEntry type="library" name="Maven: io.ktor:ktor-client-okhttp:1.5.4" level="project" />
     <orderEntry type="library" name="Maven: com.squareup.okhttp3:okhttp:3.14.9" level="project" />
     <orderEntry type="library" name="Maven: com.squareup.okio:okio:1.17.2" level="project" />
-    <orderEntry type="library" name="Maven: io.ktor:ktor-client-core-jvm:1.5.1" level="project" />
-    <orderEntry type="library" name="Maven: io.ktor:ktor-http-jvm:1.5.1" level="project" />
-    <orderEntry type="library" name="Maven: io.ktor:ktor-http-cio-jvm:1.5.1" level="project" />
-    <orderEntry type="library" name="Maven: io.ktor:ktor-network-jvm:1.5.1" level="project" />
-    <orderEntry type="library" name="Maven: io.ktor:ktor-utils-jvm:1.5.1" level="project" />
-    <orderEntry type="library" name="Maven: io.ktor:ktor-io-jvm:1.5.1" level="project" />
+    <orderEntry type="library" name="Maven: io.ktor:ktor-client-core-jvm:1.5.4" level="project" />
+    <orderEntry type="library" name="Maven: io.ktor:ktor-http-jvm:1.5.4" level="project" />
+    <orderEntry type="library" name="Maven: io.ktor:ktor-http-cio-jvm:1.5.4" level="project" />
+    <orderEntry type="library" name="Maven: io.ktor:ktor-network-jvm:1.5.4" level="project" />
+    <orderEntry type="library" name="Maven: io.ktor:ktor-utils-jvm:1.5.4" level="project" />
+    <orderEntry type="library" name="Maven: io.ktor:ktor-io-jvm:1.5.4" level="project" />
     <orderEntry type="library" name="Maven: org.jetbrains.kotlinx:kotlinx-coroutines-io-jvm:0.1.16" level="project" />
-    <orderEntry type="library" name="Maven: org.jetbrains:annotations:19.0.0" level="project" />
-    <orderEntry type="library" name="Maven: org.jetbrains.kotlinx:kotlinx-serialization-core-jvm:1.1.0" level="project" />
-    <orderEntry type="library" name="Maven: org.jetbrains.kotlin:kotlin-stdlib-common:1.4.21" level="project" />
-    <orderEntry type="library" name="Maven: org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:1.1.0" level="project" />
-    <orderEntry type="library" name="Maven: org.jetbrains.kotlinx:atomicfu-jvm:0.15.1" level="project" />
-    <orderEntry type="library" name="Maven: org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.4.2" level="project" />
+    <orderEntry type="library" name="Maven: org.jetbrains.kotlinx:kotlinx-serialization-core-jvm:1.2.1" level="project" />
+    <orderEntry type="library" name="Maven: org.jetbrains.kotlinx:kotlinx-serialization-json-jvm:1.2.1" level="project" />
+    <orderEntry type="library" name="Maven: org.jetbrains.kotlinx:atomicfu-jvm:0.16.1" level="project" />
     <orderEntry type="library" name="Maven: org.jetbrains.kotlinx:kotlinx-io-jvm:0.1.16" level="project" />
     <orderEntry type="library" name="Maven: org.jetbrains.kotlinx:atomicfu:0.14.1" level="project" />
     <orderEntry type="library" name="Maven: org.jetbrains.kotlinx:atomicfu-common:0.14.1" level="project" />
     <orderEntry type="library" name="Maven: org.jetbrains.kotlinx:kotlinx-io:0.1.16" level="project" />
-    <orderEntry type="library" name="Maven: org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.4.21" level="project" />
-    <orderEntry type="library" name="Maven: org.jetbrains.kotlin:kotlin-stdlib:1.4.21" level="project" />
-    <orderEntry type="library" name="Maven: org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.4.21" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Maven: org.bouncycastle:bcprov-jdk15on:1.64" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Maven: org.jetbrains.kotlin:kotlin-test-junit5:1.4.21" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Maven: org.jetbrains.kotlin:kotlin-test-annotations-common:1.4.21" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Maven: org.jetbrains.kotlin:kotlin-test:1.4.21" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Maven: org.jetbrains.kotlin:kotlin-test-common:1.4.21" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Maven: org.junit.jupiter:junit-jupiter-api:5.7.0" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Maven: org.apiguardian:apiguardian-api:1.1.0" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Maven: org.opentest4j:opentest4j:1.2.0" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Maven: org.junit.platform:junit-platform-commons:1.7.0" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Maven: org.junit.jupiter:junit-jupiter-engine:5.7.0" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Maven: org.junit.platform:junit-platform-engine:1.7.0" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: net.mamoe:kotlin-jvm-blocking-bridge-jvm:1.10.3" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Maven: net.mamoe:mirai-core-utils-jvm:2.6.1" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Maven: org.jetbrains.kotlinx:kotlinx-serialization-protobuf-jvm:1.1.0" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: net.mamoe:mirai-core-utils-jvm:2.7.1-dev-1" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: org.jetbrains.kotlinx:kotlinx-serialization-protobuf-jvm:1.2.1" level="project" />
     <orderEntry type="library" name="Maven: org.jetbrains.kotlinx:kotlinx-coroutines-io:0.1.16" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: io.netty:netty-all:4.1.55.Final" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.logging.log4j:log4j-api:2.13.3" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Maven: org.bouncycastle:bcprov-jdk15on:1.64" level="project" />
     <orderEntry type="library" name="Maven: com.alibaba:fastjson:1.2.74" level="project" />
-    <orderEntry type="library" name="Maven: org.apache.commons:commons-lang3:3.8.1" level="project" />
+    <orderEntry type="library" name="Maven: org.apache.commons:commons-lang3:3.11" level="project" />
     <orderEntry type="library" name="Maven: org.jpedal:OpenViewerFX:6.6.14" level="project" />
     <orderEntry type="library" name="Maven: org.eclipse.birt.runtime.3_7_1:org.mozilla.javascript:1.7.2" level="project" />
     <orderEntry type="library" name="Maven: bouncycastle:bcprov-jdk16:140" level="project" />

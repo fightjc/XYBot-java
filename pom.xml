@@ -12,11 +12,17 @@
 
     <groupId>org.fightjc</groupId>
     <artifactId>XYBot</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <packaging>jar</packaging>
 
     <properties>
         <java.version>1.8</java.version>
+        <kotlin.version>1.5.30</kotlin.version>
+        <sqlite-jdbc.version>3.32.3.3</sqlite-jdbc.version>
+        <commons-lang3.version>3.11</commons-lang3.version>
+        <mirai.version>2.7.1-dev-1</mirai.version>
+        <fastjson.version>1.2.74</fastjson.version>
+        <OpenViewerFX.version>6.6.14</OpenViewerFX.version>
     </properties>
 
     <repositories>
@@ -47,33 +53,51 @@
         <dependency>
             <groupId>org.xerial</groupId>
             <artifactId>sqlite-jdbc</artifactId>
-            <version>3.21.0.1</version>
+            <version>${sqlite-jdbc.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-reflect</artifactId>
+            <version>${kotlin.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jetbrains.kotlinx</groupId>
+            <artifactId>kotlinx-coroutines-core</artifactId>
+            <version>1.5.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jetbrains.kotlinx</groupId>
+            <artifactId>kotlinx-coroutines-core-jvm</artifactId>
+            <version>1.5.2</version>
         </dependency>
 
         <dependency>
             <groupId>net.mamoe</groupId>
             <artifactId>mirai-core-jvm</artifactId>
-            <version>2.6.1</version>
+            <version>${mirai.version}</version>
         </dependency>
 
         <!-- 阿里JSON解析器 -->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
-            <version>1.2.74</version>
+            <version>${fastjson.version}</version>
         </dependency>
 
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.8.1</version>
+            <version>${commons-lang3.version}</version>
         </dependency>
 
         <!-- PNG Compressor -->
         <dependency>
             <groupId>org.jpedal</groupId>
             <artifactId>OpenViewerFX</artifactId>
-            <version>6.6.14</version>
+            <version>${OpenViewerFX.version}</version>
         </dependency>
     </dependencies>
 
