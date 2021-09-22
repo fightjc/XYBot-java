@@ -43,9 +43,19 @@ public class DBMigrationConfig {
     public List<DBMigrationTable> getDBMigrationTables() {
         List<DBMigrationTable> tables = new ArrayList<>();
 
-        // v1 - add table for group switch module
+        tables.add(migration_v1());
+        tables.add(migration_v2());
+
+        return tables;
+    }
+
+    /**
+     * add tables for group switch module
+     */
+    private DBMigrationTable migration_v1() {
         String remark = "addGroupSwitch";
         List<String> sqlList = new ArrayList<>();
+
         String create_GroupSwitch =
                 "create table GroupSwitch(" +
                         "Id INTEGER PRIMARY KEY autoincrement," +
@@ -53,6 +63,7 @@ public class DBMigrationConfig {
                         "Name varchar(255)," +
                         "IsOn varchar(1));";
         sqlList.add(create_GroupSwitch);
+
         String create_GroupSwitchRecord =
                 "create table GroupSwitchRecord(" +
                         "Id INTEGER PRIMARY KEY autoincrement," +
@@ -62,9 +73,31 @@ public class DBMigrationConfig {
                         "ModifiedUserId integer," +
                         "ModifiedTime varchar(20));";
         sqlList.add(create_GroupSwitchRecord);
-        DBMigrationTable table = new DBMigrationTable(1, remark, sqlList);
-        tables.add(table);
 
-        return tables;
+        return new DBMigrationTable(1, remark, sqlList);
+    }
+
+    /**
+     * add tables for bilibili post
+     */
+    private DBMigrationTable migration_v2() {
+        String remark = "addBiliPost";
+        List<String> sqlList = new ArrayList<>();
+
+        String create_BiliGroupFollow =
+                "create table bili_subscribe(" +
+                        "Id INTEGER PRIMARY KEY autoincrement," +
+                        "GroupId integer," +
+                        "Mid varchar(50));";
+        sqlList.add(create_BiliGroupFollow);
+
+        String create_BiliDynamic =
+                "create table bili_dynamic(" +
+                        "Id INTEGER PRIMARY KEY autoincrement," +
+                        "Mid varchar(50)," +
+                        "Offset varchar(100));";
+        sqlList.add(create_BiliDynamic);
+
+        return new DBMigrationTable(2, remark, sqlList);
     }
 }
