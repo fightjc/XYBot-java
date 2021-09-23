@@ -6,11 +6,11 @@
         select
             *
         from GroupSwitch
-        <where>
-            <if test="_parameter != null">
+        <if test="_parameter != null">
+            <where>
                 GroupId = #{_parameter}
-            </if>
-        </where>
+            </where>
+        </if>
     </select>
 
     <select id="getGroupSwitch" resultType="org.fightjc.xybot.pojo.GroupSwitch">

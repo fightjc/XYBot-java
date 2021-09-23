@@ -11,6 +11,8 @@ public class XYBotScheduleTask {
 
     private static final Logger logger = LoggerFactory.getLogger(XYBotScheduleTask.class);
 
+
+
     /**
      * 每天4时重置抽签记录
      */
@@ -18,5 +20,13 @@ public class XYBotScheduleTask {
     private void resetGacha() {
         logger.info("重置每日抽签记录");
         BotGacha.getInstance().clearRecord();
+    }
+
+    /**
+     * 每隔5分钟查看一次b站订阅
+     */
+    @Scheduled(cron = "0 0/5 * * * ?")
+    private void bilibiliSubscribe() {
+        logger.info("查看b站订阅");
     }
 }

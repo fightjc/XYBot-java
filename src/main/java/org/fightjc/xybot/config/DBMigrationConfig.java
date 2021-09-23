@@ -95,6 +95,7 @@ public class DBMigrationConfig {
                 "create table bili_dynamic(" +
                         "Id INTEGER PRIMARY KEY autoincrement," +
                         "Mid varchar(50)," +
+                        "Name varchar(100)," +
                         "Offset varchar(100));";
         sqlList.add(create_BiliDynamic);
 

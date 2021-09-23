@@ -5,11 +5,22 @@ public class DynamicBean {
 
     private String mid;
 
+    private String name;
+
     private String offset;
 
-    public DynamicBean(String mid, String offset) {
+    public DynamicBean(String mid, String name, String offset) {
         this.mid = mid;
+        this.name = name;
         this.offset = offset;
+    }
+
+    public String getMid() {
+        return mid;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public String getOffset() {

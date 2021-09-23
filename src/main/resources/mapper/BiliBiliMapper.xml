@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fightjc.xybot.dao.BiliBiliDao">
+
+    <select id="getAllGroupSubscribes" resultType="java.util.HashMap">
+        select
+            bili_subscribe.GroupId as 'key', bili_dynamic.* as 'value'
+        from bili_subscribe
+        left join bili_dynamic
+        on
+            bili_subscribe.Mid = bili_dynamic.Mid
+    </select>
+
+    <select id="getGroupSubscribes" parameterType="Long" resultType="org.fightjc.xybot.pojo.bilibili.DynamicBean">
+        select
+            bili_dynamic.*
+        from bili_subscribe
+        left join bili_dynamic
+        on
+            bili_subscribe.Mid = bili_dynamic.Mid
+        where
+            bili_subscribe.GroupId = #{_parameter}
+    </select>
+
+    <select id="getDynamic" parameterType="String" resultType="org.fightjc.xybot.pojo.bilibili.DynamicBean">
+        select
+            *
+        from bili_dynamic
+        where
+            Mid = #{_parameter}
+        limit 1
+    </select>
+
+    <update id="createDynamic" parameterType="org.fightjc.xybot.pojo.bilibili.DynamicBean">
+        insert into bili_dynamic
+            (Mid, Offset)
+        values
+            (#{mid}, #{offset})
+    </update>
+
+    <update id="updateDynamic" parameterType="org.fightjc.xybot.pojo.bilibili.DynamicBean">
+        update GroupSwitch
+        set
+            Offset = #{offset}
+        where
+            Mid = #{mid}
+    </update>
+
+</mapper>
