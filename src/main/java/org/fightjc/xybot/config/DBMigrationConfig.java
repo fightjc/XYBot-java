@@ -84,18 +84,30 @@ public class DBMigrationConfig {
         String remark = "addBiliPost";
         List<String> sqlList = new ArrayList<>();
 
-        String create_BiliGroupFollow =
+        String create_BiliGroupSubscribe =
                 "create table bili_subscribe(" +
                         "Id INTEGER PRIMARY KEY autoincrement," +
                         "GroupId integer," +
-                        "Mid varchar(50));";
-        sqlList.add(create_BiliGroupFollow);
+                        "Mid varchar(50)," +
+                        "IsActive varchar(1));";
+        sqlList.add(create_BiliGroupSubscribe);
+
+        String create_BiliGroupSubscribeRecord =
+            "create table bili_subscribeRecord(" +
+                    "Id INTEGER PRIMARY KEY autoincrement," +
+                    "GroupId integer," +
+                    "Mid varchar(50)," +
+                    "IsActive varchar(1)," +
+                    "ModifiedUserId integer," +
+                    "ModifiedTime varchar(20));";
+        sqlList.add(create_BiliGroupSubscribeRecord);
 
         String create_BiliDynamic =
                 "create table bili_dynamic(" +
                         "Id INTEGER PRIMARY KEY autoincrement," +
                         "Mid varchar(50)," +
                         "Name varchar(100)," +
+                        "Follower integer," +
                         "Offset varchar(100));";
         sqlList.add(create_BiliDynamic);
 

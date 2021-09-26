@@ -6,12 +6,12 @@
         select
             bili_subscribe.GroupId as 'key', bili_dynamic.* as 'value'
         from bili_subscribe
-        left join bili_dynamic
+            left join bili_dynamic
         on
             bili_subscribe.Mid = bili_dynamic.Mid
     </select>
 
-    <select id="getGroupSubscribes" parameterType="Long" resultType="org.fightjc.xybot.pojo.bilibili.DynamicBean">
+    <select id="getGroupSubscribeDetails" parameterType="Long" resultType="org.fightjc.xybot.pojo.bilibili.DynamicBean">
         select
             bili_dynamic.*
         from bili_subscribe
@@ -22,25 +22,63 @@
             bili_subscribe.GroupId = #{_parameter}
     </select>
 
+    <select id="getGroupSubscribe" resultType="org.fightjc.xybot.pojo.bilibili.SubscribeBean">
+        select
+            *
+        from bili_subscribe
+        where
+            GroupId = #{groupId} and Mid = #{mid}
+        order by Mid asc limit 1
+    </select>
+
+    <insert id="createGroupSubscribe" parameterType="org.fightjc.xybot.pojo.bilibili.SubscribeBean">
+        insert into bili_subscribe
+            (GroupId, Mid, IsActive)
+        values
+            (#{groupId}, #{mid}, #{isActive})
+    </insert>
+
+    <update id="updateGroupSubscribe" parameterType="org.fightjc.xybot.pojo.bilibili.SubscribeBean">
+        update bili_subscribe
+        set
+            IsActive = #{isActive}
+        where
+            GroupId = #{groupId} and Mid = #{mid}
+    </update>
+
+    <insert id="createGroupSubscribeRecord" parameterType="org.fightjc.xybot.pojo.bilibili.SubscribeRecordBean">
+        insert into bili_subscribeRecord
+            (GroupId, Mid, IsActive, ModifiedUserId, ModifiedTime)
+        values
+            (#{groupId}, #{mid}, #{isActive}, #{modifiedUserId}, #{modifiedTime})
+    </insert>
+
+    <select id="getAllDynamics" parameterType="String" resultType="org.fightjc.xybot.pojo.bilibili.DynamicBean">
+        select
+            *
+        from bili_dynamic
+    </select>
+
     <select id="getDynamic" parameterType="String" resultType="org.fightjc.xybot.pojo.bilibili.DynamicBean">
         select
             *
         from bili_dynamic
         where
             Mid = #{_parameter}
-        limit 1
+        order by Mid asc limit 1
     </select>
 
-    <update id="createDynamic" parameterType="org.fightjc.xybot.pojo.bilibili.DynamicBean">
+    <insert id="createDynamic" parameterType="org.fightjc.xybot.pojo.bilibili.DynamicBean">
         insert into bili_dynamic
-            (Mid, Offset)
+            (Mid, Follower, Offset)
         values
-            (#{mid}, #{offset})
-    </update>
+            (#{mid}, #{follower}, #{offset})
+    </insert>
 
     <update id="updateDynamic" parameterType="org.fightjc.xybot.pojo.bilibili.DynamicBean">
-        update GroupSwitch
+        update bili_dynamic
         set
+            Follower = #{follower},
             Offset = #{offset}
         where
             Mid = #{mid}

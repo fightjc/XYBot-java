@@ -7,11 +7,14 @@ public class DynamicBean {
 
     private String name;
 
+    private Long follower;
+
     private String offset;
 
-    public DynamicBean(String mid, String name, String offset) {
+    public DynamicBean(String mid, String name, Long follower, String offset) {
         this.mid = mid;
         this.name = name;
+        this.follower = follower;
         this.offset = offset;
     }
 
@@ -21,6 +24,10 @@ public class DynamicBean {
 
     public String getName() {
         return name;
+    }
+
+    public Long getFollower() {
+        return follower;
     }
 
     public String getOffset() {
