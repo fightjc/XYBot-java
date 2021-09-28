@@ -51,6 +51,8 @@ public interface BiliBiliDao {
      */
     void createGroupSubscribeRecord(SubscribeRecordBean subscribeRecordBean);
 
+    List<DynamicBean> getAllDynamics();
+
     /**
      * 最近一次获取b站Up动态位置
      * @return

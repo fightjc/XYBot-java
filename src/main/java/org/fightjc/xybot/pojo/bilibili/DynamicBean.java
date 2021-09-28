@@ -33,4 +33,8 @@ public class DynamicBean {
     public String getOffset() {
         return offset;
     }
+
+    public void changeSubscribe(boolean isFollow) {
+        follower += isFollow ? 1 : -1;
+    }
 }

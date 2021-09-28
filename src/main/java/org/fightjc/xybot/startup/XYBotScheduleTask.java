@@ -1,8 +1,10 @@
 package org.fightjc.xybot.startup;
 
+import org.fightjc.xybot.service.BiliBiliService;
 import org.fightjc.xybot.util.BotGacha;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -11,7 +13,8 @@ public class XYBotScheduleTask {
 
     private static final Logger logger = LoggerFactory.getLogger(XYBotScheduleTask.class);
 
-
+    @Autowired
+    protected BiliBiliService biliBiliService;
 
     /**
      * 每天4时重置抽签记录
@@ -26,7 +29,8 @@ public class XYBotScheduleTask {
      * 每隔5分钟查看一次b站订阅
      */
     @Scheduled(cron = "0 0/5 * * * ?")
-    private void bilibiliSubscribe() {
+    private void biliBiliSubscribe() {
         logger.info("查看b站订阅");
+        biliBiliService.checkNeedGroupNotify();
     }
 }
