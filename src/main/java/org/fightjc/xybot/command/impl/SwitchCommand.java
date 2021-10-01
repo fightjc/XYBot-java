@@ -31,8 +31,10 @@ public class SwitchCommand extends AdminGroupCommand {
 
     @Override
     protected Message executeHandle(Member sender, ArrayList<String> args, MessageChain messageChain, Group subject) throws Exception {
+        String usage = "使用方式：开关 [列表] [开启/关闭 组件名]";
+
         if (args.size() <= 0 || 2 < args.size()) {
-            return new PlainText("使用方式：开关 [列表] [开启/关闭 组件名]");
+            return new PlainText(usage);
         }
 
         String opt = args.get(0);
@@ -76,7 +78,7 @@ public class SwitchCommand extends AdminGroupCommand {
                 String info = "[" + componentName + "] " + (opt.equals("开启") ? "已开启" : "已关闭");
                 return new PlainText(info);
             default:
-                return new PlainText("使用方式：开关 [列表] [开启/关闭 组件名]");
+                return new PlainText(usage);
         }
     }
 }

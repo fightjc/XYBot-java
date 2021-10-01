@@ -2,15 +2,21 @@ package org.fightjc.xybot.bot;
 
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.BotFactory;
-import net.mamoe.mirai.event.GlobalEventChannel;
+import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.event.ListenerHost;
+import net.mamoe.mirai.message.data.Message;
 import net.mamoe.mirai.utils.BotConfiguration;
+import net.mamoe.mirai.utils.ExternalResource;
 import org.fightjc.xybot.util.XYBotLogger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.List;
 
 public class XYBot {
+
+    private static final Logger logger = LoggerFactory.getLogger(XYBot.class);
 
     private static Bot miraiBot;
 
@@ -39,6 +45,18 @@ public class XYBot {
             // 给当前登陆的bot注册事件
             miraiBot.getEventChannel().registerListenerHost(event);
 //            GlobalEventChannel.INSTANCE.registerListenerHost(event);
+        }
+    }
+
+    public static void sendGroupMessage(Long groupId, Message prevMsg, List<ExternalResource> imageList, Message postMsg) {
+        Group group = miraiBot.getGroup(groupId);
+        if (group != null) {
+            for (ExternalResource image : imageList) {
+                prevMsg.plus(group.uploadImage(image));
+            }
+            group.sendMessage(prevMsg.plus(postMsg));
+        } else {
+            logger.info("发送群消息失败：bot未加入群 " + groupId);
         }
     }
 }

@@ -2,6 +2,9 @@ package org.fightjc.xybot.pojo;
 
 import org.fightjc.xybot.util.MessageUtil;
 
+/**
+ * 映射表 GroupSwitchRecord
+ */
 public class GroupSwitchRecord {
     Integer id;
 

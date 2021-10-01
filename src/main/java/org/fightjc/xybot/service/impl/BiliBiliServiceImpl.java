@@ -1,17 +1,18 @@
 package org.fightjc.xybot.service.impl;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import net.mamoe.mirai.message.data.Message;
+import net.mamoe.mirai.message.data.PlainText;
+import net.mamoe.mirai.utils.ExternalResource;
 import org.fightjc.xybot.bot.XYBot;
 import org.fightjc.xybot.dao.BiliBiliDao;
 import org.fightjc.xybot.po.HttpClientResult;
 import org.fightjc.xybot.pojo.ResultOutput;
-import org.fightjc.xybot.pojo.bilibili.DynamicBean;
-import org.fightjc.xybot.pojo.bilibili.SubscribeBean;
-import org.fightjc.xybot.pojo.bilibili.SubscribeRecordBean;
+import org.fightjc.xybot.pojo.bilibili.*;
 import org.fightjc.xybot.service.BiliBiliService;
 import org.fightjc.xybot.util.HttpClientUtil;
-import org.jetbrains.annotations.NotNull;
-import org.jpedal.parser.shape.D;
+import org.fightjc.xybot.util.ImageUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,11 @@ public class BiliBiliServiceImpl implements BiliBiliService {
     //region 数据库操作
 
     public List<DynamicBean> getGroupSubscribes(Long groupId) {
-        return biliBiliDao.getGroupSubscribeDetails(groupId);
+        List<DynamicBean> dynamicBeanList = biliBiliDao.getGroupSubscribeDetails(groupId);
+        // 防止队列中有空结果
+        dynamicBeanList.removeIf(Objects::isNull);
+
+        return dynamicBeanList;
     }
 
     public SubscribeBean getGroupSubscribe(Long groupId, String mid) {
@@ -61,24 +66,30 @@ public class BiliBiliServiceImpl implements BiliBiliService {
         biliBiliDao.createGroupSubscribeRecord(subscribeRecordBean);
     }
 
-    public void createOrUpdateDynamic(String mid, String name, boolean isFollow) {
+    public void createOrUpdateDynamic(String mid, String name, boolean isFollow, String offset) {
         DynamicBean dynamicBean = biliBiliDao.getDynamic(mid);
         if (dynamicBean == null) {
-            createDynamic(mid, name, isFollow);
+            createDynamic(mid, name, isFollow, offset);
         } else {
-            updateDynamic(mid, name, isFollow);
+            updateDynamic(mid, name, isFollow, offset);
         }
     }
 
-    private void createDynamic(String mid, String name, boolean isFollow) {
+    private void createDynamic(String mid, String name, boolean isFollow, String offset) {
         // 新建记录，默认是关注
-        DynamicBean dynamicBean = new DynamicBean(mid, name, 1L, "");
+        DynamicBean dynamicBean = new DynamicBean(mid, name, 1L, offset);
         biliBiliDao.createDynamic(dynamicBean);
     }
 
-    private void updateDynamic(String mid, String name, boolean isFollow) {
+    private void updateDynamic(String mid, String name, boolean isFollow, String offset) {
         DynamicBean dynamicBean = biliBiliDao.getDynamic(mid);
         dynamicBean.changeSubscribe(isFollow);
+        biliBiliDao.updateDynamic(dynamicBean);
+    }
+
+    public void updateDynamicOffset(String mid, String offset) {
+        DynamicBean dynamicBean = biliBiliDao.getDynamic(mid);
+        dynamicBean.refreshOffset(offset);
         biliBiliDao.updateDynamic(dynamicBean);
     }
 
@@ -87,27 +98,79 @@ public class BiliBiliServiceImpl implements BiliBiliService {
     //region 网络操作
 
     /**
-     * 获取b站up主信息
-     * @param mid
+     * 用关键字搜索b站用户
+     * @param keyword
+     * @return
      */
-    public ResultOutput<DynamicBean> getUpInfo(String mid) {
-        String url = "https://api.bilibili.com/x/space/acc/info";
+    public ResultOutput<String> searchUser(String keyword) {
+        String url = "https://api.bilibili.com/x/web-interface/search/type";
 
         Map<String, String> params = new HashMap<String, String>() {{
-            put("mid", mid);
+            put("jsonp", "jsonp");
+            put("search_type", "bili_user");
+            put("keyword", keyword);
+            //put("page", 1);
         }};
 
         HttpClientResult httpClientResult;
         try {
             httpClientResult = HttpClientUtil.doGet(url, null, params);
-            JSONObject result = JSONObject.parseObject(httpClientResult.content);
-            int code = result.getIntValue("code");
+            JSONObject content = JSONObject.parseObject(httpClientResult.content);
+            int code = content.getIntValue("code");
             if (code == 0) {
-                JSONObject data = result.getJSONObject("data");
-                String name = data.getString("name");
-                return new ResultOutput<>(true, "查询成功", new DynamicBean(mid, name, 0L, null));
+                JSONObject data = content.getJSONObject("data");
+                JSONArray result = data.getJSONArray("result");
+                StringBuilder builder = new StringBuilder();
+                for (int i = 0; i < result.size() && i < 10; i++) { // 控制一次最多只显示10条数据
+                    if (i > 0) {
+                        builder.append("\n\n");
+                    }
+                    JSONObject userInfo = result.getJSONObject(i);
+                    String mid = userInfo.getString("mid");
+                    String uname = userInfo.getString("uname");
+                    String fans = userInfo.getString("fans");
+                    String usign = userInfo.getString("usign").trim();
+                    builder.append(uname).append(" (").append(mid)
+                            .append(")\n粉丝：").append(fans)
+                            .append("\n个性签名：").append(usign);
+                }
+                return new ResultOutput<>(true, "查询成功", builder.toString());
             } else {
-                return new ResultOutput<>(false, result.getString("message"));
+                return new ResultOutput<>(false, content.getString("message"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultOutput<>(false, "请求网络失败");
+        }
+    }
+
+    /**
+     * 获取b站up主信息
+     * @param key
+     */
+    public ResultOutput<UserInfoDto> getUpInfo(String key) {
+        String url = "https://api.bilibili.com/x/space/acc/info";
+
+        Map<String, String> params = new HashMap<String, String>() {{
+            put("mid", key);
+        }};
+
+        HttpClientResult httpClientResult;
+        try {
+            httpClientResult = HttpClientUtil.doGet(url, null, params);
+            JSONObject content = JSONObject.parseObject(httpClientResult.content);
+            int code = content.getIntValue("code");
+            if (code == 0) {
+                JSONObject data = content.getJSONObject("data");
+                String mid = data.getString("mid");
+                String name = data.getString("name");
+                String sex = data.getString("sex");
+                String sign = data.getString("sign");
+                String face = data.getString("face");
+                UserInfoDto dto = new UserInfoDto(mid, name, sex, face, sign);
+                return new ResultOutput<>(true, "查询成功", dto);
+            } else {
+                return new ResultOutput<>(false, content.getString("message"));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -121,7 +184,7 @@ public class BiliBiliServiceImpl implements BiliBiliService {
      * @param offset
      * @return
      */
-    public List<String> getLatestDynamic(String mid, String offset) {
+    public ResultOutput<List<DynamicDto>> getLatestDynamic(String mid, String offset) {
         String url = "https://api.vc.bilibili.com/dynamic_svr/v1/dynamic_svr/space_history";
 
         Map<String, String> params = new HashMap<String, String>() {{
@@ -131,14 +194,64 @@ public class BiliBiliServiceImpl implements BiliBiliService {
             put("platform", "web");
         }};
 
-        HttpClientResult result;
+        List<DynamicDto> dynamicDtoList = new ArrayList<>();
+        HttpClientResult httpClientResult;
         try {
-            result = HttpClientUtil.doGet(url, null, params);
+            httpClientResult = HttpClientUtil.doGet(url, null, params);
+            JSONObject content = JSONObject.parseObject(httpClientResult.content);
+            int code = content.getIntValue("code");
+            if (code == 0) {
+                JSONObject data = content.getJSONObject("data");
+                JSONArray cards = data.getJSONArray("cards");
+                String latestDynamicId = "";
+                for (int i = 0; i < cards.size() && i < 3; i++) { // 控制一次最多只显示3条动态
+                    JSONObject card = cards.getJSONObject(i);
+                    JSONObject desc = card.getJSONObject("desc");
+                    String dynamicId = desc.getString("dynamic_id");
+
+                    if (i == 0) {
+                        latestDynamicId = dynamicId;
+                    }
+
+                    if (dynamicId.equals(offset)) {
+                        // 没有更新
+                        break;
+                    }
+
+                    int type = desc.getIntValue("type");
+                    // 1: 转发 2: 新闻 8: 视频
+                    if (type == 2) {
+                        JSONObject cardInfo = JSONObject.parseObject(card.getString("card"));
+                        JSONObject item = cardInfo.getJSONObject("item");
+                        String description = item.getString("description");
+                        JSONArray pictures = item.getJSONArray("pictures");
+                        List<ExternalResource> imageList = new ArrayList<>();
+                        for (int j = 0; j < pictures.size(); j++) {
+                            JSONObject picture = pictures.getJSONObject(j);
+                            String src = picture.getString("img_src");
+                            imageList.add(ImageUtil.getImageFromUri(src));
+                        }
+                        dynamicDtoList.add(new DynamicDto(dynamicId, type, description, imageList));
+                    } else if (type == 8) {
+                        JSONObject cardInfo = JSONObject.parseObject(card.getString("card"));
+                        String description = cardInfo.getString("desc");
+                        List<ExternalResource> imageList = new ArrayList<>();
+                        imageList.add(ImageUtil.getImageFromUri(cardInfo.getString("pic")));
+                        dynamicDtoList.add(new DynamicDto(dynamicId, type, description, imageList));
+                    }
+                }
+
+                // 记录最新动态
+                updateDynamicOffset(mid, latestDynamicId);
+
+                return new ResultOutput<>(true, "获取动态成功", dynamicDtoList);
+            } else {
+                return new ResultOutput<>(false, content.getString("message"));
+            }
         } catch (Exception e) {
             e.printStackTrace();
+            return new ResultOutput<>(false, "请求网络失败");
         }
-
-        return new ArrayList<String>();
     }
 
     //endregion
@@ -147,23 +260,31 @@ public class BiliBiliServiceImpl implements BiliBiliService {
      * 更新所有up动态并推送
      */
     public void checkNeedGroupNotify() {
-        Map<String, List<String>> latestDynamics = new HashMap<>();
+//        getLatestDynamic("401742377", null);
+        Map<String, List<DynamicDto>> latestDynamics = new HashMap<>();
 
         // 获取所有最新动态
         List<DynamicBean> dynamicList = biliBiliDao.getAllDynamics();
         for (DynamicBean dynamic : dynamicList) {
-            List<String> latest = getLatestDynamic(dynamic.getMid(), dynamic.getOffset());
-            latestDynamics.put(dynamic.getMid(), latest);
+            // TODO: 没有群订阅不访问网络减少请求
+//            if (dynamic.getFollower() == 0) {
+//                continue;
+//            }
+            ResultOutput<List<DynamicDto>> latest = getLatestDynamic(dynamic.getMid(), dynamic.getOffset());
+            if (latest.getSuccess()) {
+                latestDynamics.put(dynamic.getMid(), latest.getObject());
+            }
         }
 
-        // TODO: 群推送
+        // 群推送
         Map<Long, List<DynamicBean>> groupSubscribes = biliBiliDao.getAllGroupSubscribes();
         for (Long groupId : groupSubscribes.keySet()) {
             List<DynamicBean> dynamicBeans = groupSubscribes.get(groupId);
             for (DynamicBean dynamicBean : dynamicBeans) {
-                List<String> messages = latestDynamics.get(dynamicBean.getMid());
-                for (String message : messages) {
-//                    XYBot.getBot().getGroup(groupId).sendMessage(message);
+                List<DynamicDto> dynamics = latestDynamics.get(dynamicBean.getMid());
+                for (DynamicDto dynamic : dynamics) {
+                    XYBot.sendGroupMessage(groupId,
+                            new PlainText(dynamic.getDescription()), dynamic.getImageList(), null);
                 }
             }
         }

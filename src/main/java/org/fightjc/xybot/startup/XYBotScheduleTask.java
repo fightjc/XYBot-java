@@ -31,6 +31,6 @@ public class XYBotScheduleTask {
     @Scheduled(cron = "0 0/5 * * * ?")
     private void biliBiliSubscribe() {
         logger.info("查看b站订阅");
-        biliBiliService.checkNeedGroupNotify();
+        //biliBiliService.checkNeedGroupNotify();
     }
 }

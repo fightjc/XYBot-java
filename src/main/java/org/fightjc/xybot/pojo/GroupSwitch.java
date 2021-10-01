@@ -1,5 +1,8 @@
 package org.fightjc.xybot.pojo;
 
+/**
+ * 映射表 GroupSwitch
+ */
 public class GroupSwitch {
     private Integer id;
 

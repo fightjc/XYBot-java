@@ -93,7 +93,7 @@ public class HttpClientUtil {
     private static HttpClientResult getHttpClientResult(CloseableHttpClient httpClient, HttpRequestBase httpMethod) throws IOException {
         HttpClientResult result;
 
-        logger.info("网络请求post: " + httpMethod.getURI());
+        logger.info("网络请求" + httpMethod.getMethod() + ": " + httpMethod.getURI());
 
         CloseableHttpResponse httpResponse = httpClient.execute(httpMethod);
         if (httpResponse != null && httpResponse.getStatusLine() != null) {

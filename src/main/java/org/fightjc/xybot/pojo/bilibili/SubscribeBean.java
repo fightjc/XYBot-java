@@ -1,5 +1,8 @@
 package org.fightjc.xybot.pojo.bilibili;
 
+/**
+ * 映射表 bili_subscribe
+ */
 public class SubscribeBean {
     private Integer id;
 

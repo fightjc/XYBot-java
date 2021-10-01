@@ -19,7 +19,7 @@
         on
             bili_subscribe.Mid = bili_dynamic.Mid
         where
-            bili_subscribe.GroupId = #{_parameter}
+            bili_subscribe.GroupId = #{_parameter} and bili_subscribe.IsActive = 1
     </select>
 
     <select id="getGroupSubscribe" resultType="org.fightjc.xybot.pojo.bilibili.SubscribeBean">
@@ -70,9 +70,9 @@
 
     <insert id="createDynamic" parameterType="org.fightjc.xybot.pojo.bilibili.DynamicBean">
         insert into bili_dynamic
-            (Mid, Follower, Offset)
+            (Mid, Name, Follower, Offset)
         values
-            (#{mid}, #{follower}, #{offset})
+            (#{mid}, #{name},  #{follower}, #{offset})
     </insert>
 
     <update id="updateDynamic" parameterType="org.fightjc.xybot.pojo.bilibili.DynamicBean">

@@ -9,6 +9,7 @@ import org.fightjc.xybot.events.CommandEvents;
 import org.fightjc.xybot.pojo.GroupSwitch;
 import org.fightjc.xybot.service.GroupSwitchService;
 import org.fightjc.xybot.util.BotSwitch;
+import org.fightjc.xybot.util.ImageUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

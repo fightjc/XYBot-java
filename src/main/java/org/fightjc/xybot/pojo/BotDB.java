@@ -1,5 +1,8 @@
 package org.fightjc.xybot.pojo;
 
+/**
+ * 映射表 __migrationhistory
+ */
 public class BotDB {
     Integer id;
 

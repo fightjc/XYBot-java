@@ -1,5 +1,8 @@
 package org.fightjc.xybot.pojo.bilibili;
 
+/**
+ * 映射表 bili_dynamic
+ */
 public class DynamicBean {
     private Integer id;
 
@@ -36,5 +39,9 @@ public class DynamicBean {
 
     public void changeSubscribe(boolean isFollow) {
         follower += isFollow ? 1 : -1;
+    }
+
+    public void refreshOffset(String offset) {
+        this.offset = offset;
     }
 }

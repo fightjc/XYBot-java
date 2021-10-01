@@ -3,16 +3,24 @@ package org.fightjc.xybot.service;
 import org.fightjc.xybot.pojo.ResultOutput;
 import org.fightjc.xybot.pojo.bilibili.DynamicBean;
 import org.fightjc.xybot.pojo.bilibili.SubscribeBean;
+import org.fightjc.xybot.pojo.bilibili.UserInfoDto;
 
 import java.util.List;
 
 public interface BiliBiliService {
 
     /**
+     * 用关键字搜索b站用户
+     * @param keyword
+     * @return
+     */
+    ResultOutput<String> searchUser(String keyword);
+
+    /**
      * 获取b站up主信息
      * @param mid
      */
-    ResultOutput<DynamicBean> getUpInfo(String mid);
+    ResultOutput<UserInfoDto> getUpInfo(String mid);
 
     /**
      * 获取指定群b站订阅列表
@@ -34,7 +42,7 @@ public interface BiliBiliService {
      * @param mid
      * @param isFollow
      */
-    void createOrUpdateDynamic(String mid, String name, boolean isFollow);
+    void createOrUpdateDynamic(String mid, String name, boolean isFollow, String offset);
 
     /**
      * 新增或修改一条群订阅

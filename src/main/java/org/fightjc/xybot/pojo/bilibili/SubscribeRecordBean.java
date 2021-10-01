@@ -2,6 +2,9 @@ package org.fightjc.xybot.pojo.bilibili;
 
 import org.fightjc.xybot.util.MessageUtil;
 
+/**
+ * 映射表 bili_subscribeRecord
+ */
 public class SubscribeRecordBean {
     private Integer id;
 
