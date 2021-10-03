@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collector;
@@ -301,9 +302,21 @@ public class BiliBiliServiceImpl implements BiliBiliService {
                 List<DynamicDto> dynamicDtos = latestDynamics.get(mid);
                 for (DynamicDto dto : dynamicDtos) {
                     Group group = XYBot.getBot().getGroup(groupId);
-                    group.sendMessage(
-                            new PlainText(dto.getDescription())
-                                    .plus(group.uploadImage(dto.getImageList().get(0))));
+                    if (group != null) {
+                        //TODO: 暂时只发一张图
+                        group.sendMessage(
+                                new PlainText(dto.getDescription())
+                                        .plus(group.uploadImage(dto.getImageList().get(0))));
+                    }
+                    // 关闭所有资源
+                    try {
+                        List<ExternalResource> imageList = dto.getImageList();
+                        for (ExternalResource image : imageList) {
+                            image.close();
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }
