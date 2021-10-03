@@ -2,7 +2,7 @@ package org.fightjc.xybot.service.impl;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import net.mamoe.mirai.message.data.Message;
+import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.message.data.PlainText;
 import net.mamoe.mirai.utils.ExternalResource;
 import org.fightjc.xybot.bot.XYBot;
@@ -19,6 +19,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @Service
 public class BiliBiliServiceImpl implements BiliBiliService {
@@ -189,7 +192,7 @@ public class BiliBiliServiceImpl implements BiliBiliService {
 
         Map<String, String> params = new HashMap<String, String>() {{
             put("host_uid", mid);
-            put("offset_dynamic_id", offset);
+//            put("offset_dynamic_id", offset);
             put("need_top", "0");
             put("platform", "web");
         }};
@@ -203,14 +206,23 @@ public class BiliBiliServiceImpl implements BiliBiliService {
             if (code == 0) {
                 JSONObject data = content.getJSONObject("data");
                 JSONArray cards = data.getJSONArray("cards");
+
                 String latestDynamicId = "";
+                long now = new Date().getTime();
                 for (int i = 0; i < cards.size() && i < 3; i++) { // 控制一次最多只显示3条动态
                     JSONObject card = cards.getJSONObject(i);
                     JSONObject desc = card.getJSONObject("desc");
                     String dynamicId = desc.getString("dynamic_id");
 
                     if (i == 0) {
+                        // 记录最新一条动态Id
                         latestDynamicId = dynamicId;
+                    }
+
+                    long timestamp = desc.getLong("timestamp") * 1000;
+                    if (now - timestamp > 5 * 60 * 1000) {
+                        // 大于5分钟的不推送
+                        break;
                     }
 
                     if (dynamicId.equals(offset)) {
@@ -260,31 +272,38 @@ public class BiliBiliServiceImpl implements BiliBiliService {
      * 更新所有up动态并推送
      */
     public void checkNeedGroupNotify() {
-//        getLatestDynamic("401742377", null);
         Map<String, List<DynamicDto>> latestDynamics = new HashMap<>();
 
         // 获取所有最新动态
         List<DynamicBean> dynamicList = biliBiliDao.getAllDynamics();
         for (DynamicBean dynamic : dynamicList) {
-            // TODO: 没有群订阅不访问网络减少请求
-//            if (dynamic.getFollower() == 0) {
-//                continue;
-//            }
-            ResultOutput<List<DynamicDto>> latest = getLatestDynamic(dynamic.getMid(), dynamic.getOffset());
+            // 没有群订阅不访问网络减少请求
+            if (dynamic.getFollower() == 0) {
+                continue;
+            }
+            ResultOutput<List<DynamicDto>> latest = getLatestDynamic(dynamic.getMid(), ""/*dynamic.getOffset()*/);
             if (latest.getSuccess()) {
                 latestDynamics.put(dynamic.getMid(), latest.getObject());
             }
         }
 
         // 群推送
-        Map<Long, List<DynamicBean>> groupSubscribes = biliBiliDao.getAllGroupSubscribes();
-        for (Long groupId : groupSubscribes.keySet()) {
-            List<DynamicBean> dynamicBeans = groupSubscribes.get(groupId);
-            for (DynamicBean dynamicBean : dynamicBeans) {
-                List<DynamicDto> dynamics = latestDynamics.get(dynamicBean.getMid());
-                for (DynamicDto dynamic : dynamics) {
-                    XYBot.sendGroupMessage(groupId,
-                            new PlainText(dynamic.getDescription()), dynamic.getImageList(), null);
+        List<SubscribeBean> groupSubscribes = biliBiliDao.getAllGroupSubscribes();
+        // 对群分组
+        Map<Long, List<String>> result = groupSubscribes.stream().collect(
+                Collectors.groupingBy(
+                        SubscribeBean::getGroupId, Collectors.mapping(SubscribeBean::getMid, Collectors.toList())
+                )
+        );
+        for (Long groupId : result.keySet()) {
+            List<String> mids = result.get(groupId);
+            for (String mid : mids) {
+                List<DynamicDto> dynamicDtos = latestDynamics.get(mid);
+                for (DynamicDto dto : dynamicDtos) {
+                    Group group = XYBot.getBot().getGroup(groupId);
+                    group.sendMessage(
+                            new PlainText(dto.getDescription())
+                                    .plus(group.uploadImage(dto.getImageList().get(0))));
                 }
             }
         }

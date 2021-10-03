@@ -53,9 +53,6 @@ public class BiliBiliCommand extends AdminGroupCommand {
                 }
 
                 return new PlainText("当前已订阅：" + dynamicBeanList.size() + " 个\n" + message.toString());
-            case "test":
-                biliBiliService.checkNeedGroupNotify();
-                return null;
             case "查询":
                 String keyword = args.get(1);
                 ResultOutput<String> searchUserResult = biliBiliService.searchUser(keyword);

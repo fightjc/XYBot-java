@@ -13,17 +13,17 @@ import java.util.Map;
 public interface BiliBiliDao {
 
     /**
-     * 获取所有群订阅列表
-     * @return
-     */
-    Map<Long, List<DynamicBean>> getAllGroupSubscribes();
-
-    /**
      * 获取指定群的所有订阅记录
      * @param groupId
      * @return
      */
     List<DynamicBean> getGroupSubscribeDetails(Long groupId);
+
+    /**
+     * 获取所有群订阅列表
+     * @return
+     */
+    List<SubscribeBean> getAllGroupSubscribes();
 
     /**
      * 获取指定群指定的订阅记录
