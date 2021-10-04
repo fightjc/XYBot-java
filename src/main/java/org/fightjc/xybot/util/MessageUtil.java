@@ -32,7 +32,16 @@ public class MessageUtil {
      * @return
      */
     public static String getCurrentDateTime() {
-        return dateTimeFormat.format(new Date());
+        return getDateTime(new Date());
+    }
+
+    /**
+     * 获取时间戳 yyyy-MM-dd HH:mm:ss
+     * @param date
+     * @return
+     */
+    public static String getDateTime(Date date) {
+        return dateTimeFormat.format(date);
     }
 
     /**

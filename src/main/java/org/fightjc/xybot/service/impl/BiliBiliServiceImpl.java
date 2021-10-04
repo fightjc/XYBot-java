@@ -13,12 +13,14 @@ import org.fightjc.xybot.pojo.bilibili.*;
 import org.fightjc.xybot.service.BiliBiliService;
 import org.fightjc.xybot.util.HttpClientUtil;
 import org.fightjc.xybot.util.ImageUtil;
+import org.fightjc.xybot.util.MessageUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collector;
@@ -213,11 +215,16 @@ public class BiliBiliServiceImpl implements BiliBiliService {
                 for (int i = 0; i < cards.size() && i < 3; i++) { // 控制一次最多只显示3条动态
                     JSONObject card = cards.getJSONObject(i);
                     JSONObject desc = card.getJSONObject("desc");
-                    String dynamicId = desc.getString("dynamic_id");
 
+                    String dynamicId = desc.getString("dynamic_id");
                     if (i == 0) {
                         // 记录最新一条动态Id
                         latestDynamicId = dynamicId;
+                    }
+
+                    if (dynamicId.equals(offset)) {
+                        // 没有更新
+                        break;
                     }
 
                     long timestamp = desc.getLong("timestamp") * 1000;
@@ -226,10 +233,12 @@ public class BiliBiliServiceImpl implements BiliBiliService {
                         break;
                     }
 
-                    if (dynamicId.equals(offset)) {
-                        // 没有更新
-                        break;
-                    }
+                    // 获取其他信息
+                    JSONObject userProfile = desc.getJSONObject("user_profile");
+                    JSONObject info = userProfile.getJSONObject("info");
+                    String uid = info.getString("uid");
+                    String uname = info.getString("uname");
+                    String date = MessageUtil.getDateTime(new Timestamp(timestamp));
 
                     int type = desc.getIntValue("type");
                     // 1: 转发 2: 新闻 8: 视频
@@ -244,13 +253,13 @@ public class BiliBiliServiceImpl implements BiliBiliService {
                             String src = picture.getString("img_src");
                             imageList.add(ImageUtil.getImageFromUri(src));
                         }
-                        dynamicDtoList.add(new DynamicDto(dynamicId, type, description, imageList));
+                        dynamicDtoList.add(new DynamicDto(uid, uname, date, dynamicId, type, description, imageList));
                     } else if (type == 8) {
                         JSONObject cardInfo = JSONObject.parseObject(card.getString("card"));
                         String description = cardInfo.getString("desc");
                         List<ExternalResource> imageList = new ArrayList<>();
                         imageList.add(ImageUtil.getImageFromUri(cardInfo.getString("pic")));
-                        dynamicDtoList.add(new DynamicDto(dynamicId, type, description, imageList));
+                        dynamicDtoList.add(new DynamicDto(uid, uname, date, dynamicId, type, description, imageList));
                     }
                 }
 
@@ -303,9 +312,14 @@ public class BiliBiliServiceImpl implements BiliBiliService {
                 for (DynamicDto dto : dynamicDtos) {
                     Group group = XYBot.getBot().getGroup(groupId);
                     if (group != null) {
+                        String msg = dto.getUname() + " (" + dto.getUid() + ") 于 " +
+                                dto.getDateString() + " 发布了" + getTypeName(dto.getType()) + "\n" +
+                                "详情点击: http://t.bilibili.com/" + dto.getDynamicId() + "\n\n";
+
                         //TODO: 暂时只发一张图
                         group.sendMessage(
-                                new PlainText(dto.getDescription())
+                                new PlainText(msg)
+                                        .plus(new PlainText(dto.getDescription()))
                                         .plus(group.uploadImage(dto.getImageList().get(0))));
                     }
                     // 关闭所有资源
@@ -319,6 +333,24 @@ public class BiliBiliServiceImpl implements BiliBiliService {
                     }
                 }
             }
+        }
+    }
+
+    /**
+     * bilibili动态类型名称
+     * @param type
+     * @return
+     */
+    private String getTypeName(int type) {
+        switch (type) {
+            case 1:
+                return "转发";
+            case 2:
+                return "动态";
+            case 8:
+                return "视频";
+            default:
+                return "未知类型";
         }
     }
 }
