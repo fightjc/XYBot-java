@@ -1,5 +1,6 @@
 {
 	"namemap": {
+		"akuoumaru.json": "恶王丸",
 		"alleyhunter.json": "暗巷猎手",
 		"amberbead.json": "琥珀玥",
 		"amenomakageuchi.json": "天目影打刀",
@@ -63,6 +64,7 @@
 		"oldmercspal.json": "佣兵重剑",
 		"otherworldlystory.json": "异世界行记",
 		"pocketgrimoire.json": "口袋魔导书",
+		"polarstar.json": "冬极白星",
 		"predator.json": "掠食者",
 		"primordialjadecutter.json": "磐岩结绿",
 		"primordialjadewingedspear.json": "和璞鸢",
@@ -127,6 +129,7 @@
 		"wolfsgravestone.json": "狼的末路"
 	},
 	"names": {
+		"恶王丸": "akuoumaru.json",
 		"暗巷猎手": "alleyhunter.json",
 		"琥珀玥": "amberbead.json",
 		"天目影打刀": "amenomakageuchi.json",
@@ -190,6 +193,7 @@
 		"佣兵重剑": "oldmercspal.json",
 		"异世界行记": "otherworldlystory.json",
 		"口袋魔导书": "pocketgrimoire.json",
+		"冬极白星": "polarstar.json",
 		"掠食者": "predator.json",
 		"磐岩结绿": "primordialjadecutter.json",
 		"和璞鸢": "primordialjadewingedspear.json",
@@ -300,6 +304,7 @@
 			"whitetassel.json"
 		],
 		"4": [
+			"akuoumaru.json",
 			"alleyhunter.json",
 			"amenomakageuchi.json",
 			"blackcliffagate.json",
@@ -375,6 +380,7 @@
 			"lostprayertothesacredwinds.json",
 			"memoryofdust.json",
 			"mistsplitterreforged.json",
+			"polarstar.json",
 			"primordialjadecutter.json",
 			"primordialjadewingedspear.json",
 			"skywardatlas.json",
@@ -402,6 +408,7 @@
 			"huntersbow.json",
 			"messenger.json",
 			"mitternachtswaltz.json",
+			"polarstar.json",
 			"predator.json",
 			"prototypecrescent.json",
 			"ravenbow.json",
@@ -419,6 +426,7 @@
 			"windblumeode.json"
 		],
 		"攻击力": [
+			"akuoumaru.json",
 			"alleyhunter.json",
 			"amenomakageuchi.json",
 			"amosbow.json",
@@ -578,6 +586,7 @@
 			"thunderingpulse.json"
 		],
 		"双手剑": [
+			"akuoumaru.json",
 			"blackcliffslasher.json",
 			"bloodtaintedgreatsword.json",
 			"debateclub.json",
@@ -616,6 +625,7 @@
 		"暴击率": [
 			"deathmatch.json",
 			"lostprayertothesacredwinds.json",
+			"polarstar.json",
 			"primordialjadecutter.json",
 			"primordialjadewingedspear.json",
 			"serpentspine.json",
