@@ -1,6 +1,5 @@
 package org.fightjc.xybot.util;
 
-import com.alibaba.fastjson.JSONObject;
 import net.mamoe.mirai.utils.ExternalResource;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -8,9 +7,10 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-import org.fightjc.xybot.po.HttpClientResult;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -32,11 +32,11 @@ public class ImageUtil {
     }
 
     /**
-     * 获取网络图片并转为 mirai 可识别图片资源
+     * 获取网络图片
      * @param uri
      * @return
      */
-    public static ExternalResource getImageFromUri(String uri) {
+    public static BufferedImage getImageFromUri(String uri) {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         HttpGet httpGet = new HttpGet(uri);
         try {
@@ -52,7 +52,8 @@ public class ImageUtil {
                 outStream.write(buffer, 0, len);
             }
             byte[] data = outStream.toByteArray();
-            ExternalResource image = ExternalResource.create(new ByteArrayInputStream(data));
+            ByteArrayInputStream in = new ByteArrayInputStream(data);
+            BufferedImage image = ImageIO.read(in);
 
             EntityUtils.consume(entity);
             outStream.close();
@@ -72,5 +73,31 @@ public class ImageUtil {
         }
 
         return null;
+    }
+
+    /**
+     * 缩放图片
+     * @param image 原图
+     * @param newWidth 生成宽度
+     * @param newHeight 生成高度
+     * @return 缩放后图片对象
+     */
+    public static BufferedImage getScaledImage(BufferedImage image, int newWidth, int newHeight) {
+        int width = image.getWidth();
+        int height = image.getHeight();
+
+        if (width == newWidth && height == newHeight) return image;  // 不需要缩放图片，减少操作
+
+        // 计算缩放比例
+        double xScale = (double) newWidth / width;
+        double yScale = (double) newHeight / height;
+
+        BufferedImage scaledImage = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D scaleImageG2d = scaledImage.createGraphics();
+        AffineTransform at = AffineTransform.getScaleInstance(xScale, yScale);
+        scaleImageG2d.drawRenderedImage(image, at);
+        scaleImageG2d.dispose();
+
+        return scaledImage;
     }
 }

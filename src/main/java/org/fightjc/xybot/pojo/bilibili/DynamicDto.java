@@ -1,28 +1,27 @@
 package org.fightjc.xybot.pojo.bilibili;
 
-import net.mamoe.mirai.utils.ExternalResource;
-
-import java.util.List;
+import java.awt.image.BufferedImage;
 
 public class DynamicDto {
     String uid;
     String uname;
-    String dateString;
+    BufferedImage faceImage;
+    BufferedImage pendantImage;
 
     String dynamicId;
+    String dateString;
     int type;
-    String description;
-    List<ExternalResource> imageList;
 
-    public DynamicDto(String uid, String uname, String dateString, String dynamicId, int type, String description,
-                      List<ExternalResource> imageList) {
+    public DynamicDto(String uid, String uname, BufferedImage faceImage, BufferedImage pendantImage,
+                      String dynamicId, String dateString, int type) {
         this.uid = uid;
         this.uname = uname;
-        this.dateString =dateString;
+        this.faceImage = faceImage;
+        this.pendantImage = pendantImage;
+
         this.dynamicId = dynamicId;
+        this.dateString =dateString;
         this.type = type;
-        this.description = description;
-        this.imageList = imageList;
     }
 
     public String getUid() {
@@ -33,23 +32,24 @@ public class DynamicDto {
         return uname;
     }
 
-    public String getDateString() {
-        return dateString;
+    public BufferedImage getFaceImage() {
+        return faceImage;
+    }
+
+    public BufferedImage getPendantImage() {
+        return pendantImage;
     }
 
     public String getDynamicId() {
         return dynamicId;
     }
 
+    public String getDateString() {
+        return dateString;
+    }
+
     public int getType() {
         return type;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public List<ExternalResource> getImageList() {
-        return imageList;
-    }
 }

@@ -14,16 +14,15 @@ import org.fightjc.xybot.service.BiliBiliService;
 import org.fightjc.xybot.util.HttpClientUtil;
 import org.fightjc.xybot.util.ImageUtil;
 import org.fightjc.xybot.util.MessageUtil;
+import org.fightjc.xybot.util.bilibili.BilibiliDynamicDrawHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
+import java.awt.image.BufferedImage;
 import java.sql.Timestamp;
 import java.util.*;
-import java.util.function.Function;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 @Service
@@ -201,6 +200,7 @@ public class BiliBiliServiceImpl implements BiliBiliService {
         }};
 
         List<DynamicDto> dynamicDtoList = new ArrayList<>();
+        int max_result_count = 3; // 控制一次最多只显示多少条动态
         HttpClientResult httpClientResult;
         try {
             httpClientResult = HttpClientUtil.doGet(url, null, params);
@@ -212,7 +212,7 @@ public class BiliBiliServiceImpl implements BiliBiliService {
 
                 String latestDynamicId = "";
                 long now = new Date().getTime();
-                for (int i = 0; i < cards.size() && i < 3; i++) { // 控制一次最多只显示3条动态
+                for (int i = 0; i < cards.size() && i < max_result_count; i++) {
                     JSONObject card = cards.getJSONObject(i);
                     JSONObject desc = card.getJSONObject("desc");
 
@@ -233,33 +233,52 @@ public class BiliBiliServiceImpl implements BiliBiliService {
                         break;
                     }
 
-                    // 获取其他信息
+                    // 获取Up主信息
                     JSONObject userProfile = desc.getJSONObject("user_profile");
                     JSONObject info = userProfile.getJSONObject("info");
                     String uid = info.getString("uid");
                     String uname = info.getString("uname");
+                    BufferedImage faceImage = ImageUtil.getImageFromUri(info.getString("face"));
+
+                    // 获取头像信息
+                    JSONObject pendant = userProfile.getJSONObject("pendant");
+                    BufferedImage pendantImage = ImageUtil.getImageFromUri(pendant.getString("image"));
+
                     String date = MessageUtil.getDateTime(new Timestamp(timestamp));
 
                     int type = desc.getIntValue("type");
-                    // 1: 转发 2: 新闻 8: 视频
                     if (type == 2) {
                         JSONObject cardInfo = JSONObject.parseObject(card.getString("card"));
                         JSONObject item = cardInfo.getJSONObject("item");
                         String description = item.getString("description");
                         JSONArray pictures = item.getJSONArray("pictures");
-                        List<ExternalResource> imageList = new ArrayList<>();
+                        List<DynamicPictureBean> imageList = new ArrayList<>();
                         for (int j = 0; j < pictures.size(); j++) {
                             JSONObject picture = pictures.getJSONObject(j);
                             String src = picture.getString("img_src");
-                            imageList.add(ImageUtil.getImageFromUri(src));
+                            int width = picture.getIntValue("img_width");
+                            int height = picture.getIntValue("img_height");
+                            imageList.add(new DynamicPictureBean(width, height, ImageUtil.getImageFromUri(src)));
                         }
-                        dynamicDtoList.add(new DynamicDto(uid, uname, date, dynamicId, type, description, imageList));
+
+                        dynamicDtoList.add(new DynamicPictureDto(uid, uname, faceImage, pendantImage,
+                                dynamicId, date, type,
+                                description, imageList));
                     } else if (type == 8) {
                         JSONObject cardInfo = JSONObject.parseObject(card.getString("card"));
                         String description = cardInfo.getString("desc");
-                        List<ExternalResource> imageList = new ArrayList<>();
-                        imageList.add(ImageUtil.getImageFromUri(cardInfo.getString("pic")));
-                        dynamicDtoList.add(new DynamicDto(uid, uname, date, dynamicId, type, description, imageList));
+                        BufferedImage pic = ImageUtil.getImageFromUri(cardInfo.getString("pic"));
+                        String shortLink = cardInfo.getString("short_link");
+                        String title = cardInfo.getString("title");
+                        JSONObject statInfo = cardInfo.getJSONObject("stat"); // 视频统计信息
+                        int view = statInfo.getIntValue("view");
+                        int like = statInfo.getIntValue("like");
+                        int coin = statInfo.getIntValue("coin");
+                        int favorite = statInfo.getIntValue("favorite");
+
+                        dynamicDtoList.add(new DynamicVideoDto(uid, uname, faceImage, pendantImage,
+                                dynamicId, date, type,
+                                description, shortLink, pic, title, view, like, coin, favorite));
                     }
                 }
 
@@ -316,20 +335,13 @@ public class BiliBiliServiceImpl implements BiliBiliService {
                                 dto.getDateString() + " 发布了" + getTypeName(dto.getType()) + "\n" +
                                 "详情点击: http://t.bilibili.com/" + dto.getDynamicId() + "\n\n";
 
-                        //TODO: 暂时只发一张图
-                        group.sendMessage(
-                                new PlainText(msg)
-                                        .plus(new PlainText(dto.getDescription()))
-                                        .plus(group.uploadImage(dto.getImageList().get(0))));
-                    }
-                    // 关闭所有资源
-                    try {
-                        List<ExternalResource> imageList = dto.getImageList();
-                        for (ExternalResource image : imageList) {
-                            image.close();
+                        try {
+                            BufferedImage dynamicImage = BilibiliDynamicDrawHelper.generateDynamic(dto);
+                            ExternalResource image = ImageUtil.bufferedImage2ExternalResource(dynamicImage);
+                            group.sendMessage(new PlainText(msg).plus(group.uploadImage(image)));
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
-                    } catch (IOException e) {
-                        e.printStackTrace();
                     }
                 }
             }
@@ -342,6 +354,7 @@ public class BiliBiliServiceImpl implements BiliBiliService {
      * @return
      */
     private String getTypeName(int type) {
+        // TODO: 专栏 转发 投稿 文字 图片 直播分享
         switch (type) {
             case 1:
                 return "转发";
@@ -349,6 +362,8 @@ public class BiliBiliServiceImpl implements BiliBiliService {
                 return "动态";
             case 8:
                 return "视频";
+            case 64:
+                return "文章";
             default:
                 return "未知类型";
         }

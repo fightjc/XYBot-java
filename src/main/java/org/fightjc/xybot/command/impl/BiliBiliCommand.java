@@ -16,6 +16,7 @@ import org.fightjc.xybot.service.BiliBiliService;
 import org.fightjc.xybot.util.ImageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,8 +73,9 @@ public class BiliBiliCommand extends AdminGroupCommand {
                             "性别：" + userInfoDto.getSex() + "\n" +
                             "个性签名：" + userInfoDto.getSign() + "\n\n" +
                             "直接访问个人空间 https://space.bilibili.com/" + upMid;
-                    ExternalResource faceImage = ImageUtil.getImageFromUri(userInfoDto.getFace());
-                    return at.plus(subject.uploadImage(faceImage)).plus(new PlainText(info));
+                    BufferedImage faceImage = ImageUtil.getImageFromUri(userInfoDto.getFace());
+                    ExternalResource image = ImageUtil.bufferedImage2ExternalResource(faceImage);
+                    return at.plus(subject.uploadImage(image)).plus(new PlainText(info));
                 } else {
                     return at.plus(new PlainText(getUpInfoResult.getInfo()));
                 }

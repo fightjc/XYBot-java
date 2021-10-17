@@ -5,13 +5,13 @@ import org.fightjc.xybot.pojo.ResultOutput;
 import org.fightjc.xybot.pojo.genshin.MaterialResultDto;
 import org.fightjc.xybot.pojo.genshin.NameMapBean;
 import org.fightjc.xybot.util.BotUtil;
+import org.fightjc.xybot.util.ImageUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sun.font.FontDesignMetrics;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -33,7 +33,7 @@ public class GenshinMaterialDrawHelper {
     private final static int HEADER_1_HEIGHT = 50;     // 标题1字体高度
     private final static int HEADER_1_MARGIN = 20;     // 标题1边缘
     private final static int HEADER_2_HEIGHT = 35;     // 标题2字体高度
-    private final static int HEADER_2_MARGIN = 20;     // 标题1边缘
+    private final static int HEADER_2_MARGIN = 20;     // 标题2边缘
     private final static int MATERIAL_WIDTH = 64;      // 材料图片宽度
     private final static int MATERIAL_HEIGHT = 64;     // 材料图片高度
     private final static int MATERIAL_MARGIN = 20;     // 材料图片边缘
@@ -300,7 +300,7 @@ public class GenshinMaterialDrawHelper {
             logger.error("获取 /images/miscellaneous/star_corner.png 对象失败");
             return;
         }
-        starImage = getScaledImage(starImage, START_WIDTH, START_HEIGHT);
+        starImage = ImageUtil.getScaledImage(starImage, START_WIDTH, START_HEIGHT);
 
         int offsetX = (IMAGE_MARGIN - START_WIDTH) / 2;
         int offsetY = (IMAGE_MARGIN - START_HEIGHT) / 2;
@@ -343,7 +343,7 @@ public class GenshinMaterialDrawHelper {
             logger.error("获取 /images/miscellaneous/border_header.png 对象失败");
             return;
         }
-        headerImage = getScaledImage(headerImage, BORDER_HEADER_WIDTH, BORDER_HEADER_HEIGHT);
+        headerImage = ImageUtil.getScaledImage(headerImage, BORDER_HEADER_WIDTH, BORDER_HEADER_HEIGHT);
 
         // 获取头部边框线段图形
         int lineWidth = (width - BORDER_HEADER_WIDTH) / 2 - IMAGE_MARGIN;
@@ -353,7 +353,7 @@ public class GenshinMaterialDrawHelper {
             logger.error("获取 /images/miscellaneous/border_line.png 对象失败");
             return;
         }
-        lineImage = getScaledImage(lineImage, lineWidth, BORDER_FOOTER_HEIGHT);
+        lineImage = ImageUtil.getScaledImage(lineImage, lineWidth, BORDER_FOOTER_HEIGHT);
 
         // 左侧
         g2d.drawImage(lineImage, IMAGE_MARGIN, y + (BORDER_HEADER_HEIGHT - BORDER_FOOTER_HEIGHT), lineWidth, BORDER_FOOTER_HEIGHT, null);
@@ -379,7 +379,7 @@ public class GenshinMaterialDrawHelper {
             logger.error("获取 /images/miscellaneous/border_corner_left.png 对象失败");
             return;
         }
-        leftImage = getScaledImage(leftImage, BORDER_FOOTER_WIDTH, BORDER_FOOTER_HEIGHT);
+        leftImage = ImageUtil.getScaledImage(leftImage, BORDER_FOOTER_WIDTH, BORDER_FOOTER_HEIGHT);
 
         // 获取底部边框线段图形
         int lineWidth = width - 2 * BORDER_FOOTER_WIDTH - 2 * IMAGE_MARGIN;
@@ -389,7 +389,7 @@ public class GenshinMaterialDrawHelper {
             logger.error("获取 /images/miscellaneous/border_line.png 对象失败");
             return;
         }
-        lineImage = getScaledImage(lineImage, lineWidth, BORDER_FOOTER_HEIGHT);
+        lineImage = ImageUtil.getScaledImage(lineImage, lineWidth, BORDER_FOOTER_HEIGHT);
 
         // 获取底部边框右侧图形
         String rightFilePath = BotUtil.getGenshinFolderPath() + "/images/miscellaneous/border_corner_right.png";
@@ -398,7 +398,7 @@ public class GenshinMaterialDrawHelper {
             logger.error("获取 /images/miscellaneous/border_corner_right.png 对象失败");
             return;
         }
-        rightImage = getScaledImage(rightImage, BORDER_FOOTER_WIDTH, BORDER_FOOTER_HEIGHT);
+        rightImage = ImageUtil.getScaledImage(rightImage, BORDER_FOOTER_WIDTH, BORDER_FOOTER_HEIGHT);
 
         // 左侧
         g2d.drawImage(leftImage, IMAGE_MARGIN, y, BORDER_FOOTER_WIDTH, BORDER_FOOTER_HEIGHT, null);
@@ -427,7 +427,7 @@ public class GenshinMaterialDrawHelper {
             logger.error("获取 /images/materials/" + name + ".png 对象失败");
             return;
         }
-        fgImage = getScaledImage(fgImage, MATERIAL_WIDTH, MATERIAL_HEIGHT);
+        fgImage = ImageUtil.getScaledImage(fgImage, MATERIAL_WIDTH, MATERIAL_HEIGHT);
 
         // 获取指定大小材料背景图
         String bgFilePath = BotUtil.getGenshinFolderPath() + "/images/miscellaneous/bg_rarity_" + rarity + ".png";
@@ -436,7 +436,7 @@ public class GenshinMaterialDrawHelper {
             logger.error("获取 /images/miscellaneous/bg_rarity_" + rarity + ".png 对象失败");
             return;
         }
-        bgImage = getScaledImage(bgImage, MATERIAL_WIDTH, MATERIAL_HEIGHT);
+        bgImage = ImageUtil.getScaledImage(bgImage, MATERIAL_WIDTH, MATERIAL_HEIGHT);
 
         Graphics2D bgImageG2d = bgImage.createGraphics();
 
@@ -467,7 +467,7 @@ public class GenshinMaterialDrawHelper {
             logger.error("获取 /images/characters/" + name + ".png 对象失败");
             return;
         }
-        fgImage = getScaledImage(fgImage, CHAR_WEAPON_WIDTH, CHAR_WEAPON_HEIGHT);
+        fgImage = ImageUtil.getScaledImage(fgImage, CHAR_WEAPON_WIDTH, CHAR_WEAPON_HEIGHT);
 
         // 获取指定大小角色背景图
         String bgFilePath = BotUtil.getGenshinFolderPath() + "/images/miscellaneous/bg_rarity_" + rarity + "_with_text.png";
@@ -476,7 +476,7 @@ public class GenshinMaterialDrawHelper {
             logger.error("获取 /images/miscellaneous/bg_rarity_" + rarity + "_with_text.png 对象失败");
             return;
         }
-        bgImage = getScaledImage(bgImage, DISPLAY_WIDTH, DISPLAY_HEIGHT);
+        bgImage = ImageUtil.getScaledImage(bgImage, DISPLAY_WIDTH, DISPLAY_HEIGHT);
 
         Graphics2D bgImageG2d = bgImage.createGraphics();
 
@@ -511,7 +511,7 @@ public class GenshinMaterialDrawHelper {
             logger.error("获取 /images/weapons/" + name + ".png 对象失败");
             return;
         }
-        fgImage = getScaledImage(fgImage, CHAR_WEAPON_WIDTH, CHAR_WEAPON_HEIGHT);
+        fgImage = ImageUtil.getScaledImage(fgImage, CHAR_WEAPON_WIDTH, CHAR_WEAPON_HEIGHT);
 
         // 获取指定大小武器背景图
         String bgFilePath = BotUtil.getGenshinFolderPath() + "/images/miscellaneous/bg_rarity_" + rarity + "_with_text.png";
@@ -520,7 +520,7 @@ public class GenshinMaterialDrawHelper {
             logger.error("获取 /images/miscellaneous/bg_rarity_" + rarity + "_with_text.png 对象失败");
             return;
         }
-        bgImage = getScaledImage(bgImage, DISPLAY_WIDTH, DISPLAY_HEIGHT);
+        bgImage = ImageUtil.getScaledImage(bgImage, DISPLAY_WIDTH, DISPLAY_HEIGHT);
 
         Graphics2D bgImageG2d = bgImage.createGraphics();
 
@@ -578,7 +578,7 @@ public class GenshinMaterialDrawHelper {
             logger.error("获取 /images/miscellaneous/text_out.png 对象失败");
             return;
         }
-        outerImage = getScaledImage(outerImage, size[0] + 4 * padding, size[1] + 3 * padding);
+        outerImage = ImageUtil.getScaledImage(outerImage, size[0] + 4 * padding, size[1] + 3 * padding);
 
         // 计算边框图片的位置
         int x = 0;
@@ -641,31 +641,5 @@ public class GenshinMaterialDrawHelper {
         g2d.drawString(text, x, y);
 
         return new int[] { text_width, text_height };
-    }
-
-    /**
-     * 缩放图片
-     * @param image 原图
-     * @param newWidth 生成宽度
-     * @param newHeight 生成高度
-     * @return 缩放后图片对象
-     */
-    private static BufferedImage getScaledImage(BufferedImage image, int newWidth, int newHeight) {
-        int width = image.getWidth();
-        int height = image.getHeight();
-
-        if (width == newWidth && height == newHeight) return image;  // 不需要缩放图片，减少操作
-
-        // 计算缩放比例
-        double xScale = (double) newWidth / width;
-        double yScale = (double) newHeight / height;
-
-        BufferedImage scaledImage = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_ARGB);
-        Graphics2D scaleImageG2d = scaledImage.createGraphics();
-        AffineTransform at = AffineTransform.getScaleInstance(xScale, yScale);
-        scaleImageG2d.drawRenderedImage(image, at);
-        scaleImageG2d.dispose();
-
-        return scaledImage;
     }
 }
