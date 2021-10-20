@@ -109,7 +109,7 @@ public class BiliBiliCommand extends AdminGroupCommand {
                 // 群订阅
                 biliBiliService.createOrUpdateGroupSubscribe(groupId, mid, opt.equals("订阅"), sender.getId());
 
-                return at.plus(new PlainText("已成功" + opt + " " + userInfoDto.getName() + " (" + mid + "0"));
+                return at.plus(new PlainText("已成功" + opt + " " + userInfoDto.getName() + " (" + mid + ")"));
             default:
                 return new PlainText(usage);
         }
