@@ -25,6 +25,7 @@ import java.util.Map;
 public class HttpClientUtil {
 
     private static final Logger logger = LoggerFactory.getLogger(HttpClientUtil.class);
+    public static final boolean VERBOSE = false;
 
     public static final String ENCODING = "UTF-8";
     public static final int CONNECT_TIMEOUT = 2000; // 连接超时(毫秒)
@@ -112,7 +113,9 @@ public class HttpClientUtil {
             httpResponse.close();
         }
 
-        logger.info("网络请求结果: " + result.code + ", " + result.content);
+        if (VERBOSE) {
+            logger.info("网络请求结果: " + result.code + ", " + result.content);
+        }
 
         return result;
     }
