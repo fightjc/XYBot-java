@@ -10,6 +10,7 @@ import org.fightjc.xybot.pojo.genshin.*;
 import org.fightjc.xybot.service.GenshinService;
 import org.fightjc.xybot.util.BotUtil;
 import org.fightjc.xybot.util.genshin.GenshinMaterialDrawHelper;
+import org.fightjc.xybot.util.genshin.GenshinSearchDrawHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -91,7 +92,7 @@ public class GenshinServiceImpl implements GenshinService {
      * @param name
      * @return
      */
-    public ResultOutput<String> getInfoByName(String name) {
+    public ResultOutput<BufferedImage> getInfoByName(String name) {
         // 角色
         JSONObject charObject = BotUtil.readJsonFile(BotUtil.getGenshinFolderPath() + "/index/characters.json");
         if (charObject == null) {
@@ -470,7 +471,7 @@ public class GenshinServiceImpl implements GenshinService {
      * @param filePath
      * @return
      */
-    private ResultOutput<String> getCharacterInfo(String filePath) {
+    private ResultOutput<BufferedImage> getCharacterInfo(String filePath) {
         // 角色主属性信息
         CharacterBean characterBean = BotUtil.readJsonFile(
                 BotUtil.getGenshinFolderPath() + "/data/characters/" + filePath,
@@ -555,7 +556,7 @@ public class GenshinServiceImpl implements GenshinService {
                 "}";
         info = info.replace("\n", "\\n");
 
-        return new ResultOutput<>(true, "", info);
+        return new ResultOutput<>(true, "", GenshinSearchDrawHelper.drawCharacterInfo());
     }
 
     /**
@@ -563,7 +564,7 @@ public class GenshinServiceImpl implements GenshinService {
      * @param filePath
      * @return
      */
-    private ResultOutput<String> getWeaponInfo(String filePath) {
+    private ResultOutput<BufferedImage> getWeaponInfo(String filePath) {
         // 武器信息
         WeaponBean weaponBean = BotUtil.readJsonFile(
                 BotUtil.getGenshinFolderPath() + "/data/weapons/" + filePath,
@@ -612,7 +613,7 @@ public class GenshinServiceImpl implements GenshinService {
                     "}" +
                 "}";
 
-        return new ResultOutput<>(true, "", info);
+        return new ResultOutput<>(true, "", GenshinSearchDrawHelper.drawWeaponInfo());
     }
 
     /**
@@ -620,7 +621,7 @@ public class GenshinServiceImpl implements GenshinService {
      * @param filePath
      * @return
      */
-    private ResultOutput<String> getMaterialInfo(String filePath) {
-        return new ResultOutput<>(true, "", "");
+    private ResultOutput<BufferedImage> getMaterialInfo(String filePath) {
+        return new ResultOutput<>(true, "", GenshinSearchDrawHelper.drawMaterialInfo());
     }
 }

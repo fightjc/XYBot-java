@@ -25,5 +25,5 @@ public interface GenshinService {
      * @param name
      * @return
      */
-    ResultOutput<String> getInfoByName(String name);
+    ResultOutput<BufferedImage> getInfoByName(String name);
 }
