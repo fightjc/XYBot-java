@@ -1,5 +1,6 @@
 package org.fightjc.xybot.pojo.genshin;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -12,23 +13,27 @@ public class WeaponBean {
     String weaponType;
     // 星级
     String rarity;
+    // 基础攻击
     int baseAtk;
+    // 副词缀
     String subStat;
+    // 副词缀初始值
     String subValue;
-
-    //region 装备特效
-
+    // 效果名称
     String effectName;
+    // 效果描述
     String effect;
+    // 精炼1
     List<String> r1;
+    // 精炼2
     List<String> r2;
+    // 精炼3
     List<String> r3;
+    // 精炼4
     List<String> r4;
+    // 精炼5
     List<String> r5;
-
-    //endregion
-
-    // 突破材料
+    // 突破材料，一星和二星装备只有4条
     Map<String, List<CostBean>> costs;
 
     public WeaponBean(String name, String description, String weaponType, String rarity, int baseAtk, String subStat,
@@ -53,6 +58,41 @@ public class WeaponBean {
 
     public String getName() {
         return name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getWeaponType() {
+        return weaponType;
+    }
+
+    public String getRarity() {
+        return rarity;
+    }
+
+    public String getSubStat() {
+        return subStat;
+    }
+
+    public String getEffectName() {
+        return effectName;
+    }
+
+    public String getLongEffect() {
+        String result = effect;
+        int count = r1.size();
+        for (int i = 0; i < count; i++) {
+            String sb = r1.get(i) +
+                    "/" + r2.get(i) +
+                    "/" + r3.get(i) +
+                    "/" + r4.get(i) +
+                    "/" + r5.get(i);
+            result = result.replace("{" + i + "}", "[" + sb + "]");
+        }
+
+        return result;
     }
 
     public boolean needWeaponMaterialType(WeaponMaterialTypeBean weaponMaterialType) {
