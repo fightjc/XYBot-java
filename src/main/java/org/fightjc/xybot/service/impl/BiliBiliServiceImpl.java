@@ -318,6 +318,7 @@ public class BiliBiliServiceImpl implements BiliBiliService {
 
         // 群推送
         List<SubscribeBean> groupSubscribes = biliBiliDao.getAllGroupSubscribes();
+        groupSubscribes.removeIf(bean -> !bean.isActive()); // 移除不需要推送的记录
         // 对群分组
         Map<Long, List<String>> result = groupSubscribes.stream().collect(
                 Collectors.groupingBy(
