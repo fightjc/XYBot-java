@@ -1,5 +1,6 @@
 package org.fightjc.xybot.startup;
 
+import com.idrsolutions.image.png.PngCompressor;
 import net.mamoe.mirai.event.ListenerHost;
 import org.fightjc.xybot.annotate.AnnotateAnalyzer;
 import org.fightjc.xybot.bot.XYBot;
@@ -7,8 +8,11 @@ import org.fightjc.xybot.db.DBInitHelper;
 import org.fightjc.xybot.db.DBMigration;
 import org.fightjc.xybot.events.CommandEvents;
 import org.fightjc.xybot.pojo.GroupSwitch;
+import org.fightjc.xybot.pojo.ResultOutput;
+import org.fightjc.xybot.service.GenshinService;
 import org.fightjc.xybot.service.GroupSwitchService;
 import org.fightjc.xybot.util.BotSwitch;
+import org.fightjc.xybot.util.BotUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +22,10 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 @Component
@@ -50,12 +58,29 @@ public class XYBotLoader implements ApplicationRunner {
     @Autowired
     AnnotateAnalyzer annotateAnalyzer;
 
+    @Autowired
+    protected GenshinService genshinService;
+
     @Override
     public void run(ApplicationArguments args) throws Exception {
+        ResultOutput<BufferedImage> result = genshinService.getInfoByName("天空之翼");
+        System.out.println(result.getInfo());
+
+        if (result.getObject() == null) return;
+
+        // 保存文件
+        try {
+            // 写入临时图片文件
+            String tempPath = BotUtil.getGenshinFolderPath() + "/p.png";
+            ImageIO.write(result.getObject(), "PNG", new File(tempPath));
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
+
         // 准备数据库
-        prepareDatabase();
+        //prepareDatabase();
         // 启动bot
-        startupBot();
+        //startupBot();
     }
 
     private void prepareDatabase() {

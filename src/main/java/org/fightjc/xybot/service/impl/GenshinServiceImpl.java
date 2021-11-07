@@ -9,6 +9,7 @@ import org.fightjc.xybot.pojo.ResultOutput;
 import org.fightjc.xybot.pojo.genshin.*;
 import org.fightjc.xybot.service.GenshinService;
 import org.fightjc.xybot.util.BotUtil;
+import org.fightjc.xybot.util.ImageUtil;
 import org.fightjc.xybot.util.genshin.GenshinMaterialDrawHelper;
 import org.fightjc.xybot.util.genshin.GenshinSearchDrawHelper;
 import org.slf4j.Logger;
@@ -575,45 +576,43 @@ public class GenshinServiceImpl implements GenshinService {
         }
 
         // 武器图标
-        JSONObject imagesMap = BotUtil.readJsonFile(BotUtil.getGenshinFolderPath() + "/images/weapons.json");
-        if (imagesMap == null) {
-            logger.error("获取 /images/weapons.json 对象失败");
-            return new ResultOutput<>(false, "获取 /images/weapons.json 对象失败");
-        }
-        JSONObject weaponMap = imagesMap.getJSONObject(filePath);
-        if (weaponMap == null) {
-            logger.error("获取 /images/weapons.json 对象失败");
-            return new ResultOutput<>(false, "获取 /images/weapons.json 中 " + filePath + " 对象失败");
+        String name = filePath.substring(0, filePath.indexOf("."));
+        String imagePath = BotUtil.getGenshinFolderPath() + "/images/weapons/" + name + ".png";
+        BufferedImage image = BotUtil.readImageFile(imagePath);
+        if (image == null) {
+            logger.error("获取 /images/weapons/" + name + ".png 对象失败");
+            return new ResultOutput<>(false, "获取 /images/weapons/" + name + ".png 对象失败");
         }
 
-        String info =
-                "{" +
-                    "\"app\":\"com.tencent.miniapp\"," +
-                    "\"view\":\"notification\"," +
-                    "\"prompt\":\"武器\"," +
-                    "\"desc\":\"\"," +
-                    "\"ver\":\"0.0.0.1\"," +
-                    "\"meta\":{" +
-                        "\"notification\":{" +
-                            "\"appInfo\":{" +
-                                "\"appName\":\""+ weaponBean.getName() + "\"," +
-                                "\"appType\":4," +
-                                "\"appid\":1109659848," +
-                                "\"iconUrl\":\"" + weaponMap.getString("awakenicon") + "\"" +
-                            "}," +
-                            "\"data\":[" +
-                                "{\"title\":\"武器类型\",\"value\":\"" + weaponBean.getWeaponType() +"\"}," +
-                                "{\"title\":\"星级\",\"value\":\"" + weaponBean.getRarity() + "\"}," +
-                                "{\"title\":\"副词缀\",\"value\":\"" + weaponBean.getSubStat() + "\"}," +
-                                "{\"title\":\"描述\",\"value\":\"" + weaponBean.getDescription() + "\"}," +
-                                "{\"title\":\"效果名称\",\"value\":\"" + weaponBean.getEffectName() + "\"}," +
-                                "{\"title\":\"效果描述\",\"value\":\"" + weaponBean.getLongEffect() + "\"}" +
-                            "]" +
-                        "}" +
-                    "}" +
-                "}";
+//        String info =
+//                "{" +
+//                    "\"app\":\"com.tencent.miniapp\"," +
+//                    "\"view\":\"notification\"," +
+//                    "\"prompt\":\"武器\"," +
+//                    "\"desc\":\"\"," +
+//                    "\"ver\":\"0.0.0.1\"," +
+//                    "\"meta\":{" +
+//                        "\"notification\":{" +
+//                            "\"appInfo\":{" +
+//                                "\"appName\":\""+ weaponBean.getName() + "\"," +
+//                                "\"appType\":4," +
+//                                "\"appid\":1109659848," +
+//                                "\"iconUrl\":\"" + weaponMap.getString("awakenicon") + "\"" +
+//                            "}," +
+//                            "\"data\":[" +
+//                                "{\"title\":\"武器类型\",\"value\":\"" + weaponBean.getWeaponType() +"\"}," +
+//                                "{\"title\":\"星级\",\"value\":\"" + weaponBean.getRarity() + "\"}," +
+//                                "{\"title\":\"副词缀\",\"value\":\"" + weaponBean.getSubStat() + "\"}," +
+//                                "{\"title\":\"描述\",\"value\":\"" + weaponBean.getDescription() + "\"}," +
+//                                "{\"title\":\"效果名称\",\"value\":\"" + weaponBean.getEffectName() + "\"}," +
+//                                "{\"title\":\"效果描述\",\"value\":\"" + weaponBean.getLongEffect() + "\"}" +
+//                            "]" +
+//                        "}" +
+//                    "}" +
+//                "}";
 
-        return new ResultOutput<>(true, "", GenshinSearchDrawHelper.drawWeaponInfo());
+        BufferedImage target = GenshinSearchDrawHelper.drawWeaponInfo(new WeaponDrawDto(image, weaponBean));
+        return new ResultOutput<>(true, "", target);
     }
 
     /**

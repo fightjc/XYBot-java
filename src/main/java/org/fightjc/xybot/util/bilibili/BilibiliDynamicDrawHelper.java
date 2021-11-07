@@ -127,7 +127,6 @@ public class BilibiliDynamicDrawHelper {
         g2d.drawImage(avatarImage, avatarX, avatarY, FACE_IMAGE_WIDTH, FACE_IMAGE_WIDTH, null);
 
         // 绘制头像框
-//        BufferedImage pendantImage = ImageUtil.getScaledImage(dto.getPendantImage(), AVATAR_IMAGE_WIDTH, AVATAR_IMAGE_WIDTH);
         int pendantX = (CONTENT_MARGIN - AVATAR_IMAGE_WIDTH) / 2;
         int pendantY = AVATAR_PADDING;
         BufferedImage pendantImage = ImageUtil.getScaledImage(dto.getPendantImage(), AVATAR_IMAGE_WIDTH, AVATAR_IMAGE_WIDTH);
@@ -156,7 +155,7 @@ public class BilibiliDynamicDrawHelper {
         //region 绘制正文
         int context_Y = CONTENT_PADDING  + TITLE_HEIGHT + CONTEXT_MARGIN;
         for (int i = 0; i < descArray.length; i++) {
-            context_Y += drawParagraph(g2d, descArray[i], TEXT_1, Color.BLACK, maxWidth, context_Y) + TEXT_1_PARA_MARGIN;
+            context_Y += ImageUtil.drawParagraph(g2d, descArray[i], TEXT_1, Color.BLACK, maxWidth, TEXT_1_LINE_MARGIN, CONTENT_MARGIN, context_Y) + TEXT_1_PARA_MARGIN;
         }
         //endregion
 
@@ -266,7 +265,7 @@ public class BilibiliDynamicDrawHelper {
         //region 绘制正文
         int context_Y = CONTENT_PADDING  + TITLE_HEIGHT + CONTEXT_MARGIN;
         for (int i = 0; i < descArray.length; i++) {
-            context_Y += drawParagraph(g2d, descArray[i], TEXT_1, Color.BLACK, maxWidth, context_Y) + TEXT_1_PARA_MARGIN;
+            context_Y += ImageUtil.drawParagraph(g2d, descArray[i], TEXT_1, Color.BLACK, maxWidth, TEXT_1_LINE_MARGIN, CONTENT_MARGIN, context_Y) + TEXT_1_PARA_MARGIN;
         }
         //endregion
 
@@ -304,56 +303,6 @@ public class BilibiliDynamicDrawHelper {
         g2d.dispose();
         //endregion
 
-        //TEST: 保存文件
-        try {
-            // 写入临时图片文件
-            String tempPath = BotUtil.getGenshinFolderPath() + "/ttt" + dto.getUid() + ".png";
-            ImageIO.write(target, "PNG", new File(tempPath));
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        }
-
         return target;
-    }
-
-    /**
-     * 绘画一段文字，并返回这段文字的高度
-     * @param g2d
-     * @param text
-     * @param font
-     * @param color
-     * @param areaWidth
-     * @param offsetY
-     * @return
-     */
-    private static int drawParagraph(Graphics2D g2d, String text, Font font, Color color, int areaWidth, int offsetY) {
-        FontMetrics metrics = FontDesignMetrics.getMetrics(font);
-        int text_height = metrics.getAscent();
-
-        if (text.length() == 0) {
-            // 换行符不绘制
-            return text_height;
-        } else {
-            int text_width = metrics.charsWidth(text.toCharArray(), 0, text.length());
-            int contentHeight = offsetY;
-
-            g2d.setFont(font);
-            g2d.setColor(color);
-
-            int rowPerChar = areaWidth * text.length() / text_width; // 每行最多字符数
-            int rowCount = text_width / areaWidth + (text_width % areaWidth > 0 ? 1 : 0); // 总行数
-            String temp;
-            for (int i = 0; i < rowCount; i++) {
-                if (i + 1 == rowCount) {
-                    temp = text.substring(i * rowPerChar);
-                } else {
-                    temp = text.substring(i * rowPerChar, (i + 1) * rowPerChar);
-                }
-                contentHeight += text_height + TEXT_1_LINE_MARGIN;
-                g2d.drawString(temp, CONTENT_MARGIN, contentHeight);
-            }
-
-            return contentHeight - TEXT_1_LINE_MARGIN - offsetY;
-        }
     }
 }

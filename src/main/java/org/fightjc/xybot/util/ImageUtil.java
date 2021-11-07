@@ -7,6 +7,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import sun.font.FontDesignMetrics;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -99,5 +100,48 @@ public class ImageUtil {
         scaleImageG2d.dispose();
 
         return scaledImage;
+    }
+
+    /**
+     * 绘画一段文字
+     * @param g2d 画板
+     * @param text 文字内容
+     * @param font 字形
+     * @param color 字体颜色
+     * @param areaWidth 绘制区域宽度
+     * @param lineGap 行间隔
+     * @param offsetX 左上角坐标x
+     * @param offsetY 左上角坐标y
+     * @return 绘制文字段高度
+     */
+    public static int drawParagraph(Graphics2D g2d, String text, Font font, Color color, int areaWidth, int lineGap, int offsetX, int offsetY) {
+        FontMetrics metrics = FontDesignMetrics.getMetrics(font);
+        int text_height = metrics.getAscent();
+
+        if (text.length() == 0) {
+            // 换行符不绘制
+            return text_height;
+        } else {
+            int text_width = metrics.charsWidth(text.toCharArray(), 0, text.length());
+            int contentHeight = offsetY;
+
+            g2d.setFont(font);
+            g2d.setColor(color);
+
+            int rowPerChar = areaWidth * text.length() / text_width; // 每行最多字符数
+            int rowCount = text_width / areaWidth + (text_width % areaWidth > 0 ? 1 : 0); // 总行数
+            String temp;
+            for (int i = 0; i < rowCount; i++) {
+                if (i + 1 == rowCount) {
+                    temp = text.substring(i * rowPerChar);
+                } else {
+                    temp = text.substring(i * rowPerChar, (i + 1) * rowPerChar);
+                }
+                contentHeight += text_height + lineGap;
+                g2d.drawString(temp, offsetX, contentHeight);
+            }
+
+            return contentHeight - lineGap - offsetY;
+        }
     }
 }
