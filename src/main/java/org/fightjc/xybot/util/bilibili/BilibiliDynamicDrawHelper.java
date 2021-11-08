@@ -170,7 +170,7 @@ public class BilibiliDynamicDrawHelper {
             int h = bean.getImageHeight();
             int picHeight = PICTURE_WIDTH * h / w;
             g2d.drawImage(bean.getImage(), pan_image_x, pan_image_y, PICTURE_WIDTH, picHeight, null);
-            pan_image_y += h;
+            pan_image_y += picHeight;
         }
         //endregion
 
