@@ -584,6 +584,39 @@ public class GenshinServiceImpl implements GenshinService {
             return new ResultOutput<>(false, "获取 /images/weapons/" + name + ".png 对象失败");
         }
 
+        // 获取材料索引
+        JSONObject materialObject = BotUtil.readJsonFile(BotUtil.getGenshinFolderPath() + "/index/materials.json");
+        if (materialObject == null) {
+            logger.error("获取 /index/materials.json 对象失败");
+            return new ResultOutput<>(false, "获取 /index/materials.json 对象失败");
+        }
+
+        // 材料名和路径字典
+        Map<String, String> materialNameMap = materialObject.getObject("names", new TypeReference<Map<String, String>>(){});
+        if (materialNameMap == null) {
+            logger.error("获取 /index/materials.json 中 names 对象失败");
+            return new ResultOutput<>(false, "获取 /index/materials.json 中 names 对象失败");
+        }
+
+        // TODO: 武器突破材料表
+        int mora = 0;
+        Map<String, MaterialBean> materialMap = new HashMap<>();
+        Map<String, List<CostBean>> costMap = weaponBean.getCosts();
+        for (String key : costMap.keySet()) {
+            List<CostBean> costList = costMap.get(key);
+            for (CostBean cost : costList) {
+                if (!materialMap.containsKey(cost.getName())) {
+                    String materialPath = materialNameMap.get(cost.getName());
+
+                    MaterialBean bean = BotUtil.readJsonFile(BotUtil.getGenshinFolderPath() + "/data/materials/" + materialPath, MaterialBean.class);
+                    materialMap.put(cost.getName(), bean);
+                }
+
+                int count = cost.getCount();
+
+            }
+        }
+
 //        String info =
 //                "{" +
 //                    "\"app\":\"com.tencent.miniapp\"," +

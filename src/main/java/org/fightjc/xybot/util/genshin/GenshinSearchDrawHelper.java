@@ -1,7 +1,5 @@
 package org.fightjc.xybot.util.genshin;
 
-import com.alibaba.fastjson.JSONObject;
-import org.fightjc.xybot.pojo.ResultOutput;
 import org.fightjc.xybot.pojo.genshin.WeaponBean;
 import org.fightjc.xybot.pojo.genshin.WeaponDrawDto;
 import org.fightjc.xybot.util.BotUtil;
@@ -33,7 +31,8 @@ public class GenshinSearchDrawHelper {
         int RARITY_TYPE_MARGIN = 20; // 星级与类型间距
         int RARITY_DES_MARGIN = 10; // 星级与简介间距
         int DES_LINE_GAP = 10; // 简介行间距
-        int DES_EFFECT_MARGIN = 40; // 简介与特效标题间距
+        int DES_ATK_MARGIN = 40; // 简介与基础属性标题间距
+        int ATK_EFFECT_MARGIN = 40; // 简介与特效标题间距
         int EFFECT_TITLE_MARGIN = 15; // 特效标题与内容间距
         int EFFECT_MARGIN = 30; // 特效内容与整体图片间距
         int EFFECT_LINE_GAP = 10; // 特效内容行间距
@@ -131,7 +130,32 @@ public class GenshinSearchDrawHelper {
                 currX,
                 currY);
 
-        currY += des_height + DES_EFFECT_MARGIN;
+        currY += des_height + DES_ATK_MARGIN;
+
+        // 基础攻击和副属性
+        // TODO: 显示满级基础攻击和副属性
+        int baseAtk_width = width - EFFECT_MARGIN * 2;
+        String baseAtkInfo = "基础攻击力：" + bean.getBaseAtk();
+        String subAtkInfo = bean.getSubStat() + "：" + bean.getSubValue() + " %";
+        int baseAtk_height = ImageUtil.drawParagraph(g2d,
+                baseAtkInfo,
+                f_effect,
+                Color.BLACK,
+                baseAtk_width,
+                EFFECT_LINE_GAP,
+                EFFECT_MARGIN,
+                currY);
+        currY += baseAtk_height + EFFECT_LINE_GAP;
+        int subAtk_height = ImageUtil.drawParagraph(g2d,
+                subAtkInfo,
+                f_effect,
+                Color.BLACK,
+                baseAtk_width,
+                EFFECT_LINE_GAP,
+                EFFECT_MARGIN,
+                currY);
+
+        currY += subAtk_height + ATK_EFFECT_MARGIN;
 
         // 技能特效标题
         FontMetrics metrics_effect = FontDesignMetrics.getMetrics(f_effect_title);
@@ -159,6 +183,7 @@ public class GenshinSearchDrawHelper {
         currY += effect_height;
 
         //region 突破材料表
+
         //endregion
 
         //region 释放资源

@@ -12,4 +12,8 @@ public class CostBean {
     public String getName() {
         return name;
     }
+
+    public int getCount() {
+        return count;
+    }
 }

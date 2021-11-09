@@ -325,6 +325,7 @@ public class BiliBiliServiceImpl implements BiliBiliService {
                         SubscribeBean::getGroupId, Collectors.mapping(SubscribeBean::getMid, Collectors.toList())
                 )
         );
+        // TODO: 对同一动态做缓存减少画图时间
         for (Long groupId : result.keySet()) {
             List<String> mids = result.get(groupId);
             for (String mid : mids) {

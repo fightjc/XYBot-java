@@ -1,6 +1,5 @@
 package org.fightjc.xybot.pojo.genshin;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -72,8 +71,16 @@ public class WeaponBean {
         return rarity;
     }
 
+    public int getBaseAtk() {
+        return baseAtk;
+    }
+
     public String getSubStat() {
         return subStat;
+    }
+
+    public String getSubValue() {
+        return subValue;
     }
 
     public String getEffectName() {
@@ -93,6 +100,10 @@ public class WeaponBean {
         }
 
         return result;
+    }
+
+    public Map<String, List<CostBean>> getCosts() {
+        return costs;
     }
 
     public boolean needWeaponMaterialType(WeaponMaterialTypeBean weaponMaterialType) {
