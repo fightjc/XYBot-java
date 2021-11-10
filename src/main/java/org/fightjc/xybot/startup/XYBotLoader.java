@@ -58,29 +58,12 @@ public class XYBotLoader implements ApplicationRunner {
     @Autowired
     AnnotateAnalyzer annotateAnalyzer;
 
-    @Autowired
-    protected GenshinService genshinService;
-
     @Override
-    public void run(ApplicationArguments args) throws Exception {
-        ResultOutput<BufferedImage> result = genshinService.getInfoByName("天空之翼");
-        System.out.println(result.getInfo());
-
-        if (result.getObject() == null) return;
-
-        // 保存文件
-        try {
-            // 写入临时图片文件
-            String tempPath = BotUtil.getGenshinFolderPath() + "/p.png";
-            ImageIO.write(result.getObject(), "PNG", new File(tempPath));
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        }
-
+    public void run(ApplicationArguments args) {
         // 准备数据库
-        //prepareDatabase();
+        prepareDatabase();
         // 启动bot
-        //startupBot();
+        startupBot();
     }
 
     private void prepareDatabase() {

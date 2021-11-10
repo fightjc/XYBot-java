@@ -17,10 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class GenshinServiceImpl implements GenshinService {
@@ -110,7 +107,8 @@ public class GenshinServiceImpl implements GenshinService {
 
         // 判断是否是角色
         if (characterNameMap.containsKey(name)) {
-            return getCharacterInfo(characterNameMap.get(name));
+            //return getCharacterInfo(characterNameMap.get(name));
+            return new ResultOutput<>(false, "功能还在完善，敬请期待！", null);
         }
 
         // 武器
@@ -148,7 +146,8 @@ public class GenshinServiceImpl implements GenshinService {
 
         // 判断是否是材料
         if (materialNameMap.containsKey(name)) {
-            return getMaterialInfo(materialNameMap.get(name));
+            //return getMaterialInfo(materialNameMap.get(name));
+            return new ResultOutput<>(false, "功能还在完善，敬请期待！", null);
         }
 
         return new ResultOutput<>(false, "找不到 " + name + " 的相关信息，以后即使知道也不告诉你");
@@ -513,49 +512,49 @@ public class GenshinServiceImpl implements GenshinService {
         }
 
         //TODO: 太长了卡片显示不全
-        String info =
-                "{" +
-                    "\"app\":\"com.tencent.miniapp\"," +
-                    "\"view\":\"notification\"," +
-                    "\"prompt\":\"角色\"," +
-                    "\"desc\":\"\"," +
-                    "\"ver\":\"0.0.0.1\"," +
-                    "\"meta\":{" +
-                        "\"notification\":{" +
-                            "\"appInfo\":{" +
-                                "\"appName\":\""+ characterBean.getName() + "\"," +
-                                "\"appType\":4," +
-                                "\"appid\":1109659848," +
-                                "\"iconUrl\":\"" + characterMap.getString("icon") + "\"" +
-                            "}," +
-                            "\"data\":[" +
-                                "{\"title\":\"星级\",\"value\":\"" + characterBean.getRarity() +"\"}," +
-                                "{\"title\":\"神之眼\",\"value\":\"" + characterBean.getElement() + "\"}," +
-                                "{\"title\":\"武器类型\",\"value\":\"" + characterBean.getWeaponType() + "\"}," +
-                                "{\"title\":\"升级属性\",\"value\":\"" + characterBean.getSubStat() + "\"}," +
-                                "{\"title\":\"生日\",\"value\":\"" + characterBean.getBirthday() + "\"}," +
-                                "{\"title\":\"天赋\",\"value\":\"\"}," +
-                                "{\"title\":\"" + talentBean.getCombat1().getName() + "\",\"value\":\"" + talentBean.getCombat1().getInfo() + "\"}," +
-                                "{\"title\":\"" + talentBean.getCombat2().getName() + "\",\"value\":\"" + talentBean.getCombat2().getInfo() + "\"}," +
-                                "{\"title\":\"" + talentBean.getCombat3().getName() + "\",\"value\":\"" + talentBean.getCombat3().getInfo() + "\"}," +
-                                (talentBean.getCombatSp() == null ?
-                                        "" : "{\"title\":\"" + talentBean.getCombatSp().getName() + "\",\"value\":\"" + talentBean.getCombatSp().getInfo() + "\"},") +
-                                "{\"title\":\"" + talentBean.getPassive1().getName() + "\",\"value\":\"" + talentBean.getPassive1().getInfo() + "\"}," +
-                                "{\"title\":\"" + talentBean.getPassive2().getName() + "\",\"value\":\"" + talentBean.getPassive2().getInfo() + "\"}," +
-                                (talentBean.getPassive3() == null ?
-                                        "" : "{\"title\":\"" + talentBean.getPassive3().getName() + "\",\"value\":\"" + talentBean.getPassive3().getInfo() + "\"},") +
-                                "{\"title\":\"命之座\",\"value\":\"-\"}," +
-                                "{\"title\":\"1." + constellationBean.getC1().getName() + "\",\"value\":\"" + constellationBean.getC1().getEffect() + "\"}," +
-                                "{\"title\":\"2." + constellationBean.getC2().getName() + "\",\"value\":\"" + constellationBean.getC2().getEffect() + "\"}," +
-                                "{\"title\":\"3." + constellationBean.getC3().getName() + "\",\"value\":\"" + constellationBean.getC3().getEffect() + "\"}," +
-                                "{\"title\":\"4." + constellationBean.getC4().getName() + "\",\"value\":\"" + constellationBean.getC4().getEffect() + "\"}," +
-                                "{\"title\":\"5." + constellationBean.getC5().getName() + "\",\"value\":\"" + constellationBean.getC5().getEffect() + "\"}," +
-                                "{\"title\":\"6." + constellationBean.getC6().getName() + "\",\"value\":\"" + constellationBean.getC6().getEffect() + "\"}" +
-                            "]" +
-                        "}" +
-                    "}" +
-                "}";
-        info = info.replace("\n", "\\n");
+//        String info =
+//                "{" +
+//                    "\"app\":\"com.tencent.miniapp\"," +
+//                    "\"view\":\"notification\"," +
+//                    "\"prompt\":\"角色\"," +
+//                    "\"desc\":\"\"," +
+//                    "\"ver\":\"0.0.0.1\"," +
+//                    "\"meta\":{" +
+//                        "\"notification\":{" +
+//                            "\"appInfo\":{" +
+//                                "\"appName\":\""+ characterBean.getName() + "\"," +
+//                                "\"appType\":4," +
+//                                "\"appid\":1109659848," +
+//                                "\"iconUrl\":\"" + characterMap.getString("icon") + "\"" +
+//                            "}," +
+//                            "\"data\":[" +
+//                                "{\"title\":\"星级\",\"value\":\"" + characterBean.getRarity() +"\"}," +
+//                                "{\"title\":\"神之眼\",\"value\":\"" + characterBean.getElement() + "\"}," +
+//                                "{\"title\":\"武器类型\",\"value\":\"" + characterBean.getWeaponType() + "\"}," +
+//                                "{\"title\":\"升级属性\",\"value\":\"" + characterBean.getSubStat() + "\"}," +
+//                                "{\"title\":\"生日\",\"value\":\"" + characterBean.getBirthday() + "\"}," +
+//                                "{\"title\":\"天赋\",\"value\":\"\"}," +
+//                                "{\"title\":\"" + talentBean.getCombat1().getName() + "\",\"value\":\"" + talentBean.getCombat1().getInfo() + "\"}," +
+//                                "{\"title\":\"" + talentBean.getCombat2().getName() + "\",\"value\":\"" + talentBean.getCombat2().getInfo() + "\"}," +
+//                                "{\"title\":\"" + talentBean.getCombat3().getName() + "\",\"value\":\"" + talentBean.getCombat3().getInfo() + "\"}," +
+//                                (talentBean.getCombatSp() == null ?
+//                                        "" : "{\"title\":\"" + talentBean.getCombatSp().getName() + "\",\"value\":\"" + talentBean.getCombatSp().getInfo() + "\"},") +
+//                                "{\"title\":\"" + talentBean.getPassive1().getName() + "\",\"value\":\"" + talentBean.getPassive1().getInfo() + "\"}," +
+//                                "{\"title\":\"" + talentBean.getPassive2().getName() + "\",\"value\":\"" + talentBean.getPassive2().getInfo() + "\"}," +
+//                                (talentBean.getPassive3() == null ?
+//                                        "" : "{\"title\":\"" + talentBean.getPassive3().getName() + "\",\"value\":\"" + talentBean.getPassive3().getInfo() + "\"},") +
+//                                "{\"title\":\"命之座\",\"value\":\"-\"}," +
+//                                "{\"title\":\"1." + constellationBean.getC1().getName() + "\",\"value\":\"" + constellationBean.getC1().getEffect() + "\"}," +
+//                                "{\"title\":\"2." + constellationBean.getC2().getName() + "\",\"value\":\"" + constellationBean.getC2().getEffect() + "\"}," +
+//                                "{\"title\":\"3." + constellationBean.getC3().getName() + "\",\"value\":\"" + constellationBean.getC3().getEffect() + "\"}," +
+//                                "{\"title\":\"4." + constellationBean.getC4().getName() + "\",\"value\":\"" + constellationBean.getC4().getEffect() + "\"}," +
+//                                "{\"title\":\"5." + constellationBean.getC5().getName() + "\",\"value\":\"" + constellationBean.getC5().getEffect() + "\"}," +
+//                                "{\"title\":\"6." + constellationBean.getC6().getName() + "\",\"value\":\"" + constellationBean.getC6().getEffect() + "\"}" +
+//                            "]" +
+//                        "}" +
+//                    "}" +
+//                "}";
+//        info = info.replace("\n", "\\n");
 
         return new ResultOutput<>(true, "", GenshinSearchDrawHelper.drawCharacterInfo());
     }
@@ -598,53 +597,68 @@ public class GenshinServiceImpl implements GenshinService {
             return new ResultOutput<>(false, "获取 /index/materials.json 中 names 对象失败");
         }
 
-        // TODO: 武器突破材料表
-        int mora = 0;
-        Map<String, MaterialBean> materialMap = new HashMap<>();
+        // 武器突破材料表
+        Map<String, MaterialBean> materialMap = new HashMap<>(); // 存储当前材料详细信息
+        Map<String, Map<String, Integer>> totalMaterialMap = new HashMap<>(); // 以材料类别和材料名分类
         Map<String, List<CostBean>> costMap = weaponBean.getCosts();
         for (String key : costMap.keySet()) {
             List<CostBean> costList = costMap.get(key);
             for (CostBean cost : costList) {
-                if (!materialMap.containsKey(cost.getName())) {
-                    String materialPath = materialNameMap.get(cost.getName());
+                String materialName = cost.getName();
+
+                if (!materialMap.containsKey(materialName)) {
+                    String materialPath = materialNameMap.get(materialName);
 
                     MaterialBean bean = BotUtil.readJsonFile(BotUtil.getGenshinFolderPath() + "/data/materials/" + materialPath, MaterialBean.class);
-                    materialMap.put(cost.getName(), bean);
+                    materialMap.put(materialName, bean);
                 }
 
+                MaterialBean material = materialMap.get(materialName);
+                String type = material.getMaterialType();
                 int count = cost.getCount();
 
+                // 统计累加数量
+                Map<String, Integer> materialSumMap = new HashMap<>();
+                if (totalMaterialMap.containsKey(type)) {
+                    materialSumMap = totalMaterialMap.get(type);
+                }
+                if (materialSumMap.containsKey(materialName)) {
+                    count += materialSumMap.get(materialName);
+                }
+                materialSumMap.put(materialName, count);
+                totalMaterialMap.put(type, materialSumMap);
             }
         }
+        // 组装材料dto
+        Map<String, Integer> adsorbateMap =  totalMaterialMap.get("通用货币");
+        CostDto mora = new CostDto("摩拉", adsorbateMap.get("摩拉"),
+                BotUtil.readImageFile(BotUtil.getGenshinFolderPath() + "/images/materials/mora.png"),
+                0, "");
+        Map<String, Integer> avatarMap =  totalMaterialMap.get("角色培养素材");
+        List<CostDto> avatarList = new ArrayList<>();
+        for (String key : avatarMap.keySet()) {
+            String materialFilePath = materialNameMap.get(key);
+            CostDto cost = new CostDto(key, avatarMap.get(key),
+                    BotUtil.readImageFile(BotUtil.getGenshinFolderPath() + "/images/materials/" + materialFilePath.substring(0, materialFilePath.indexOf(".")) + ".png"),
+                    materialMap.get(key).getSortOrder(), "");
+            avatarList.add(cost);
+        }
+        avatarList.sort(Comparator.comparing(CostDto::getSort)); // 根据sortOrder排序
+        Map<String, Integer> weaponMap =  totalMaterialMap.get("武器突破素材");
+        List<CostDto> weaponList = new ArrayList<>();
+        for (String key : weaponMap.keySet()) {
+            String materialFilePath = materialNameMap.get(key);
+            MaterialBean materialBean = materialMap.get(key);
+            String info = "（" + String.join("/", materialBean.getDaysOfWeek()) + "）"; // 刷取日期
+            CostDto cost = new CostDto(key, weaponMap.get(key),
+                    BotUtil.readImageFile(BotUtil.getGenshinFolderPath() + "/images/materials/" + materialFilePath.substring(0, materialFilePath.indexOf(".")) + ".png"),
+                    materialBean.getSortOrder(), info);
+            weaponList.add(cost);
+        }
+        weaponList.sort(Comparator.comparing(CostDto::getSort)); // 根据sortOrder排序
 
-//        String info =
-//                "{" +
-//                    "\"app\":\"com.tencent.miniapp\"," +
-//                    "\"view\":\"notification\"," +
-//                    "\"prompt\":\"武器\"," +
-//                    "\"desc\":\"\"," +
-//                    "\"ver\":\"0.0.0.1\"," +
-//                    "\"meta\":{" +
-//                        "\"notification\":{" +
-//                            "\"appInfo\":{" +
-//                                "\"appName\":\""+ weaponBean.getName() + "\"," +
-//                                "\"appType\":4," +
-//                                "\"appid\":1109659848," +
-//                                "\"iconUrl\":\"" + weaponMap.getString("awakenicon") + "\"" +
-//                            "}," +
-//                            "\"data\":[" +
-//                                "{\"title\":\"武器类型\",\"value\":\"" + weaponBean.getWeaponType() +"\"}," +
-//                                "{\"title\":\"星级\",\"value\":\"" + weaponBean.getRarity() + "\"}," +
-//                                "{\"title\":\"副词缀\",\"value\":\"" + weaponBean.getSubStat() + "\"}," +
-//                                "{\"title\":\"描述\",\"value\":\"" + weaponBean.getDescription() + "\"}," +
-//                                "{\"title\":\"效果名称\",\"value\":\"" + weaponBean.getEffectName() + "\"}," +
-//                                "{\"title\":\"效果描述\",\"value\":\"" + weaponBean.getLongEffect() + "\"}" +
-//                            "]" +
-//                        "}" +
-//                    "}" +
-//                "}";
-
-        BufferedImage target = GenshinSearchDrawHelper.drawWeaponInfo(new WeaponDrawDto(image, weaponBean));
+        BufferedImage target = GenshinSearchDrawHelper.drawWeaponInfo(new WeaponDrawDto(image, weaponBean,
+                mora, avatarList, weaponList));
         return new ResultOutput<>(true, "", target);
     }
 
