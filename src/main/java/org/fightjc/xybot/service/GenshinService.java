@@ -26,4 +26,10 @@ public interface GenshinService {
      * @return
      */
     ResultOutput<BufferedImage> getInfoByName(String name);
+
+    /**
+     * 检查原神资源完整性
+     * @return
+     */
+    ResultOutput checkGenshinResource();
 }

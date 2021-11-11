@@ -27,10 +27,27 @@ public class DataUpdateCommand extends AdminFriendCommand {
     @Override
     protected Message executeHandle(Friend sender, ArrayList<String> args, MessageChain messageChain, Friend subject) throws Exception {
         StringBuilder result = new StringBuilder("数据更新操作详情：");
+        String usage = "使用方式：数据更新 [检查]";
 
-        // 更新每日素材图片
-        ResultOutput result_udm = genshinService.updateDailyMaterial();
-        result.append("\n").append(result_udm.getInfo());
+        if (args.size() > 1) {
+            return new PlainText(usage);
+        }
+
+        if (args.size() == 0) {
+            // 更新每日素材图片
+            ResultOutput result_udm = genshinService.updateDailyMaterial();
+            result.append("\n").append(result_udm.getInfo());
+        } else {
+            String opt = args.get(0);
+            switch (opt) {
+                case "检查":
+                    ResultOutput cgr = genshinService.checkGenshinResource();
+                    result.append("\n").append(cgr.getInfo());
+                    break;
+                default:
+                    return new PlainText(usage);
+            }
+        }
 
         return new PlainText(result.toString());
     }

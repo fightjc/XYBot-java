@@ -17,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.*;
 
 @Service
@@ -151,6 +152,157 @@ public class GenshinServiceImpl implements GenshinService {
         }
 
         return new ResultOutput<>(false, "找不到 " + name + " 的相关信息，以后即使知道也不告诉你");
+    }
+
+    /**
+     * 检查原神资源完整性
+     * @return
+     */
+    public ResultOutput checkGenshinResource() {
+        StringBuilder result = new StringBuilder();
+
+        //region 检查角色
+        JSONObject charObject = BotUtil.readJsonFile(BotUtil.getGenshinFolderPath() + "/index/characters.json");
+        if (charObject == null) {
+            logger.error("获取 /index/characters.json 对象失败");
+            return new ResultOutput<>(false, "获取 /index/characters.json 对象失败");
+        }
+
+        // 角色名和路径字典
+        Map<String, String> characterNameMap = charObject.getObject("names", new TypeReference<Map<String, String>>(){});
+        if (characterNameMap == null) {
+            logger.error("获取 /index/characters.json 中 names 对象失败");
+            return new ResultOutput<>(false, "获取 /index/characters.json 中 names 对象失败");
+        }
+
+        for (String character : characterNameMap.keySet()) {
+            String filePath = characterNameMap.get(character);
+            // 数据
+            String dataPath = BotUtil.getGenshinFolderPath() + "/data/characters/" + filePath;
+            File dataFile = new File(dataPath);
+            if (!dataFile.exists()) {
+                result.append("\n 路径[").append(dataPath).append("]不存在");
+            }
+            // 图片
+            String imagePath = BotUtil.getGenshinFolderPath() + "/images/characters/" + filePath.substring(0, filePath.indexOf(".")) + ".png";
+            File imageFile = new File(imagePath);
+            if (!imageFile.exists()) {
+                result.append("\n 路径[").append(imagePath).append("]不存在");
+            }
+        }
+        //endregion
+
+        //region 检查武器
+        JSONObject weaponObject = BotUtil.readJsonFile(BotUtil.getGenshinFolderPath() + "/index/weapons.json");
+        if (weaponObject == null) {
+            logger.error("获取 /index/weapons.json 对象失败");
+            return new ResultOutput<>(false, "获取 /index/weapons.json 对象失败");
+        }
+
+        // 武器名和路径字典
+        Map<String, String> weaponNameMap = weaponObject.getObject("names", new TypeReference<Map<String, String>>(){});
+        if (weaponNameMap == null) {
+            logger.error("获取 /index/weapons.json 中 names 对象失败");
+            return new ResultOutput<>(false, "获取 /index/weapons.json 中 names 对象失败");
+        }
+
+        for (String weapon : weaponNameMap.keySet()) {
+            String filePath = weaponNameMap.get(weapon);
+            // 数据
+            String dataPath = BotUtil.getGenshinFolderPath() + "/data/weapons/" + filePath;
+            File dataFile = new File(dataPath);
+            if (!dataFile.exists()) {
+                result.append("\n 路径[").append(dataPath).append("]不存在");
+            }
+            // 图片
+            String imagePath = BotUtil.getGenshinFolderPath() + "/images/weapons/" + filePath.substring(0, filePath.indexOf(".")) + ".png";
+            File imageFile = new File(imagePath);
+            if (!imageFile.exists()) {
+                result.append("\n 路径[").append(imagePath).append("]不存在");
+            }
+        }
+        //endregion
+
+        //region 检查材料
+        JSONObject materialObject = BotUtil.readJsonFile(BotUtil.getGenshinFolderPath() + "/index/materials.json");
+        if (materialObject == null) {
+            logger.error("获取 /index/materials.json 对象失败");
+            return new ResultOutput<>(false, "获取 /index/materials.json 对象失败");
+        }
+
+        // 材料名和路径字典
+        Map<String, String> materialNameMap = materialObject.getObject("names", new TypeReference<Map<String, String>>(){});
+        if (materialNameMap == null) {
+            logger.error("获取 /index/materials.json 中 names 对象失败");
+            return new ResultOutput<>(false, "获取 /index/materials.json 中 names 对象失败");
+        }
+
+        for (String material : materialNameMap.keySet()) {
+            String filePath = materialNameMap.get(material);
+            // 数据
+            String dataPath = BotUtil.getGenshinFolderPath() + "/data/materials/" + filePath;
+            File dataFile = new File(dataPath);
+            if (!dataFile.exists()) {
+                result.append("\n 路径[").append(dataPath).append("]不存在");
+            }
+            // 图片
+            String imagePath = BotUtil.getGenshinFolderPath() + "/images/materials/" + filePath.substring(0, filePath.indexOf(".")) + ".png";
+            File imageFile = new File(imagePath);
+            if (!imageFile.exists()) {
+                result.append("\n 路径[").append(imagePath).append("]不存在");
+            }
+        }
+        //endregion
+
+        //region 检查圣遗物
+        // TODO: 圣遗物名称不统一
+/*
+        JSONObject artifactObject = BotUtil.readJsonFile(BotUtil.getGenshinFolderPath() + "/index/artifacts.json");
+        if (artifactObject == null) {
+            logger.error("获取 /index/artifacts.json 对象失败");
+            return new ResultOutput<>(false, "获取 /index/artifacts.json 对象失败");
+        }
+
+        // 圣遗物名和路径字典
+        Map<String, String> artifactNameMap = artifactObject.getObject("names", new TypeReference<Map<String, String>>(){});
+        if (artifactNameMap == null) {
+            logger.error("获取 /index/artifacts.json 中 names 对象失败");
+            return new ResultOutput<>(false, "获取 /index/artifacts.json 中 names 对象失败");
+        }
+
+        for (String artifact : artifactNameMap.keySet()) {
+            String filePath = artifactNameMap.get(artifact);
+            // 数据
+            String dataPath = BotUtil.getGenshinFolderPath() + "/data/artifacts/" + filePath;
+            File dataFile = new File(dataPath);
+            if (!dataFile.exists()) {
+                result.append("\n 路径[").append(dataPath).append("]不存在");
+            }
+            // 图片
+            String name = filePath.substring(0, filePath.indexOf("."));
+            List<String> imagePaths = new ArrayList<String>() {{
+                add("_circlet.png");
+                add("_flower.png");
+                add("_goblet.png");
+                add("_plume.png");
+                add("_sands.png");
+            }};
+            for (String suffix : imagePaths) {
+                String imagePath = BotUtil.getGenshinFolderPath() + "/images/artifacts/" + name + suffix;
+                File imageFile = new File(imagePath);
+                if (!imageFile.exists()) {
+                    result.append("\n 路径[").append(imagePath).append("]不存在");
+                }
+            }
+        }
+ */
+        //endregion
+
+        if (result.length() > 0) {
+            return new ResultOutput<>(false, result.toString());
+        } else {
+            return new ResultOutput<>(true, "恭喜，原神资源完整！");
+        }
     }
 
     /**
