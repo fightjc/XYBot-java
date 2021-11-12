@@ -1,135 +1,135 @@
 {
-	"namemap": {
-		"aerosiderite.json": "漆黑陨铁",
-		"borealwolf.json": "凛风奔狼",
-		"dandeliongladiator.json": "狮牙斗士",
-		"decarabian.json": "高塔孤王",
-		"guyun.json": "孤云寒林",
-		"mistveiledelixir.json": "雾海云间",
-    "adistantsea.json": "远海夷地",
-    "narukami.json": "鸣神御灵",
-    "mask.json": "今昔剧画"
-	},
-	"names": {
-		"漆黑陨铁": "aerosiderite.json",
-		"凛风奔狼": "borealwolf.json",
-		"狮牙斗士": "dandeliongladiator.json",
-		"高塔孤王": "decarabian.json",
-		"孤云寒林": "guyun.json",
-		"雾海云间": "mistveiledelixir.json",
-    "远海夷地": "adistantsea.json",
-    "鸣神御灵": "narukami.json",
-    "今昔剧画": "mask.json"
-	},
-	"aliases": {
-		"漆黑陨铁的一粒": "aerosiderite.json",
-		"漆黑陨铁的一片": "aerosiderite.json",
-		"漆黑陨铁的一角": "aerosiderite.json",
-		"漆黑陨铁的一块": "aerosiderite.json",
-		"凛风奔狼的始龀": "borealwolf.json",
-		"凛风奔狼的裂齿": "borealwolf.json",
-		"凛风奔狼的断牙": "borealwolf.json",
-		"凛风奔狼的怀乡": "borealwolf.json",
-		"狮牙斗士的枷锁": "dandeliongladiator.json",
-		"狮牙斗士的铁链": "dandeliongladiator.json",
-		"狮牙斗士的镣铐": "dandeliongladiator.json",
-		"狮牙斗士的理想": "dandeliongladiator.json",
-		"高塔孤王的破瓦": "decarabian.json",
-		"高塔孤王的残垣": "decarabian.json",
-		"高塔孤王的断片": "decarabian.json",
-		"高塔孤王的碎梦": "decarabian.json",
-		"孤云寒林的光砂": "guyun.json",
-		"孤云寒林的辉岩": "guyun.json",
-		"孤云寒林的圣骸": "guyun.json",
-		"孤云寒林的神体": "guyun.json",
-		"雾海云间的铅丹": "mistveiledelixir.json",
-		"雾海云间的汞丹": "mistveiledelixir.json",
-		"雾海云间的金丹": "mistveiledelixir.json",
-		"雾海云间的转还": "mistveiledelixir.json",
-		"远海夷地的瑚枝": "adistantsea.json",
-		"远海夷地的玉枝": "adistantsea.json",
-		"远海夷地的琼枝": "adistantsea.json",
-		"远海夷地的金枝": "adistantsea.json",
-		"鸣神御灵的亲爱": "narukami.json",
-		"鸣神御灵的欢喜": "narukami.json",
-		"鸣神御灵的勇武": "narukami.json",
-		"鸣神御灵的明惠": "narukami.json",
-		"今昔剧画之恶尉": "mask.json",
-		"今昔剧画之虎啮": "mask.json",
-		"今昔剧画之一角": "mask.json",
-		"今昔剧画之鬼人": "mask.json"
-	},
-	"categories": {
-		"周三": [
-			"aerosiderite.json",
-			"dandeliongladiator.json",
-			"mask.json"
-		],
-		"周六": [
-			"aerosiderite.json",
-			"dandeliongladiator.json",
-			"mask.json"
-		],
-		"周日": [
-			"aerosiderite.json",
-			"borealwolf.json",
-			"dandeliongladiator.json",
-			"decarabian.json",
-			"guyun.json",
-			"mistveiledelixir.json",
-			"adistantsea.json",
-			"narukami.json",
-			"mask.json"
-		],
-		"璃月": [
-			"aerosiderite.json",
-			"guyun.json",
-			"mistveiledelixir.json"
-		],
-		"震雷连山密宫": [
-			"aerosiderite.json",
-			"guyun.json",
-			"mistveiledelixir.json"
-		],
-		"周二": [
-			"borealwolf.json",
-			"mistveiledelixir.json",
-			"narukami.json"
-		],
-		"周五": [
-			"borealwolf.json",
-			"mistveiledelixir.json",
-			"narukami.json"
-		],
-		"蒙德": [
-			"borealwolf.json",
-			"dandeliongladiator.json",
-			"decarabian.json"
-		],
-		"塞西莉亚苗圃": [
-			"borealwolf.json",
-			"dandeliongladiator.json",
-			"decarabian.json"
-		],
-		"周一": [
-			"decarabian.json",
-			"guyun.json",
-			"adistantsea.json"
-		],
-		"周四": [
-			"decarabian.json",
-			"guyun.json",
-			"adistantsea.json"
-		],
-		"稻妻": [
-			"adistantsea.json",
-			"narukami.json",
-			"mask.json"
-		],
-		"砂流之庭": [
-			"adistantsea.json",
-			"narukami.json",
-			"mask.json"
-		]
-	}
+  "namemap": {
+    "aerosiderite": "漆黑陨铁",
+    "borealwolf": "凛风奔狼",
+    "dandeliongladiator": "狮牙斗士",
+    "decarabian": "高塔孤王",
+    "guyun": "孤云寒林",
+    "mistveiledelixir": "雾海云间",
+    "adistantsea": "远海夷地",
+    "narukami": "鸣神御灵",
+    "mask": "今昔剧画"
+  },
+  "names": {
+    "漆黑陨铁": "aerosiderite",
+    "凛风奔狼": "borealwolf",
+    "狮牙斗士": "dandeliongladiator",
+    "高塔孤王": "decarabian",
+    "孤云寒林": "guyun",
+    "雾海云间": "mistveiledelixir",
+    "远海夷地": "adistantsea",
+    "鸣神御灵": "narukami",
+    "今昔剧画": "mask"
+  },
+  "aliases": {
+    "漆黑陨铁的一粒": "aerosiderite",
+    "漆黑陨铁的一片": "aerosiderite",
+    "漆黑陨铁的一角": "aerosiderite",
+    "漆黑陨铁的一块": "aerosiderite",
+    "凛风奔狼的始龀": "borealwolf",
+    "凛风奔狼的裂齿": "borealwolf",
+    "凛风奔狼的断牙": "borealwolf",
+    "凛风奔狼的怀乡": "borealwolf",
+    "狮牙斗士的枷锁": "dandeliongladiator",
+    "狮牙斗士的铁链": "dandeliongladiator",
+    "狮牙斗士的镣铐": "dandeliongladiator",
+    "狮牙斗士的理想": "dandeliongladiator",
+    "高塔孤王的破瓦": "decarabian",
+    "高塔孤王的残垣": "decarabian",
+    "高塔孤王的断片": "decarabian",
+    "高塔孤王的碎梦": "decarabian",
+    "孤云寒林的光砂": "guyun",
+    "孤云寒林的辉岩": "guyun",
+    "孤云寒林的圣骸": "guyun",
+    "孤云寒林的神体": "guyun",
+    "雾海云间的铅丹": "mistveiledelixir",
+    "雾海云间的汞丹": "mistveiledelixir",
+    "雾海云间的金丹": "mistveiledelixir",
+    "雾海云间的转还": "mistveiledelixir",
+    "远海夷地的瑚枝": "adistantsea",
+    "远海夷地的玉枝": "adistantsea",
+    "远海夷地的琼枝": "adistantsea",
+    "远海夷地的金枝": "adistantsea",
+    "鸣神御灵的亲爱": "narukami",
+    "鸣神御灵的欢喜": "narukami",
+    "鸣神御灵的勇武": "narukami",
+    "鸣神御灵的明惠": "narukami",
+    "今昔剧画之恶尉": "mask",
+    "今昔剧画之虎啮": "mask",
+    "今昔剧画之一角": "mask",
+    "今昔剧画之鬼人": "mask"
+  },
+  "categories": {
+    "周三": [
+      "aerosiderite",
+      "dandeliongladiator",
+      "mask"
+    ],
+    "周六": [
+      "aerosiderite",
+      "dandeliongladiator",
+      "mask"
+    ],
+    "周日": [
+      "aerosiderite",
+      "borealwolf",
+      "dandeliongladiator",
+      "decarabian",
+      "guyun",
+      "mistveiledelixir",
+      "adistantsea",
+      "narukami",
+      "mask"
+    ],
+    "璃月": [
+      "aerosiderite",
+      "guyun",
+      "mistveiledelixir"
+    ],
+    "震雷连山密宫": [
+      "aerosiderite",
+      "guyun",
+      "mistveiledelixir"
+    ],
+    "周二": [
+      "borealwolf",
+      "mistveiledelixir",
+      "narukami"
+    ],
+    "周五": [
+      "borealwolf",
+      "mistveiledelixir",
+      "narukami"
+    ],
+    "蒙德": [
+      "borealwolf",
+      "dandeliongladiator",
+      "decarabian"
+    ],
+    "塞西莉亚苗圃": [
+      "borealwolf",
+      "dandeliongladiator",
+      "decarabian"
+    ],
+    "周一": [
+      "decarabian",
+      "guyun",
+      "adistantsea"
+    ],
+    "周四": [
+      "decarabian",
+      "guyun",
+      "adistantsea"
+    ],
+    "稻妻": [
+      "adistantsea",
+      "narukami",
+      "mask"
+    ],
+    "砂流之庭": [
+      "adistantsea",
+      "narukami",
+      "mask"
+    ]
+  }
 }

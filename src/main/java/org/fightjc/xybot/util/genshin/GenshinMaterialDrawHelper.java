@@ -86,12 +86,13 @@ public class GenshinMaterialDrawHelper {
 
             // endregion
 
-            // 准备画板
+            //region 准备画板
             BufferedImage target = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
             Graphics2D g2d = target.createGraphics();
             g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON); // 抗锯齿
             g2d.setBackground(new Color(246, 242, 238)); // #f6f2ee
             g2d.clearRect(0, 0, width, height);
+            //endregion
 
             int currentOffsetY = IMAGE_MARGIN; // 记录下一次绘图的纵坐标
 
@@ -420,7 +421,7 @@ public class GenshinMaterialDrawHelper {
      */
     private static void drawMaterialImage(Graphics2D g2d, NameMapBean bean, String rarity, int x, int y) {
         // 获取指定大小材料前景图
-        String name = bean.getNameMap().substring(0, bean.getNameMap().indexOf("."));
+        String name = bean.getNameMap();
         String fgFilePath = BotUtil.getGenshinFolderPath() + "/images/materials/" + name + ".png";
         BufferedImage fgImage = BotUtil.readImageFile(fgFilePath);
         if (fgImage == null) {
@@ -460,7 +461,7 @@ public class GenshinMaterialDrawHelper {
      */
     private static void drawCharacterImage(Graphics2D g2d, NameMapBean bean, String rarity, int x, int y) {
         // 获取指定大小角色前景图
-        String name = bean.getNameMap().substring(0, bean.getNameMap().indexOf("."));
+        String name = bean.getNameMap();
         String fgFilePath = BotUtil.getGenshinFolderPath() + "/images/characters/" + name + ".png";
         BufferedImage fgImage = BotUtil.readImageFile(fgFilePath);
         if (fgImage == null) {
@@ -504,7 +505,7 @@ public class GenshinMaterialDrawHelper {
      */
     private static void drawWeaponImage(Graphics2D g2d, NameMapBean bean, String rarity, int x, int y) {
         // 获取指定大小武器前景图
-        String name = bean.getNameMap().substring(0, bean.getNameMap().indexOf("."));
+        String name = bean.getNameMap();
         String fgFilePath = BotUtil.getGenshinFolderPath() + "/images/weapons/" + name + ".png";
         BufferedImage fgImage = BotUtil.readImageFile(fgFilePath);
         if (fgImage == null) {

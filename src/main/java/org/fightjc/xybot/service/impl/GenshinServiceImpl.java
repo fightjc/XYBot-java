@@ -204,15 +204,15 @@ public class GenshinServiceImpl implements GenshinService {
         }
 
         for (String weapon : weaponNameMap.keySet()) {
-            String filePath = weaponNameMap.get(weapon);
+            String name = weaponNameMap.get(weapon);
             // 数据
-            String dataPath = BotUtil.getGenshinFolderPath() + "/data/weapons/" + filePath;
+            String dataPath = BotUtil.getGenshinFolderPath() + "/data/weapons/" + name + ".json";
             File dataFile = new File(dataPath);
             if (!dataFile.exists()) {
                 result.append("\n 路径[").append(dataPath).append("]不存在");
             }
             // 图片
-            String imagePath = BotUtil.getGenshinFolderPath() + "/images/weapons/" + filePath.substring(0, filePath.indexOf(".")) + ".png";
+            String imagePath = BotUtil.getGenshinFolderPath() + "/images/weapons/" + name + ".png";
             File imageFile = new File(imagePath);
             if (!imageFile.exists()) {
                 result.append("\n 路径[").append(imagePath).append("]不存在");
@@ -388,12 +388,12 @@ public class GenshinServiceImpl implements GenshinService {
             List<TalentMaterialTypeBean> tmtList = new ArrayList<>();
             for (int j = 0; j < tmtArray.size(); j++) {
                 TalentMaterialTypeBean tmtBean = BotUtil.readJsonFile(
-                        BotUtil.getGenshinFolderPath() + "/data/talentmaterialtypes/" + tmtArray.getString(j),
+                        BotUtil.getGenshinFolderPath() + "/data/talentmaterialtypes/" + tmtArray.getString(j) + ".json",
                         TalentMaterialTypeBean.class);
                 if (tmtBean != null) {
                     tmtList.add(tmtBean);
                 } else {
-                    logger.error("获取 /data/talentmaterialtypes/" + tmtArray.getString(j) + " 对象失败");
+                    logger.error("获取 /data/talentmaterialtypes/" + tmtArray.getString(j) + ".json 对象失败");
                 }
             }
             tmtMap.put(day, tmtList);
@@ -421,12 +421,12 @@ public class GenshinServiceImpl implements GenshinService {
             List<WeaponMaterialTypeBean> wmtList = new ArrayList<>();
             for (int j = 0; j < wmtArray.size(); j++) {
                 WeaponMaterialTypeBean wmtBean = BotUtil.readJsonFile(
-                        BotUtil.getGenshinFolderPath() + "/data/weaponmaterialtypes/" + wmtArray.getString(j),
+                        BotUtil.getGenshinFolderPath() + "/data/weaponmaterialtypes/" + wmtArray.getString(j) + ".json",
                         WeaponMaterialTypeBean.class);
                 if (wmtBean != null){
                     wmtList.add(wmtBean);
                 } else {
-                    logger.error("获取 /data/weaponmaterialtypes/" + wmtArray.getString(j) + " 对象失败");
+                    logger.error("获取 /data/weaponmaterialtypes/" + wmtArray.getString(j) + ".json 对象失败");
                 }
             }
             wmtMap.put(day, wmtList);
@@ -462,12 +462,12 @@ public class GenshinServiceImpl implements GenshinService {
             List<TalentBean> talentList = new ArrayList<>();
             for (int j = 0; j < charArray.size(); j++) {
                 TalentBean talentBean = BotUtil.readJsonFile(
-                        BotUtil.getGenshinFolderPath() + "/data/talents/" + charArray.getString(j),
+                        BotUtil.getGenshinFolderPath() + "/data/talents/" + charArray.getString(j) + ".json",
                         TalentBean.class);
                 if (talentBean != null) {
                     talentList.add(talentBean);
                 } else {
-                    logger.error("获取 /data/talents/" + charArray.getString(j) + " 对象失败");
+                    logger.error("获取 /data/talents/" + charArray.getString(j) + ".json 对象失败");
                 }
             }
             talentMap.put(rarity, talentList);
@@ -503,12 +503,12 @@ public class GenshinServiceImpl implements GenshinService {
             List<WeaponBean> weaponList = new ArrayList<>();
             for (int j = 0; j < weaponArray.size(); j++) {
                 WeaponBean weaponBean = BotUtil.readJsonFile(
-                        BotUtil.getGenshinFolderPath() + "/data/weapons/" + weaponArray.getString(j),
+                        BotUtil.getGenshinFolderPath() + "/data/weapons/" + weaponArray.getString(j) + ".json",
                         WeaponBean.class);
                 if (weaponBean != null) {
                     weaponList.add(weaponBean);
                 } else {
-                    logger.error("获取 /data/weapons/" + weaponArray.getString(j) + " 对象失败");
+                    logger.error("获取 /data/weapons/" + weaponArray.getString(j) + ".json 对象失败");
                 }
             }
             weaponMap.put(rarity, weaponList);
@@ -617,48 +617,38 @@ public class GenshinServiceImpl implements GenshinService {
 
     /**
      * 获取角色信息
-     * @param filePath
+     * @param name
      * @return
      */
-    private ResultOutput<BufferedImage> getCharacterInfo(String filePath) {
+    private ResultOutput<BufferedImage> getCharacterInfo(String name) {
         // 角色主属性信息
         CharacterBean characterBean = BotUtil.readJsonFile(
-                BotUtil.getGenshinFolderPath() + "/data/characters/" + filePath,
+                BotUtil.getGenshinFolderPath() + "/data/characters/" + name + ".json",
                 CharacterBean.class);
         if (characterBean == null) {
-            logger.error("获取 /data/characters/" + filePath + " 对象失败");
-            return new ResultOutput<>(false, "获取 /data/characters/" + filePath + " 对象失败");
+            logger.error("获取 /data/characters/" + name + ".json 对象失败");
+            return new ResultOutput<>(false, "获取 /data/characters/" + name + ".json 对象失败");
         }
 
         // 角色天赋
         TalentBean talentBean = BotUtil.readJsonFile(
-                BotUtil.getGenshinFolderPath() + "/data/talents/" + filePath,
+                BotUtil.getGenshinFolderPath() + "/data/talents/" + name + ".json",
                 TalentBean.class);
         if (talentBean == null) {
-            logger.error("获取 /data/talents/" + filePath + " 对象失败");
-            return new ResultOutput<>(false, "获取 /data/talents/" + filePath + " 对象失败");
+            logger.error("获取 /data/talents/" + name + ".json 对象失败");
+            return new ResultOutput<>(false, "获取 /data/talents/" + name + ".json 对象失败");
         }
 
         // 角色命座
         ConstellationBean constellationBean = BotUtil.readJsonFile(
-                BotUtil.getGenshinFolderPath() + "/data/constellations/" + filePath,
+                BotUtil.getGenshinFolderPath() + "/data/constellations/" + name + ".json",
                 ConstellationBean.class);
         if (constellationBean == null) {
-            logger.error("获取 /data/constellations/" + filePath + " 对象失败");
-            return new ResultOutput<>(false, "获取 /data/constellations/" + filePath + " 对象失败");
+            logger.error("获取 /data/constellations/" + name + ".json 对象失败");
+            return new ResultOutput<>(false, "获取 /data/constellations/" + name + ".json 对象失败");
         }
 
-        // 角色图标
-        JSONObject imagesMap = BotUtil.readJsonFile(BotUtil.getGenshinFolderPath() + "/images/characters.json");
-        if (imagesMap == null) {
-            logger.error("获取 /images/characters.json 对象失败");
-            return new ResultOutput<>(false, "获取 /images/characters.json 对象失败");
-        }
-        JSONObject characterMap = imagesMap.getJSONObject(filePath);
-        if (characterMap == null) {
-            logger.error("获取 /images/characters.json 对象失败");
-            return new ResultOutput<>(false, "获取 /images/characters.json 中 " + filePath + " 对象失败");
-        }
+        // TODO:角色图标
 
         //TODO: 太长了卡片显示不全
 //        String info =
@@ -710,21 +700,20 @@ public class GenshinServiceImpl implements GenshinService {
 
     /**
      *  获取武器信息
-     * @param filePath
+     * @param name
      * @return
      */
-    private ResultOutput<BufferedImage> getWeaponInfo(String filePath) {
+    private ResultOutput<BufferedImage> getWeaponInfo(String name) {
         // 武器信息
         WeaponBean weaponBean = BotUtil.readJsonFile(
-                BotUtil.getGenshinFolderPath() + "/data/weapons/" + filePath,
+                BotUtil.getGenshinFolderPath() + "/data/weapons/" + name + ".json",
                 WeaponBean.class);
         if (weaponBean == null) {
-            logger.error("获取 /data/weapons/" + filePath + " 对象失败");
-            return new ResultOutput<>(false, "获取 /data/weapons/" + filePath + " 对象失败");
+            logger.error("获取 /data/weapons/" + name + ".json 对象失败");
+            return new ResultOutput<>(false, "获取 /data/weapons/" + name + ".json 对象失败");
         }
 
         // 武器图标
-        String name = filePath.substring(0, filePath.indexOf("."));
         String imagePath = BotUtil.getGenshinFolderPath() + "/images/weapons/" + name + ".png";
         BufferedImage image = BotUtil.readImageFile(imagePath);
         if (image == null) {
@@ -813,10 +802,10 @@ public class GenshinServiceImpl implements GenshinService {
 
     /**
      * 获取材料信息
-     * @param filePath
+     * @param name
      * @return
      */
-    private ResultOutput<BufferedImage> getMaterialInfo(String filePath) {
+    private ResultOutput<BufferedImage> getMaterialInfo(String name) {
         return new ResultOutput<>(true, "", GenshinSearchDrawHelper.drawMaterialInfo());
     }
 }

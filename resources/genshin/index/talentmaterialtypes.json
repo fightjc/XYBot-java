@@ -1,98 +1,98 @@
 {
   "namemap": {
-    "ballad.json": "诗文",
-    "diligence.json": "勤劳",
-    "elegance.json": "风雅",
-    "freedom.json": "自由",
-    "gold.json": "黄金",
-    "prosperity.json": "繁荣",
-    "resistance.json": "抗争",
-    "transience.json": "浮世",
-    "light.json": "天光"
+    "ballad": "诗文",
+    "diligence": "勤劳",
+    "elegance": "风雅",
+    "freedom": "自由",
+    "gold": "黄金",
+    "prosperity": "繁荣",
+    "resistance": "抗争",
+    "transience": "浮世",
+    "light": "天光"
   },
   "names": {
-    "诗文": "ballad.json",
-    "勤劳": "diligence.json",
-    "风雅": "elegance.json",
-    "自由": "freedom.json",
-    "黄金": "gold.json",
-    "繁荣": "prosperity.json",
-    "抗争": "resistance.json",
-    "浮世": "transience.json",
-    "天光": "light.json"
+    "诗文": "ballad",
+    "勤劳": "diligence",
+    "风雅": "elegance",
+    "自由": "freedom",
+    "黄金": "gold",
+    "繁荣": "prosperity",
+    "抗争": "resistance",
+    "浮世": "transience",
+    "天光": "light"
   },
   "aliases": {},
   "categories": {
     "周三": [
-      "ballad.json",
-      "gold.json",
-      "light.json"
+      "ballad",
+      "gold",
+      "light"
     ],
     "周六": [
-      "ballad.json",
-      "gold.json",
-      "light.json"
+      "ballad",
+      "gold",
+      "light"
     ],
     "周日": [
-      "ballad.json",
-      "diligence.json",
-      "elegance.json",
-      "freedom.json",
-      "gold.json",
-      "prosperity.json",
-      "resistance.json",
-      "transience.json",
-      "light.json"
+      "ballad",
+      "diligence",
+      "elegance",
+      "freedom",
+      "gold",
+      "prosperity",
+      "resistance",
+      "transience",
+      "light"
     ],
     "蒙德": [
-      "ballad.json",
-      "freedom.json",
-      "resistance.json"
+      "ballad",
+      "freedom",
+      "resistance"
     ],
     "忘却之峡": [
-      "ballad.json",
-      "freedom.json",
-      "resistance.json"
+      "ballad",
+      "freedom",
+      "resistance"
     ],
     "周二": [
-      "diligence.json",
-      "resistance.json",
-      "elegance.json"
+      "diligence",
+      "resistance",
+      "elegance"
     ],
     "周五": [
-      "diligence.json",
-      "resistance.json",
-      "elegance.json"
+      "diligence",
+      "resistance",
+      "elegance"
     ],
     "璃月": [
-      "diligence.json",
-      "gold.json",
-      "prosperity.json"
+      "diligence",
+      "gold",
+      "prosperity"
     ],
     "太山府": [
-      "diligence.json",
-      "gold.json",
-      "prosperity.json"
+      "diligence",
+      "gold",
+      "prosperity"
     ],
     "周一": [
-      "freedom.json",
-      "prosperity.json",
-      "transience.json"
+      "freedom",
+      "prosperity",
+      "transience"
     ],
     "周四": [
-      "freedom.json",
-      "prosperity.json",
-      "transience.json"
+      "freedom",
+      "prosperity",
+      "transience"
     ],
     "稻妻": [
-      "elegance.json",
-      "transience.json",
-      "light.json"
+      "elegance",
+      "transience",
+      "light"
     ],
     "堇色之庭": [
-      "elegance.json",
-      "transience.json",
-      "light.json"
+      "elegance",
+      "transience",
+      "light"
     ]
   }
 }
