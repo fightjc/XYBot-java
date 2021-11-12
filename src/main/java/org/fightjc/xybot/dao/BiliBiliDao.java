@@ -7,7 +7,6 @@ import org.fightjc.xybot.pojo.bilibili.SubscribeRecordBean;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Map;
 
 @Repository
 public interface BiliBiliDao {

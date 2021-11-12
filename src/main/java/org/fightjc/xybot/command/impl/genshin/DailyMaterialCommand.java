@@ -2,7 +2,10 @@ package org.fightjc.xybot.command.impl.genshin;
 
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.contact.Member;
-import net.mamoe.mirai.message.data.*;
+import net.mamoe.mirai.message.data.At;
+import net.mamoe.mirai.message.data.Message;
+import net.mamoe.mirai.message.data.MessageChain;
+import net.mamoe.mirai.message.data.PlainText;
 import net.mamoe.mirai.utils.ExternalResource;
 import org.fightjc.xybot.annotate.CommandAnnotate;
 import org.fightjc.xybot.annotate.SwitchAnnotate;

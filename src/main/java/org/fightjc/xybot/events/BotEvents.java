@@ -1,9 +1,7 @@
 package org.fightjc.xybot.events;
 
 import kotlin.coroutines.CoroutineContext;
-import net.mamoe.mirai.event.ListeningStatus;
 import net.mamoe.mirai.event.SimpleListenerHost;
-import net.mamoe.mirai.event.events.BotOnlineEvent;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

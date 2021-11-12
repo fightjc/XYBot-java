@@ -4,18 +4,14 @@ import org.fightjc.xybot.pojo.bilibili.DynamicDto;
 import org.fightjc.xybot.pojo.bilibili.DynamicPictureBean;
 import org.fightjc.xybot.pojo.bilibili.DynamicPictureDto;
 import org.fightjc.xybot.pojo.bilibili.DynamicVideoDto;
-import org.fightjc.xybot.util.BotUtil;
 import org.fightjc.xybot.util.ImageUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sun.font.FontDesignMetrics;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
 public class BilibiliDynamicDrawHelper {
 

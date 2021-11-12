@@ -2,7 +2,8 @@ package org.fightjc.xybot.util;
 
 import org.fightjc.xybot.pojo.ResultOutput;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 机器人功能开关管理器
@@ -28,7 +29,7 @@ public class BotSwitch {
         private static final BotSwitch instance = new BotSwitch();
     }
 
-    public static final BotSwitch getInstance() { return Lazy.instance; }
+    public static BotSwitch getInstance() { return Lazy.instance; }
 
     public void registerSwitch(String name, Boolean isAutoOn) {
         switchList.put(name, isAutoOn);

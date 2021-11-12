@@ -1,6 +1,5 @@
 package org.fightjc.xybot.startup;
 
-import com.idrsolutions.image.png.PngCompressor;
 import net.mamoe.mirai.event.ListenerHost;
 import org.fightjc.xybot.annotate.AnnotateAnalyzer;
 import org.fightjc.xybot.bot.XYBot;
@@ -25,7 +24,6 @@ import org.springframework.stereotype.Component;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 @Component
@@ -77,7 +75,6 @@ public class XYBotLoader implements ApplicationRunner {
         for (GroupSwitch groupSwitch : groupSwitchList) {
             BotSwitch.getInstance().createOrUpdateGroupSwitch(groupSwitch.getGroupId(), groupSwitch.getName(), groupSwitch.isOn());
         }
-
     }
 
     private void startupBot() {

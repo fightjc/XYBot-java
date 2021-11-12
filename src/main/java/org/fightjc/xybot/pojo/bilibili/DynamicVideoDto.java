@@ -1,7 +1,6 @@
 package org.fightjc.xybot.pojo.bilibili;
 
 import java.awt.image.BufferedImage;
-import java.util.List;
 
 public class DynamicVideoDto extends DynamicDto {
     String description;
