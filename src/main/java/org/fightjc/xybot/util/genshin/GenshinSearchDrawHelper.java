@@ -1,5 +1,6 @@
 package org.fightjc.xybot.util.genshin;
 
+import org.apache.http.util.TextUtils;
 import org.fightjc.xybot.pojo.genshin.CostDto;
 import org.fightjc.xybot.pojo.genshin.WeaponBean;
 import org.fightjc.xybot.pojo.genshin.WeaponDrawDto;
@@ -45,7 +46,7 @@ public class GenshinSearchDrawHelper {
         Font f_type = new Font(Font.SANS_SERIF, Font.BOLD, 21); // 类型字体
         Font f_des = new Font("Microsoft YaHei", Font.PLAIN, 21); // 描述字体
         Font f_effect_title = new Font(Font.SANS_SERIF, Font.BOLD, 28); // 特效标题字体
-        Font f_effect = new Font("Microsoft YaHei", Font.PLAIN, 21); // 特效标题字体
+        Font f_effect = new Font(Font.MONOSPACED, Font.PLAIN, 21); // 特效内容 字体
         //endregion
 
         int currX = 0;
@@ -66,23 +67,25 @@ public class GenshinSearchDrawHelper {
         height += RARITY_WIDTH + RARITY_DES_MARGIN;
         // 简介
         {
-            String text = bean.getDescription();
-            FontMetrics metrics = FontDesignMetrics.getMetrics(f_des);
-            int text_height = metrics.getAscent();
-            if (text.length() == 0) {
-                height += text_height + DES_ATK_MARGIN;
-            } else {
-                int des_width = width - NAME_MARGIN - (ICON_MARGIN + ICON_WIDTH + ICON_MARGIN);
-                int text_width = metrics.charsWidth(text.toCharArray(), 0, text.length());
-                int rowCount = text_width / des_width + (text_width % des_width > 0 ? 1 : 0); // 总行数
-                height += rowCount * (text_height + DES_LINE_GAP) - DES_LINE_GAP + DES_ATK_MARGIN;
-            }
+            int des_width = width - NAME_MARGIN - (ICON_MARGIN + ICON_WIDTH + ICON_MARGIN);
+            height += ImageUtil.getParagraphHeight(
+                    bean.getDescription(),
+                    f_des,
+                    Color.BLACK,
+                    des_width,
+                    DES_LINE_GAP,
+                    NAME_MARGIN,
+                    currY) + DES_ATK_MARGIN;
         }
         // 基础攻击
         {
             FontMetrics metrics_baseAtk = FontDesignMetrics.getMetrics(f_effect);
             int text_baseAtk_height = metrics_baseAtk.getAscent();
-            height += text_baseAtk_height + EFFECT_LINE_GAP + text_baseAtk_height + ATK_EFFECT_MARGIN;
+            height += text_baseAtk_height;
+            if (!TextUtils.isEmpty(bean.getSubStat())) {
+                height += EFFECT_LINE_GAP + text_baseAtk_height;
+            }
+            height += ATK_EFFECT_MARGIN;
         }
         // 特效
         {
@@ -90,17 +93,15 @@ public class GenshinSearchDrawHelper {
             int text_effect_height = metrics_effect.getAscent();
             height += text_effect_height + EFFECT_TITLE_MARGIN;
 
-            String text = bean.getLongEffect();
-            FontMetrics metrics = FontDesignMetrics.getMetrics(f_effect);
-            int text_height = metrics.getAscent();
-            if (text.length() == 0) {
-                height += text_height + EFFECT_ASCEND_MARGIN;
-            } else {
-                int effect_width = width - EFFECT_MARGIN * 2;
-                int text_width = metrics.charsWidth(text.toCharArray(), 0, text.length());
-                int rowCount = text_width / effect_width + (text_width % effect_width > 0 ? 1 : 0); // 总行数
-                height += rowCount * (text_height + EFFECT_LINE_GAP) - EFFECT_LINE_GAP + EFFECT_ASCEND_MARGIN;
-            }
+            int effect_width = width - EFFECT_MARGIN * 2;
+            height += ImageUtil.getParagraphHeight(
+                    bean.getLongEffect(),
+                    f_effect,
+                    Color.BLACK,
+                    effect_width,
+                    EFFECT_LINE_GAP,
+                    EFFECT_MARGIN,
+                    currY) + EFFECT_ASCEND_MARGIN;
         }
         // 突破材料表
         {
@@ -200,11 +201,15 @@ public class GenshinSearchDrawHelper {
         g2d.drawString("基础攻击力：" + bean.getBaseAtk(),
                 currX,
                 currY + text_baseAtk_height);
-        currY += text_baseAtk_height + EFFECT_LINE_GAP;
-        g2d.drawString(bean.getSubStat() + "：" + bean.getSubValue() + " %",
-                currX,
-                currY + text_baseAtk_height);
-        currY += text_baseAtk_height + ATK_EFFECT_MARGIN;
+        currY += text_baseAtk_height;
+        if (!TextUtils.isEmpty(bean.getSubStat())) {
+            currY += EFFECT_LINE_GAP;
+            g2d.drawString(bean.getSubStat() + "：" + bean.getSubValue() + "%",
+                    currX,
+                    currY + text_baseAtk_height);
+            currY += text_baseAtk_height;
+        }
+        currY += ATK_EFFECT_MARGIN;
 
         // 技能特效标题
         FontMetrics metrics_effect = FontDesignMetrics.getMetrics(f_effect_title);
