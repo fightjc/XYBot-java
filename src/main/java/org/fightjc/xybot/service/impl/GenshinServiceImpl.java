@@ -173,15 +173,15 @@ public class GenshinServiceImpl implements GenshinService {
         }
 
         for (String character : characterNameMap.keySet()) {
-            String filePath = characterNameMap.get(character);
+            String name = characterNameMap.get(character);
             // 数据
-            String dataPath = BotUtil.getGenshinFolderPath() + "/data/characters/" + filePath;
+            String dataPath = BotUtil.getGenshinFolderPath() + "/data/characters/" + name + ".json";
             File dataFile = new File(dataPath);
             if (!dataFile.exists()) {
                 result.append("\n 路径[").append(dataPath).append("]不存在");
             }
             // 图片
-            String imagePath = BotUtil.getGenshinFolderPath() + "/images/characters/" + filePath.substring(0, filePath.indexOf(".")) + ".png";
+            String imagePath = BotUtil.getGenshinFolderPath() + "/images/characters/" + name + ".png";
             File imageFile = new File(imagePath);
             if (!imageFile.exists()) {
                 result.append("\n 路径[").append(imagePath).append("]不存在");
@@ -235,15 +235,15 @@ public class GenshinServiceImpl implements GenshinService {
         }
 
         for (String material : materialNameMap.keySet()) {
-            String filePath = materialNameMap.get(material);
+            String name = materialNameMap.get(material);
             // 数据
-            String dataPath = BotUtil.getGenshinFolderPath() + "/data/materials/" + filePath;
+            String dataPath = BotUtil.getGenshinFolderPath() + "/data/materials/" + name + ".json";
             File dataFile = new File(dataPath);
             if (!dataFile.exists()) {
                 result.append("\n 路径[").append(dataPath).append("]不存在");
             }
             // 图片
-            String imagePath = BotUtil.getGenshinFolderPath() + "/images/materials/" + filePath.substring(0, filePath.indexOf(".")) + ".png";
+            String imagePath = BotUtil.getGenshinFolderPath() + "/images/materials/" + name + ".png";
             File imageFile = new File(imagePath);
             if (!imageFile.exists()) {
                 result.append("\n 路径[").append(imagePath).append("]不存在");
