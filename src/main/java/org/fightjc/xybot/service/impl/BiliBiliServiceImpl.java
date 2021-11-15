@@ -302,6 +302,9 @@ public class BiliBiliServiceImpl implements BiliBiliService {
      */
     public void checkNeedGroupNotify() {
         Map<String, List<DynamicDto>> latestDynamics = new HashMap<>();
+        // 对同一动态做缓存减少画图时间
+        Map<String, String> dynamicMsgMap = new HashMap<>();
+        Map<String, ExternalResource> dynamicImageMap = new HashMap<>();
 
         // 获取所有最新动态
         List<DynamicBean> dynamicList = biliBiliDao.getAllDynamics();
@@ -316,7 +319,7 @@ public class BiliBiliServiceImpl implements BiliBiliService {
             }
         }
 
-        // 群推送
+        // 所有群推送记录
         List<SubscribeBean> groupSubscribes = biliBiliDao.getAllGroupSubscribes();
         groupSubscribes.removeIf(bean -> !bean.isActive()); // 移除不需要推送的记录
         // 对群分组
@@ -325,7 +328,7 @@ public class BiliBiliServiceImpl implements BiliBiliService {
                         SubscribeBean::getGroupId, Collectors.mapping(SubscribeBean::getMid, Collectors.toList())
                 )
         );
-        // TODO: 对同一动态做缓存减少画图时间
+        // 推送到群
         for (Long groupId : result.keySet()) {
             List<String> mids = result.get(groupId);
             for (String mid : mids) {
@@ -333,16 +336,28 @@ public class BiliBiliServiceImpl implements BiliBiliService {
                 for (DynamicDto dto : dynamicDtos) {
                     Group group = XYBot.getBot().getGroup(groupId);
                     if (group != null) {
-                        String msg = dto.getUname() + " (" + dto.getUid() + ") 于 " +
-                                dto.getDateString() + " 发布了" + getTypeName(dto.getType()) + "\n" +
-                                "详情点击: http://t.bilibili.com/" + dto.getDynamicId() + "\n\n";
 
-                        try {
-                            BufferedImage dynamicImage = BilibiliDynamicDrawHelper.generateDynamic(dto);
-                            ExternalResource image = ImageUtil.bufferedImage2ExternalResource(dynamicImage);
-                            group.sendMessage(new PlainText(msg).plus(group.uploadImage(image)));
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                        if (dynamicMsgMap.containsKey(mid)) {
+                            group.sendMessage(
+                                    new PlainText(dynamicMsgMap.get(mid))
+                                            .plus(group.uploadImage(dynamicImageMap.get(mid))));
+                        } else {
+                            // 说明
+                            String msg = dto.getUname() + " (" + dto.getUid() + ") 于 " +
+                                    dto.getDateString() + " 发布了" + getTypeName(dto.getType()) + "\n" +
+                                    "详情点击: http://t.bilibili.com/" + dto.getDynamicId() + "\n\n";
+                            dynamicMsgMap.put(mid, msg);
+
+                            // 图片
+                            try {
+                                BufferedImage dynamicImage = BilibiliDynamicDrawHelper.generateDynamic(dto);
+                                ExternalResource image = ImageUtil.bufferedImage2ExternalResource(dynamicImage);
+                                dynamicImageMap.put(mid, image);
+
+                                group.sendMessage(new PlainText(msg).plus(group.uploadImage(image)));
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                 }

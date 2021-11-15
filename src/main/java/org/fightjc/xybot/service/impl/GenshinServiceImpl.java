@@ -747,7 +747,7 @@ public class GenshinServiceImpl implements GenshinService {
                 if (!materialMap.containsKey(materialName)) {
                     String materialPath = materialNameMap.get(materialName);
 
-                    MaterialBean bean = BotUtil.readJsonFile(BotUtil.getGenshinFolderPath() + "/data/materials/" + materialPath, MaterialBean.class);
+                    MaterialBean bean = BotUtil.readJsonFile(BotUtil.getGenshinFolderPath() + "/data/materials/" + materialPath + ".json", MaterialBean.class);
                     materialMap.put(materialName, bean);
                 }
 
@@ -777,7 +777,7 @@ public class GenshinServiceImpl implements GenshinService {
         for (String key : avatarMap.keySet()) {
             String materialFilePath = materialNameMap.get(key);
             CostDto cost = new CostDto(key, avatarMap.get(key),
-                    BotUtil.readImageFile(BotUtil.getGenshinFolderPath() + "/images/materials/" + materialFilePath.substring(0, materialFilePath.indexOf(".")) + ".png"),
+                    BotUtil.readImageFile(BotUtil.getGenshinFolderPath() + "/images/materials/" + materialFilePath + ".png"),
                     materialMap.get(key).getSortOrder(), "");
             avatarList.add(cost);
         }
@@ -789,7 +789,7 @@ public class GenshinServiceImpl implements GenshinService {
             MaterialBean materialBean = materialMap.get(key);
             String info = "（" + String.join("/", materialBean.getDaysOfWeek()) + "）"; // 刷取日期
             CostDto cost = new CostDto(key, weaponMap.get(key),
-                    BotUtil.readImageFile(BotUtil.getGenshinFolderPath() + "/images/materials/" + materialFilePath.substring(0, materialFilePath.indexOf(".")) + ".png"),
+                    BotUtil.readImageFile(BotUtil.getGenshinFolderPath() + "/images/materials/" + materialFilePath + ".png"),
                     materialBean.getSortOrder(), info);
             weaponList.add(cost);
         }

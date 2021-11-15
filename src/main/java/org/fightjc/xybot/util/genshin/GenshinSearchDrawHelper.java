@@ -46,7 +46,7 @@ public class GenshinSearchDrawHelper {
         Font f_type = new Font(Font.SANS_SERIF, Font.BOLD, 21); // 类型字体
         Font f_des = new Font("Microsoft YaHei", Font.PLAIN, 21); // 描述字体
         Font f_effect_title = new Font(Font.SANS_SERIF, Font.BOLD, 28); // 特效标题字体
-        Font f_effect = new Font(Font.MONOSPACED, Font.PLAIN, 21); // 特效内容 字体
+        Font f_effect = new Font("Microsoft YaHei", Font.PLAIN, 21); // 特效内容字体
         //endregion
 
         int currX = 0;
@@ -71,11 +71,8 @@ public class GenshinSearchDrawHelper {
             height += ImageUtil.getParagraphHeight(
                     bean.getDescription(),
                     f_des,
-                    Color.BLACK,
                     des_width,
-                    DES_LINE_GAP,
-                    NAME_MARGIN,
-                    currY) + DES_ATK_MARGIN;
+                    DES_LINE_GAP) + DES_ATK_MARGIN;
         }
         // 基础攻击
         {
@@ -97,11 +94,8 @@ public class GenshinSearchDrawHelper {
             height += ImageUtil.getParagraphHeight(
                     bean.getLongEffect(),
                     f_effect,
-                    Color.BLACK,
                     effect_width,
-                    EFFECT_LINE_GAP,
-                    EFFECT_MARGIN,
-                    currY) + EFFECT_ASCEND_MARGIN;
+                    EFFECT_LINE_GAP) + EFFECT_ASCEND_MARGIN;
         }
         // 突破材料表
         {
@@ -224,7 +218,7 @@ public class GenshinSearchDrawHelper {
 
         // 技能特效内容
         int effect_width = width - EFFECT_MARGIN * 2;
-        int effect_height = ImageUtil.drawParagraph(g2d,
+        currY += ImageUtil.drawParagraph(g2d,
                 bean.getLongEffect(),
                 f_effect,
                 Color.BLACK,
@@ -237,7 +231,7 @@ public class GenshinSearchDrawHelper {
         //region 突破材料表
         // 标题
         currX = NAME_MARGIN;
-        currY += effect_height + EFFECT_ASCEND_MARGIN;
+        currY += EFFECT_ASCEND_MARGIN;
         FontMetrics metrics_ascend_title = FontDesignMetrics.getMetrics(f_effect_title);
         int text_ascend_title_height = metrics_ascend_title.getAscent();
         g2d.setFont(f_effect_title);

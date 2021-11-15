@@ -7,11 +7,8 @@ import org.fightjc.xybot.db.DBInitHelper;
 import org.fightjc.xybot.db.DBMigration;
 import org.fightjc.xybot.events.CommandEvents;
 import org.fightjc.xybot.pojo.GroupSwitch;
-import org.fightjc.xybot.pojo.ResultOutput;
-import org.fightjc.xybot.service.GenshinService;
 import org.fightjc.xybot.service.GroupSwitchService;
 import org.fightjc.xybot.util.BotSwitch;
-import org.fightjc.xybot.util.BotUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +18,6 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.util.List;
 
 @Component

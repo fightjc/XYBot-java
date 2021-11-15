@@ -76,15 +76,11 @@ public class BilibiliDynamicDrawHelper {
         String desc = dto.getDescription();
         String[] descArray = desc.split("\n");
         for (String text : descArray) {
-            FontMetrics metrics = FontDesignMetrics.getMetrics(TEXT_1);
-            int text_height = metrics.getAscent();
-            if (text.length() == 0) {
-                height += text_height + TEXT_1_PARA_MARGIN;
-            } else {
-                int text_width = metrics.charsWidth(text.toCharArray(), 0, text.length());
-                int rowCount = text_width / maxWidth + (text_width % maxWidth > 0 ? 1 : 0); // 总行数
-                height += rowCount * (text_height + TEXT_1_LINE_MARGIN) - TEXT_1_LINE_MARGIN + TEXT_1_PARA_MARGIN;
-            }
+            height += ImageUtil.getParagraphHeight(
+                    text,
+                    TEXT_1,
+                    maxWidth,
+                    TEXT_1_LINE_MARGIN) + TEXT_1_PARA_MARGIN;
         }
 
         // 计算图片高度
@@ -151,7 +147,15 @@ public class BilibiliDynamicDrawHelper {
         //region 绘制正文
         int context_Y = CONTENT_PADDING  + TITLE_HEIGHT + CONTEXT_MARGIN;
         for (int i = 0; i < descArray.length; i++) {
-            context_Y += ImageUtil.drawParagraph(g2d, descArray[i], TEXT_1, Color.BLACK, maxWidth, TEXT_1_LINE_MARGIN, CONTENT_MARGIN, context_Y) + TEXT_1_PARA_MARGIN;
+            context_Y += ImageUtil.drawParagraph(
+                    g2d,
+                    descArray[i],
+                    TEXT_1,
+                    Color.BLACK,
+                    maxWidth,
+                    TEXT_1_LINE_MARGIN,
+                    CONTENT_MARGIN,
+                    context_Y) + TEXT_1_PARA_MARGIN;
         }
         //endregion
 

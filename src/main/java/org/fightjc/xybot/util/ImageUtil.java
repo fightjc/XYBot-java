@@ -131,7 +131,7 @@ public class ImageUtil {
             while (i < text.length()) {
                 String s = text.substring(i, i + 1);
                 int text_width = metrics.stringWidth(s);
-                if (currentX + text_width > areaWidth) {
+                if (currentX + text_width - offsetX > areaWidth) {
                     // 换行
                     currentX = offsetX;
                     contentHeight += lineGap + text_height;
@@ -149,14 +149,11 @@ public class ImageUtil {
      * 获取一段文字高度
      * @param text 文字内容
      * @param font 字形
-     * @param color 字体颜色
      * @param areaWidth 绘制区域宽度
      * @param lineGap 行间隔
-     * @param offsetX 左上角坐标x
-     * @param offsetY 左上角坐标y
      * @return 绘制文字段高度
      */
-    public static int getParagraphHeight(String text, Font font, Color color, int areaWidth, int lineGap, int offsetX, int offsetY) {
+    public static int getParagraphHeight(String text, Font font, int areaWidth, int lineGap) {
         FontMetrics metrics = FontDesignMetrics.getMetrics(font);
         int text_height = metrics.getAscent();
 
@@ -165,21 +162,21 @@ public class ImageUtil {
             return text_height;
         } else {
             int i = 0;
-            int currentX = offsetX;
-            int contentHeight = offsetY + text_height;
+            int currentX = 0;
+            int contentHeight = text_height;
             while (i < text.length()) {
                 String s = text.substring(i, i + 1);
                 int text_width = metrics.stringWidth(s);
                 if (currentX + text_width > areaWidth) {
                     // 换行
-                    currentX = offsetX;
+                    currentX = 0;
                     contentHeight += lineGap + text_height;
                 }
                 currentX += text_width;
                 i++;
             }
 
-            return contentHeight - offsetY;
+            return contentHeight;
         }
     }
 }

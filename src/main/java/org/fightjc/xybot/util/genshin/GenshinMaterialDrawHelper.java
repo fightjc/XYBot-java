@@ -261,12 +261,15 @@ public class GenshinMaterialDrawHelper {
 
             // endregion
 
-            // 绘制整体边框修饰
+            //region 绘制整体边框修饰
             drawImageBorder(g2d, width, height);
+            //endregion
 
+            //region 释放资源
             g2d.dispose();
+            //endregion
 
-            // 保存文件
+            //region 保存文件
             try {
                 // 写入临时图片文件
                 String tempPath = BotUtil.getGenshinFolderPath() + "/dailymaterial_" + dto.getDayNum() + "_temp.png";
@@ -283,6 +286,7 @@ public class GenshinMaterialDrawHelper {
             } catch (IOException ioe) {
                 ioe.printStackTrace();
             }
+            //endregion
         }
 
         return new ResultOutput<>(true, "生成每日素材图片成功");

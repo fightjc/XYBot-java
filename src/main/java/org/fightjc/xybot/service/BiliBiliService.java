@@ -2,6 +2,7 @@ package org.fightjc.xybot.service;
 
 import org.fightjc.xybot.pojo.ResultOutput;
 import org.fightjc.xybot.pojo.bilibili.DynamicBean;
+import org.fightjc.xybot.pojo.bilibili.DynamicDto;
 import org.fightjc.xybot.pojo.bilibili.SubscribeBean;
 import org.fightjc.xybot.pojo.bilibili.UserInfoDto;
 
@@ -57,4 +58,12 @@ public interface BiliBiliService {
      * 检查是否需要推送订阅更新
      */
     void checkNeedGroupNotify();
+
+    /**
+     * 获取up主最新动态
+     * @param mid
+     * @param offset
+     * @return
+     */
+    ResultOutput<List<DynamicDto>> getLatestDynamic(String mid, String offset);
 }
