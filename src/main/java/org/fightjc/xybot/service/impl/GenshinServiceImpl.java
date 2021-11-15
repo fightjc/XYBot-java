@@ -3,6 +3,7 @@ package org.fightjc.xybot.service.impl;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
+import me.xdrop.fuzzywuzzy.FuzzySearch;
 import org.fightjc.xybot.pojo.ResultOutput;
 import org.fightjc.xybot.pojo.genshin.*;
 import org.fightjc.xybot.service.GenshinService;
@@ -16,6 +17,9 @@ import org.springframework.stereotype.Service;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Service
 public class GenshinServiceImpl implements GenshinService {
@@ -89,7 +93,7 @@ public class GenshinServiceImpl implements GenshinService {
      * @return
      */
     public ResultOutput<BufferedImage> getInfoByName(String name) {
-        // 角色
+        //region 角色
         JSONObject charObject = BotUtil.readJsonFile(BotUtil.getGenshinFolderPath() + "/index/characters.json");
         if (charObject == null) {
             logger.error("获取 /index/characters.json 对象失败");
@@ -108,8 +112,9 @@ public class GenshinServiceImpl implements GenshinService {
             //return getCharacterInfo(characterNameMap.get(name));
             return new ResultOutput<>(false, "功能还在完善，敬请期待！", null);
         }
+        //endregion
 
-        // 武器
+        //region 武器
         JSONObject weaponObject = BotUtil.readJsonFile(BotUtil.getGenshinFolderPath() + "/index/weapons.json");
         if (weaponObject == null) {
             logger.error("获取 /index/weapons.json 对象失败");
@@ -127,8 +132,9 @@ public class GenshinServiceImpl implements GenshinService {
         if (weaponNameMap.containsKey(name)) {
             return getWeaponInfo(weaponNameMap.get(name));
         }
+        //endregion
 
-        // 材料
+        //region 材料
         JSONObject materialObject = BotUtil.readJsonFile(BotUtil.getGenshinFolderPath() + "/index/materials.json");
         if (materialObject == null) {
             logger.error("获取 /index/materials.json 对象失败");
@@ -147,8 +153,23 @@ public class GenshinServiceImpl implements GenshinService {
             //return getMaterialInfo(materialNameMap.get(name));
             return new ResultOutput<>(false, "功能还在完善，敬请期待！", null);
         }
+        //endregion
 
-        return new ResultOutput<>(false, "找不到 " + name + " 的相关信息，以后即使知道也不告诉你");
+        //region 模糊搜索
+        List<String> itemList = new ArrayList() {{
+            addAll(characterNameMap.keySet());
+            addAll(weaponNameMap.keySet());
+            addAll(materialNameMap.keySet());
+        }};
+        List<String> result = itemList.stream()
+                .filter(s -> FuzzySearch.ratio(name, s) > 50)
+                .collect(Collectors.toList());
+        if (result.size() > 0) {
+            return new ResultOutput<>(false, "找不到 " + name + " 的相关信息，也许你要找的是\n" + String.join("，", result));
+        }
+        //endregion
+
+        return new ResultOutput<>(false, "找不到 " + name + " 的相关信息，以后即使知道也不告诉你～");
     }
 
     /**
@@ -307,9 +328,9 @@ public class GenshinServiceImpl implements GenshinService {
      * @return
      */
     private ResultOutput<List<MaterialResultDto>> getMaterialResult() {
-        Map<String, String> characterNameMap; // 角色名和路径字典
-        Map<String, String> weaponNameMap; // 武器名和路径字典
-        Map<String, String> materialNameMap; // 材料名和路径字典
+        Map<String, String> characterNameMap; // 角色名字典
+        Map<String, String> weaponNameMap; // 武器名字典
+        Map<String, String> materialNameMap; // 材料名字典
 
         Map<String, List<TalentMaterialTypeBean>> tmtMap = new HashMap<>(); // 天赋材料字典，按星期分类
         Map<String, List<WeaponMaterialTypeBean>> wmtMap = new HashMap<>(); // 武器材料字典，按星期分类
@@ -648,7 +669,13 @@ public class GenshinServiceImpl implements GenshinService {
             return new ResultOutput<>(false, "获取 /data/constellations/" + name + ".json 对象失败");
         }
 
-        // TODO:角色图标
+        // 角色图标
+        String imagePath = BotUtil.getGenshinFolderPath() + "/images/characters/" + name + ".png";
+        BufferedImage image = BotUtil.readImageFile(imagePath);
+        if (image == null) {
+            logger.error("获取 /images/characters/" + name + ".png 对象失败");
+            return new ResultOutput<>(false, "获取 /images/characters/" + name + ".png 对象失败");
+        }
 
         //TODO: 太长了卡片显示不全
 //        String info =
