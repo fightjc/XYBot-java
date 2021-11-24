@@ -337,22 +337,22 @@ public class BiliBiliServiceImpl implements BiliBiliService {
                     Group group = XYBot.getBot().getGroup(groupId);
                     if (group != null) {
 
-                        if (dynamicMsgMap.containsKey(mid)) {
+                        if (dynamicMsgMap.containsKey(dto.getDynamicId())) {
                             group.sendMessage(
-                                    new PlainText(dynamicMsgMap.get(mid))
-                                            .plus(group.uploadImage(dynamicImageMap.get(mid))));
+                                    new PlainText(dynamicMsgMap.get(dto.getDynamicId()))
+                                            .plus(group.uploadImage(dynamicImageMap.get(dto.getDynamicId()))));
                         } else {
                             // 说明
                             String msg = dto.getUname() + " (" + dto.getUid() + ") 于 " +
                                     dto.getDateString() + " 发布了" + getTypeName(dto.getType()) + "\n" +
                                     "详情点击: http://t.bilibili.com/" + dto.getDynamicId() + "\n\n";
-                            dynamicMsgMap.put(mid, msg);
+                            dynamicMsgMap.put(dto.getDynamicId(), msg);
 
                             // 图片
                             try {
                                 BufferedImage dynamicImage = BilibiliDynamicDrawHelper.generateDynamic(dto);
                                 ExternalResource image = ImageUtil.bufferedImage2ExternalResource(dynamicImage);
-                                dynamicImageMap.put(mid, image);
+                                dynamicImageMap.put(dto.getDynamicId(), image);
 
                                 group.sendMessage(new PlainText(msg).plus(group.uploadImage(image)));
                             } catch (Exception e) {
