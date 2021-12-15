@@ -1,13 +1,16 @@
 package org.fightjc.xybot.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import me.xdrop.fuzzywuzzy.FuzzySearch;
+import org.fightjc.xybot.po.HttpClientResult;
 import org.fightjc.xybot.pojo.ResultOutput;
 import org.fightjc.xybot.pojo.genshin.*;
 import org.fightjc.xybot.service.GenshinService;
 import org.fightjc.xybot.util.BotUtil;
+import org.fightjc.xybot.util.HttpClientUtil;
 import org.fightjc.xybot.util.genshin.GenshinMaterialDrawHelper;
 import org.fightjc.xybot.util.genshin.GenshinSearchDrawHelper;
 import org.slf4j.Logger;
@@ -321,6 +324,14 @@ public class GenshinServiceImpl implements GenshinService {
         } else {
             return new ResultOutput<>(true, "恭喜，原神资源完整！");
         }
+    }
+
+    /**
+     * 获取原神日历
+     * @return
+     */
+    public ResultOutput<BufferedImage> getCalendar() {
+        return new ResultOutput<>(true, "");
     }
 
     /**
@@ -834,5 +845,37 @@ public class GenshinServiceImpl implements GenshinService {
      */
     private ResultOutput<BufferedImage> getMaterialInfo(String name) {
         return new ResultOutput<>(true, "", GenshinSearchDrawHelper.drawMaterialInfo());
+    }
+
+    /**
+     * 获取原神游戏内公告
+     * @return
+     */
+    private ResultOutput<String> getGenshinAnnouncement() {
+        String url = "https://hk4e-api.mihoyo.com/common/hk4e_cn/announcement/api/getAnnList";
+
+        Map<String, String> params = new HashMap<String, String>() {{
+            put("game", "hk4e");
+            put("game_biz", "hk4e_cn");
+            put("lang", "zh-cn");
+            put("bundle_id", "hk4e_cn");
+            put("platform", "pc");
+            put("region", "cn_gf01");
+            put("level", "55");
+            put("uid", "100000000");
+        }};
+
+        HttpClientResult httpClientResult;
+        try {
+            httpClientResult = HttpClientUtil.doGet(url, null, params);
+            JSONObject content = JSONObject.parseObject(httpClientResult.content);
+
+            //TODO:
+
+            return new ResultOutput<>(true, "查询成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResultOutput<>(false, "请求网络失败");
+        }
     }
 }

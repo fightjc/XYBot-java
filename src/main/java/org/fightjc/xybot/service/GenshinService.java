@@ -32,4 +32,10 @@ public interface GenshinService {
      * @return
      */
     ResultOutput checkGenshinResource();
+
+    /**
+     * 获取原神日历
+     * @return
+     */
+    ResultOutput<BufferedImage> getCalendar();
 }
