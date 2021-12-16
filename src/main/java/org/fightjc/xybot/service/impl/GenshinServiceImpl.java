@@ -1,6 +1,5 @@
 package org.fightjc.xybot.service.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
@@ -20,8 +19,6 @@ import org.springframework.stereotype.Service;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Service
@@ -331,6 +328,7 @@ public class GenshinServiceImpl implements GenshinService {
      * @return
      */
     public ResultOutput<BufferedImage> getCalendar() {
+        ResultOutput result = getGenshinAnnouncement();
         return new ResultOutput<>(true, "");
     }
 
@@ -852,6 +850,18 @@ public class GenshinServiceImpl implements GenshinService {
      * @return
      */
     private ResultOutput<String> getGenshinAnnouncement() {
+        List<Integer> ignoreAnnId = Arrays.asList(
+                495,  // 有奖问卷调查开启！
+                1263, // 米游社《原神》专属工具一览
+                423,  // 《原神》玩家社区一览
+                422,  // 《原神》防沉迷系统说明
+                762   // 《原神》公平运营声明
+        );
+
+        List<String> ignoreKeyword = Arrays.asList(
+                "修复", "版本内容专题页", "米游社", "调研", "防沉迷"
+        );
+
         String url = "https://hk4e-api.mihoyo.com/common/hk4e_cn/announcement/api/getAnnList";
 
         Map<String, String> params = new HashMap<String, String>() {{
@@ -870,7 +880,38 @@ public class GenshinServiceImpl implements GenshinService {
             httpClientResult = HttpClientUtil.doGet(url, null, params);
             JSONObject content = JSONObject.parseObject(httpClientResult.content);
 
-            //TODO:
+            int retCode = content.getIntValue("retcode");
+            if (retCode == 0) {
+                // 成功
+                JSONObject data = content.getJSONObject("data");
+                JSONArray dataList = data.getJSONArray("list");
+                for (int i = 0; i < dataList.size(); i++) {
+                    JSONObject list = dataList.getJSONObject(i);
+                    JSONArray itemList = list.getJSONArray("list");
+                    for (int j = 0; j < itemList.size(); j++) {
+                        JSONObject item = itemList.getJSONObject(j);
+                        int type = item.getIntValue("type");
+                        // 1 活动公告 2 游戏公告
+                        if (type == 2) {
+                            int annId = item.getIntValue("ann_id");
+                            if (ignoreAnnId.contains(annId)) {
+                                continue;
+                            }
+                            String title = item.getString("title");
+                            if (ignoreKeyword.stream().anyMatch(title::contains)) {
+                                continue;
+                            }
+                        }
+                        String startTime = item.getString("start_time");
+                        String endTime = item.getString("end_time");
+
+                        //TODO: 整理数据
+
+                    }
+                }
+
+                //TODO: 绘图
+            }
 
             return new ResultOutput<>(true, "查询成功");
         } catch (Exception e) {
