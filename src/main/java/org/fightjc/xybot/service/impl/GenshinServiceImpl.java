@@ -10,6 +10,7 @@ import org.fightjc.xybot.pojo.genshin.*;
 import org.fightjc.xybot.service.GenshinService;
 import org.fightjc.xybot.util.BotUtil;
 import org.fightjc.xybot.util.HttpClientUtil;
+import org.fightjc.xybot.util.genshin.GenshinAnnounceDrawHelper;
 import org.fightjc.xybot.util.genshin.GenshinMaterialDrawHelper;
 import org.fightjc.xybot.util.genshin.GenshinSearchDrawHelper;
 import org.slf4j.Logger;
@@ -18,6 +19,8 @@ import org.springframework.stereotype.Service;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -328,8 +331,13 @@ public class GenshinServiceImpl implements GenshinService {
      * @return
      */
     public ResultOutput<BufferedImage> getCalendar() {
-        ResultOutput result = getGenshinAnnouncement();
-        return new ResultOutput<>(true, "");
+        ResultOutput<AnnounceDto> result = getGenshinAnnouncement();
+        if (result.getSuccess()) {
+            AnnounceDto announceDto = result.getObject();
+            BufferedImage bi = GenshinAnnounceDrawHelper.generateAnnounce(announceDto);
+            return new ResultOutput<>(true, "", bi);
+        }
+        return  new ResultOutput<>(false, result.getInfo());
     }
 
     /**
@@ -849,7 +857,7 @@ public class GenshinServiceImpl implements GenshinService {
      * 获取原神游戏内公告
      * @return
      */
-    private ResultOutput<String> getGenshinAnnouncement() {
+    private ResultOutput<AnnounceDto> getGenshinAnnouncement() {
         List<Integer> ignoreAnnId = Arrays.asList(
                 495,  // 有奖问卷调查开启！
                 1263, // 米游社《原神》专属工具一览
@@ -857,13 +865,11 @@ public class GenshinServiceImpl implements GenshinService {
                 422,  // 《原神》防沉迷系统说明
                 762   // 《原神》公平运营声明
         );
-
         List<String> ignoreKeyword = Arrays.asList(
                 "修复", "版本内容专题页", "米游社", "调研", "防沉迷"
         );
 
         String url = "https://hk4e-api.mihoyo.com/common/hk4e_cn/announcement/api/getAnnList";
-
         Map<String, String> params = new HashMap<String, String>() {{
             put("game", "hk4e");
             put("game_biz", "hk4e_cn");
@@ -874,6 +880,12 @@ public class GenshinServiceImpl implements GenshinService {
             put("level", "55");
             put("uid", "100000000");
         }};
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        List<AnnounceBean> abyss = new ArrayList<>();
+        List<AnnounceBean> gacha = new ArrayList<>();
+        List<AnnounceBean> event = new ArrayList<>();
 
         HttpClientResult httpClientResult;
         try {
@@ -891,29 +903,45 @@ public class GenshinServiceImpl implements GenshinService {
                     for (int j = 0; j < itemList.size(); j++) {
                         JSONObject item = itemList.getJSONObject(j);
                         int type = item.getIntValue("type");
-                        // 1 活动公告 2 游戏公告
+                        String title = item.getString("title");
+
+                        // 筛选 1 活动公告 2 游戏公告
                         if (type == 2) {
                             int annId = item.getIntValue("ann_id");
                             if (ignoreAnnId.contains(annId)) {
                                 continue;
                             }
-                            String title = item.getString("title");
                             if (ignoreKeyword.stream().anyMatch(title::contains)) {
                                 continue;
                             }
                         }
-                        String startTime = item.getString("start_time");
-                        String endTime = item.getString("end_time");
 
-                        //TODO: 整理数据
+                        Date startTime = dateFormat.parse(item.getString("start_time"));
+                        Date endTime = dateFormat.parse(item.getString("end_time"));
 
+                        // 判断是否永久
+                        boolean isForever = title.contains("任务");
+
+                        AnnounceBean ann = new AnnounceBean(type, title, startTime, endTime, isForever);
+
+                        // 分类封装
+                        String tag = item.getString("tag_label");
+                        if (tag.contains("扭蛋")) {
+                            gacha.add(ann);
+                        } else {
+                            event.add(ann);
+                        }
                     }
                 }
-
-                //TODO: 绘图
             }
 
-            return new ResultOutput<>(true, "查询成功");
+            // 分别按结束时间和开始时间排序
+            abyss.sort(Comparator.comparing((AnnounceBean::getDeadLine)).thenComparing(AnnounceBean::getStartTime));
+            gacha.sort(Comparator.comparing((AnnounceBean::getDeadLine)).thenComparing(AnnounceBean::getStartTime));
+            event.sort(Comparator.comparing((AnnounceBean::getDeadLine)).thenComparing(AnnounceBean::getStartTime));
+            AnnounceDto announceDto = new AnnounceDto(abyss, gacha, event);
+
+            return new ResultOutput<>(true, "查询成功", announceDto);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResultOutput<>(false, "请求网络失败");
