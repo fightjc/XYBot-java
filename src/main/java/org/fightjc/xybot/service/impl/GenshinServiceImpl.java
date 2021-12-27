@@ -331,13 +331,13 @@ public class GenshinServiceImpl implements GenshinService {
      * @return
      */
     public ResultOutput<BufferedImage> getCalendar() {
-        ResultOutput<AnnounceDto> result = getGenshinAnnouncement();
+        ResultOutput<List<AnnounceBean>> result = getGenshinAnnouncement();
         if (result.getSuccess()) {
-            AnnounceDto announceDto = result.getObject();
-            BufferedImage bi = GenshinAnnounceDrawHelper.generateAnnounce(announceDto);
+            List<AnnounceBean> announceList = result.getObject();
+            BufferedImage bi = GenshinAnnounceDrawHelper.drawAnnounce(announceList);
             return new ResultOutput<>(true, "", bi);
         }
-        return  new ResultOutput<>(false, result.getInfo());
+        return new ResultOutput<>(false, result.getInfo());
     }
 
     /**
@@ -857,7 +857,7 @@ public class GenshinServiceImpl implements GenshinService {
      * 获取原神游戏内公告
      * @return
      */
-    private ResultOutput<AnnounceDto> getGenshinAnnouncement() {
+    private ResultOutput<List<AnnounceBean>> getGenshinAnnouncement() {
         List<Integer> ignoreAnnId = Arrays.asList(
                 495,  // 有奖问卷调查开启！
                 1263, // 米游社《原神》专属工具一览
@@ -883,13 +883,9 @@ public class GenshinServiceImpl implements GenshinService {
 
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-        List<AnnounceBean> abyss = new ArrayList<>();
-        List<AnnounceBean> gacha = new ArrayList<>();
-        List<AnnounceBean> event = new ArrayList<>();
-
-        HttpClientResult httpClientResult;
+        List<AnnounceBean> announceList = new ArrayList<>();
         try {
-            httpClientResult = HttpClientUtil.doGet(url, null, params);
+            HttpClientResult httpClientResult = HttpClientUtil.doGet(url, null, params);
             JSONObject content = JSONObject.parseObject(httpClientResult.content);
 
             int retCode = content.getIntValue("retcode");
@@ -922,26 +918,40 @@ public class GenshinServiceImpl implements GenshinService {
                         // 判断是否永久
                         boolean isForever = title.contains("任务");
 
-                        AnnounceBean ann = new AnnounceBean(type, title, startTime, endTime, isForever);
-
                         // 分类封装
                         String tag = item.getString("tag_label");
-                        if (tag.contains("扭蛋")) {
-                            gacha.add(ann);
-                        } else {
-                            event.add(ann);
+                        AnnounceBean.AnnounceType announceType = AnnounceBean.AnnounceType.other;
+                        if (type == 1) {
+                            announceType = AnnounceBean.AnnounceType.event;
                         }
+                        if (tag.contains("扭蛋")) {
+                            announceType = AnnounceBean.AnnounceType.gacha;
+                        }
+                        if (title.contains("倍")) {
+                            announceType = AnnounceBean.AnnounceType.award;
+                        }
+                        announceList.add(new AnnounceBean(announceType, title, startTime, endTime, isForever));
                     }
                 }
             }
 
-            // 分别按结束时间和开始时间排序
-            abyss.sort(Comparator.comparing((AnnounceBean::getDeadLine)).thenComparing(AnnounceBean::getStartTime));
-            gacha.sort(Comparator.comparing((AnnounceBean::getDeadLine)).thenComparing(AnnounceBean::getStartTime));
-            event.sort(Comparator.comparing((AnnounceBean::getDeadLine)).thenComparing(AnnounceBean::getStartTime));
-            AnnounceDto announceDto = new AnnounceDto(abyss, gacha, event);
+            // 添加深渊提醒
+            DateFormat df1 = new SimpleDateFormat("yyyy-MM-01 04:00:00");
+            DateFormat df2 = new SimpleDateFormat("yyyy-MM-16 03:59:59");
+            DateFormat df3 = new SimpleDateFormat("yyyy-MM-16 04:00:00");
+            DateFormat df4 = new SimpleDateFormat("yyyy-MM-01 03:59:59");
+            Date now = new Date();
+            Calendar.getInstance().add(Calendar.MONTH, 1);
+            Date nextMonth = Calendar.getInstance().getTime();
+            announceList.add(new AnnounceBean(AnnounceBean.AnnounceType.abyss, "「深境螺旋」",
+                    dateFormat.parse(df1.format(now)), dateFormat.parse(df2.format(now)), false));
+            announceList.add(new AnnounceBean(AnnounceBean.AnnounceType.abyss, "「深境螺旋」",
+                    dateFormat.parse(df3.format(now)), dateFormat.parse(df4.format(nextMonth)), false));
 
-            return new ResultOutput<>(true, "查询成功", announceDto);
+            // 分别按结束时间和开始时间排序
+            announceList.sort(Comparator.comparing((AnnounceBean::getDeadLine)).thenComparing(AnnounceBean::getStartTime));
+
+            return new ResultOutput<>(true, "查询成功", announceList);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResultOutput<>(false, "请求网络失败");
