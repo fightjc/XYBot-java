@@ -1,7 +1,6 @@
 package org.fightjc.xybot.util.genshin;
 
 import org.fightjc.xybot.pojo.genshin.AnnounceBean;
-import org.fightjc.xybot.pojo.genshin.AnnounceDto;
 import org.fightjc.xybot.util.MessageUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +21,7 @@ public class GenshinAnnounceDrawHelper {
      */
     public static BufferedImage drawAnnounce(List<AnnounceBean> list) {
         //region 预设参数
+        int CANVAS_MARGIN = 10; // 内容与画板间距
         int TITLE_RESUME_GAP = 10; // 标题和概要间距
         int RESUME_GAP = 3; // 概要间隔
 
@@ -31,7 +31,29 @@ public class GenshinAnnounceDrawHelper {
 
         //region 计算画板大小
         int width = 1000;
-        int height = 600;
+        int height = CANVAS_MARGIN; //600;
+        {
+            // 高度
+            FontMetrics metrics_title = FontDesignMetrics.getMetrics(f_title);
+            int text_title_height = metrics_title.getAscent();
+            height += text_title_height + TITLE_RESUME_GAP;
+
+            int count = list.size();
+            FontMetrics metrics_resume = FontDesignMetrics.getMetrics(f_resume);
+            int text_resume_height = metrics_resume.getHeight();
+            height += count * (text_resume_height + RESUME_GAP) - RESUME_GAP;
+
+            height += CANVAS_MARGIN;
+
+            // 宽度
+            for (AnnounceBean bean : list) {
+                int resume_width = metrics_resume.stringWidth(bean.getTitle());
+                int text_deadline_width = metrics_resume.stringWidth(bean.getDeadLineDescription());
+                if ((resume_width + text_deadline_width) > width) {
+                    width = (resume_width + text_deadline_width);
+                }
+            }
+        }
         //endregion
 
         //region 准备画板
@@ -42,7 +64,8 @@ public class GenshinAnnounceDrawHelper {
         g2d.clearRect(0, 0, width, height);
         //endregion
 
-        int currY = 0;
+        int currX = CANVAS_MARGIN;
+        int currY = CANVAS_MARGIN;
 
         //region 标题
         g2d.setFont(f_title);
@@ -52,7 +75,7 @@ public class GenshinAnnounceDrawHelper {
 
         // 左上标题
         String title = "原神日历";
-        g2d.drawString(title, 0, currY + text_title_height);
+        g2d.drawString(title, currX, currY + text_title_height);
 
         // 时间
         String time = MessageUtil.getCurrentDate();
@@ -95,12 +118,12 @@ public class GenshinAnnounceDrawHelper {
 
             // 概要
             String resume = bean.getTitle();
-            g2d.drawString(resume, 0, currY + text_resume_ascent);
+            g2d.drawString(resume, currX, currY + text_resume_ascent);
 
             // 结束时间
             String deadline = bean.getDeadLineDescription();
             int text_deadline_width = metrics_resume.stringWidth(deadline);
-            g2d.drawString(deadline, width - text_deadline_width, currY + text_resume_ascent);
+            g2d.drawString(deadline, width - currX - text_deadline_width, currY + text_resume_ascent);
 
             currY += text_resume_height + RESUME_GAP;
         }

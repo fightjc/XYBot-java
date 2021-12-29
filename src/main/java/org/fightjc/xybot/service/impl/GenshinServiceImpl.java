@@ -940,13 +940,25 @@ public class GenshinServiceImpl implements GenshinService {
             DateFormat df2 = new SimpleDateFormat("yyyy-MM-16 03:59:59");
             DateFormat df3 = new SimpleDateFormat("yyyy-MM-16 04:00:00");
             DateFormat df4 = new SimpleDateFormat("yyyy-MM-01 03:59:59");
+
             Date now = new Date();
-            Calendar.getInstance().add(Calendar.MONTH, 1);
-            Date nextMonth = Calendar.getInstance().getTime();
-            announceList.add(new AnnounceBean(AnnounceBean.AnnounceType.abyss, "「深境螺旋」",
-                    dateFormat.parse(df1.format(now)), dateFormat.parse(df2.format(now)), false));
-            announceList.add(new AnnounceBean(AnnounceBean.AnnounceType.abyss, "「深境螺旋」",
-                    dateFormat.parse(df3.format(now)), dateFormat.parse(df4.format(nextMonth)), false));
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.MONTH, 1);
+            Date nextMonth = calendar.getTime();
+
+            if (calendar.get(Calendar.DAY_OF_MONTH) <= 16) {
+                // 月初
+                announceList.add(new AnnounceBean(AnnounceBean.AnnounceType.abyss, "「深境螺旋」",
+                        dateFormat.parse(df1.format(now)), dateFormat.parse(df2.format(now)), false));
+                announceList.add(new AnnounceBean(AnnounceBean.AnnounceType.abyss, "「深境螺旋」",
+                        dateFormat.parse(df3.format(now)), dateFormat.parse(df4.format(nextMonth)), false));
+            } else {
+                //月末
+                announceList.add(new AnnounceBean(AnnounceBean.AnnounceType.abyss, "「深境螺旋」",
+                        dateFormat.parse(df3.format(now)), dateFormat.parse(df4.format(nextMonth)), false));
+                announceList.add(new AnnounceBean(AnnounceBean.AnnounceType.abyss, "「深境螺旋」",
+                        dateFormat.parse(df1.format(nextMonth)), dateFormat.parse(df2.format(nextMonth)), false));
+            }
 
             // 分别按结束时间和开始时间排序
             announceList.sort(Comparator.comparing((AnnounceBean::getDeadLine)).thenComparing(AnnounceBean::getStartTime));
