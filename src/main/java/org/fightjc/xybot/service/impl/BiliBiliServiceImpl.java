@@ -336,7 +336,6 @@ public class BiliBiliServiceImpl implements BiliBiliService {
                 for (DynamicDto dto : dynamicDtos) {
                     Group group = XYBot.getBot().getGroup(groupId);
                     if (group != null) {
-
                         if (dynamicMsgMap.containsKey(dto.getDynamicId())) {
                             group.sendMessage(
                                     new PlainText(dynamicMsgMap.get(dto.getDynamicId()))

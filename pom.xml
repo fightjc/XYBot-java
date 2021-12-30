@@ -12,7 +12,7 @@
 
     <groupId>org.fightjc</groupId>
     <artifactId>XYBot</artifactId>
-    <version>1.0.3</version>
+    <version>1.0.4</version>
     <packaging>jar</packaging>
 
     <properties>
@@ -21,7 +21,7 @@
         <sqlite-jdbc.version>3.32.3.3</sqlite-jdbc.version>
         <commons-lang3.version>3.11</commons-lang3.version>
         <httpclient.version>4.5.13</httpclient.version>
-        <mirai.version>2.7.1-dev-1</mirai.version>
+        <mirai.version>2.9.0</mirai.version>
         <fastjson.version>1.2.74</fastjson.version>
         <OpenViewerFX.version>6.6.14</OpenViewerFX.version>
     </properties>

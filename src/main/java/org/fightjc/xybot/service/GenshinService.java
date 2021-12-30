@@ -1,9 +1,11 @@
 package org.fightjc.xybot.service;
 
 import org.fightjc.xybot.pojo.ResultOutput;
+import org.fightjc.xybot.pojo.genshin.GroupCalendarBean;
 import org.fightjc.xybot.service.impl.GenshinServiceImpl;
 
 import java.awt.image.BufferedImage;
+import java.util.List;
 
 public interface GenshinService {
 
@@ -38,4 +40,30 @@ public interface GenshinService {
      * @return
      */
     ResultOutput<BufferedImage> getCalendar();
+
+    /**
+     * 获取数据库中所有订阅原神日历记录
+     * @return
+     */
+    List<GroupCalendarBean> getAllGroupCalendar();
+
+    /**
+     * 获取数据库中指定群订阅原神日历记录
+     * @param groupId
+     * @return
+     */
+    GroupCalendarBean getGroupCalendarByGroupId(Long groupId);
+
+    /**
+     * 新增或修改原神日历记录
+     * @param groupId
+     * @param isActive
+     * @param modifiedUserId
+     */
+    void createOrUpdateGroupCalendar(Long groupId, boolean isActive, Long modifiedUserId);
+
+    /**
+     * 向订阅群推送原神日历
+     */
+    void postGroupGenshinCalendar();
 }

@@ -49,8 +49,9 @@ public class GenshinAnnounceDrawHelper {
             for (AnnounceBean bean : list) {
                 int resume_width = metrics_resume.stringWidth(bean.getTitle());
                 int text_deadline_width = metrics_resume.stringWidth(bean.getDeadLineDescription());
-                if ((resume_width + text_deadline_width) > width) {
-                    width = (resume_width + text_deadline_width);
+                int temp_width = resume_width + text_deadline_width + 3 * CANVAS_MARGIN; // 概要和截止日期之间间隔CANVAS_MARGIN
+                if ((temp_width) > width) {
+                    width = temp_width;
                 }
             }
         }

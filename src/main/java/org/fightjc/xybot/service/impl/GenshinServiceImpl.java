@@ -4,17 +4,25 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import me.xdrop.fuzzywuzzy.FuzzySearch;
+import net.mamoe.mirai.contact.Group;
+import net.mamoe.mirai.message.data.PlainText;
+import net.mamoe.mirai.utils.ExternalResource;
+import org.fightjc.xybot.bot.XYBot;
+import org.fightjc.xybot.dao.GenshinDao;
 import org.fightjc.xybot.po.HttpClientResult;
 import org.fightjc.xybot.pojo.ResultOutput;
 import org.fightjc.xybot.pojo.genshin.*;
 import org.fightjc.xybot.service.GenshinService;
 import org.fightjc.xybot.util.BotUtil;
 import org.fightjc.xybot.util.HttpClientUtil;
+import org.fightjc.xybot.util.ImageUtil;
+import org.fightjc.xybot.util.MessageUtil;
 import org.fightjc.xybot.util.genshin.GenshinAnnounceDrawHelper;
 import org.fightjc.xybot.util.genshin.GenshinMaterialDrawHelper;
 import org.fightjc.xybot.util.genshin.GenshinSearchDrawHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.awt.image.BufferedImage;
@@ -28,6 +36,50 @@ import java.util.stream.Collectors;
 public class GenshinServiceImpl implements GenshinService {
 
     private static final Logger logger = LoggerFactory.getLogger(GenshinServiceImpl.class);
+
+    @Autowired
+    public GenshinDao genshinDao;
+
+    //region 数据库操作
+
+    public List<GroupCalendarBean> getAllGroupCalendar() {
+        List<GroupCalendarBean> groupCalendarBeanList = genshinDao.getAllGroupCalendar();
+        // 防止队列中有空结果
+        groupCalendarBeanList.removeIf(Objects::isNull);
+
+        return groupCalendarBeanList;
+    }
+
+    public GroupCalendarBean getGroupCalendarByGroupId(Long groupId) {
+        return genshinDao.getGroupCalendar(groupId);
+    }
+
+    public void createOrUpdateGroupCalendar(Long groupId, boolean isActive, Long modifiedUserId) {
+        GroupCalendarBean groupCalendarBean = genshinDao.getGroupCalendar(groupId);
+        if (groupCalendarBean == null) {
+            createGroupCalendar(groupId, isActive, modifiedUserId);
+        } else {
+            updateGroupCalendar(groupId, isActive, modifiedUserId);
+        }
+    }
+
+    private void createGroupCalendar(Long groupId, boolean isActive, Long modifiedUserId) {
+        GroupCalendarBean groupCalendarBean = new GroupCalendarBean(groupId, isActive);
+        genshinDao.createGroupCalendar(groupCalendarBean);
+        GroupCalendarRecordBean groupCalendarRecordBean = new GroupCalendarRecordBean(groupId, isActive,
+                modifiedUserId, MessageUtil.getCurrentDateTime());
+        genshinDao.createGroupCalendarRecord(groupCalendarRecordBean);
+    }
+
+    private void updateGroupCalendar(Long groupId, boolean isActive, Long modifiedUserId) {
+        GroupCalendarBean groupCalendarBean = new GroupCalendarBean(groupId, isActive);
+        genshinDao.updateGroupCalendar(groupCalendarBean);
+        GroupCalendarRecordBean groupCalendarRecordBean = new GroupCalendarRecordBean(groupId, isActive,
+                modifiedUserId, MessageUtil.getCurrentDateTime());
+        genshinDao.createGroupCalendarRecord(groupCalendarRecordBean);
+    }
+
+    //endregion
 
     /**
      * 星期枚举
@@ -338,6 +390,35 @@ public class GenshinServiceImpl implements GenshinService {
             return new ResultOutput<>(true, "", bi);
         }
         return new ResultOutput<>(false, result.getInfo());
+    }
+
+    /**
+     * 向订阅群推送原神日历
+     */
+    public void postGroupGenshinCalendar() {
+        ResultOutput<BufferedImage> result = getCalendar();
+        if (result.getSuccess()) {
+            BufferedImage image = result.getObject();
+            if (image != null) {
+                try {
+                    ExternalResource resource = ImageUtil.bufferedImage2ExternalResource(image);
+
+                    List<GroupCalendarBean> groupCalendarBeanList = getAllGroupCalendar();
+                    groupCalendarBeanList.removeIf(bean -> !bean.isActive()); // 过滤非激活的
+
+                    // 推送群
+                    for (GroupCalendarBean bean : groupCalendarBeanList) {
+                        Group group = XYBot.getBot().getGroup(bean.getGroupId());
+                        if (group != null) {
+                            group.sendMessage(group.uploadImage(resource));
+                        }
+                    }
+                } catch (Exception e) {
+                    logger.error(e.getMessage());
+                }
+            }
+        }
+
     }
 
     /**

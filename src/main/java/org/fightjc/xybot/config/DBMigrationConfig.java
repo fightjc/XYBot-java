@@ -45,6 +45,7 @@ public class DBMigrationConfig {
 
         tables.add(migration_v1());
         tables.add(migration_v2());
+        tables.add(migration_v3());
 
         return tables;
     }
@@ -112,5 +113,32 @@ public class DBMigrationConfig {
         sqlList.add(create_BiliDynamic);
 
         return new DBMigrationTable(2, remark, sqlList);
+    }
+
+    /**
+     *  add tables for genshin calendar subscribe
+     * @return
+     */
+    private DBMigrationTable migration_v3() {
+        String remark = "addGenshinCalendar";
+        List<String> sqlList = new ArrayList<>();
+
+        String create_GenshinCalendar =
+                "create table genshin_calendar(" +
+                        "Id INTEGER PRIMARY KEY autoincrement," +
+                        "GroupId integer," +
+                        "IsActive varchar(1));";
+        sqlList.add(create_GenshinCalendar);
+
+        String create_GenshinCalendarRecord =
+                "create table genshin_calendarRecord(" +
+                        "Id INTEGER PRIMARY KEY autoincrement," +
+                        "GroupId integer," +
+                        "IsActive varchar(1)," +
+                        "ModifiedUserId integer," +
+                        "ModifiedTime varchar(20));";
+        sqlList.add(create_GenshinCalendarRecord);
+
+        return new DBMigrationTable(3, remark, sqlList);
     }
 }

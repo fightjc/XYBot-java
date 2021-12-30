@@ -1,6 +1,7 @@
 package org.fightjc.xybot.startup;
 
 import org.fightjc.xybot.service.BiliBiliService;
+import org.fightjc.xybot.service.GenshinService;
 import org.fightjc.xybot.util.BotGacha;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +16,9 @@ public class XYBotScheduleTask {
 
     @Autowired
     protected BiliBiliService biliBiliService;
+
+    @Autowired
+    protected GenshinService genshinService;
 
     /**
      * 每天4时重置抽签记录
@@ -32,5 +36,14 @@ public class XYBotScheduleTask {
     private void biliBiliSubscribe() {
         logger.info("查看b站订阅");
         biliBiliService.checkNeedGroupNotify();
+    }
+
+    /**
+     * 每天9时推送原神日历
+     */
+    @Scheduled(cron = "0 0 9 * * ?")
+    private void genshinCalendar() {
+        logger.info("推送原神日历");
+        genshinService.postGroupGenshinCalendar();
     }
 }
