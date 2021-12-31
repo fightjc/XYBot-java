@@ -43,7 +43,7 @@ public class GenshinCalendarCommand extends MemberGroupCommand {
         if (args.size() > 0) {
             String c = args.get(0);
             if (c.equals("开启推送") || c.equals("关闭推送")  || c.equals("状态")) {
-                if (!isGroupOwner(sender)) {
+                if (!isGroupAdmin(sender)) {
                     return at.plus(new PlainText("当前用户无权限操作，请联系管理员！"));
                 }
 
