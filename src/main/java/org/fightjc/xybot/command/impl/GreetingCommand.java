@@ -58,6 +58,6 @@ public class GreetingCommand extends MemberGroupCommand {
             }
         }
 
-        return at.plus(new PlainText(greeting));
+        return new PlainText(greeting);
     }
 }
