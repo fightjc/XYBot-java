@@ -43,27 +43,27 @@ public class GenshinCalendarCommand extends MemberGroupCommand {
         if (args.size() > 0) {
             String c = args.get(0);
             if (c.equals("开启推送") || c.equals("关闭推送")  || c.equals("状态")) {
-                if (!isGroupAdmin(sender)) {
+                if (!isGroupAdmin(sender) && !isGroupOwner(sender)) {
                     return at.plus(new PlainText("当前用户无权限操作，请联系管理员！"));
                 }
+            }
 
-                switch (c) {
-                    case "开启推送":
-                    case "关闭推送":
-                        genshinService.createOrUpdateGroupCalendar(groupId, c.contains("开启"), sender.getId());
-                        String ret = "原神日历推送已" + (c.contains("开启") ? "开启" : "关闭");
-                        return at.plus(new PlainText(ret));
-                    case "状态":
-                        GroupCalendarBean groupCalendarBean = genshinService.getGroupCalendarByGroupId(groupId);
-                        if (groupCalendarBean != null) {
-                            String info = "原神日历推送已" + (groupCalendarBean.isActive() ? "开启" : "关闭");
-                            return at.plus(new PlainText(info));
-                        } else {
-                            return at.plus(new PlainText("当前群尚未开启原神日历推送功能"));
-                        }
-                    default:
-                        return new PlainText(usage);
-                }
+            switch (c) {
+                case "开启推送":
+                case "关闭推送":
+                    genshinService.createOrUpdateGroupCalendar(groupId, c.contains("开启"), sender.getId());
+                    String ret = "原神日历推送已" + (c.contains("开启") ? "开启" : "关闭");
+                    return at.plus(new PlainText(ret));
+                case "状态":
+                    GroupCalendarBean groupCalendarBean = genshinService.getGroupCalendarByGroupId(groupId);
+                    if (groupCalendarBean != null) {
+                        String info = "原神日历推送已" + (groupCalendarBean.isActive() ? "开启" : "关闭");
+                        return at.plus(new PlainText(info));
+                    } else {
+                        return at.plus(new PlainText("当前群尚未开启原神日历推送功能"));
+                    }
+                default:
+                    return new PlainText(usage);
             }
         }
 

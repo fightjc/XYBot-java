@@ -26,7 +26,7 @@ public class SwitchCommand extends AdminGroupCommand {
 
     @Override
     public Command property() {
-        return new Command("开关");
+        return new Command("开关", "列表");
     }
 
     @Override
@@ -37,29 +37,15 @@ public class SwitchCommand extends AdminGroupCommand {
             return new PlainText(usage);
         }
 
+        String rawMessage = messageChain.contentToString();
+        if (rawMessage.equals("列表")) {
+            return new PlainText("当前组件有：\n" + getSwitchList(subject));
+        }
+
         String opt = args.get(0);
         switch (opt) {
             case "列表":
-                // 获取默认功能开关状态
-                Map<String, Boolean> switchList = BotSwitch.getInstance().getSwitchList();
-                // 获取对应数据库记录
-                List<GroupSwitch> groupSwitchList = groupSwitchService.getGroupSwitchesByGroupId(subject.getId());
-
-                StringBuilder message = new StringBuilder();
-                for (String key : switchList.keySet()) {
-                    // 查看是否已有记录
-                    GroupSwitch groupSwitch = groupSwitchList.stream()
-                            .filter(gs -> gs.getName().equals(key))
-                            .findFirst()
-                            .orElse(null);
-                    if (groupSwitch == null) {
-                        message.append(key).append(" ").append(switchList.getOrDefault(key, false) ? "开启中" : "未开启").append("\n");
-                    } else {
-                        message.append(groupSwitch.getName()).append(" ").append(groupSwitch.isOn() ? "开启中" : "未开启").append("\n");
-                    }
-                }
-
-                return new PlainText("当前组件有：\n" + message.toString());
+                return new PlainText("当前组件有：\n" + getSwitchList(subject));
             case "开启":
             case "关闭":
                 String componentName = args.get(1);
@@ -80,5 +66,28 @@ public class SwitchCommand extends AdminGroupCommand {
             default:
                 return new PlainText(usage);
         }
+    }
+
+    private String getSwitchList(Group subject) {
+        // 获取默认功能开关状态
+        Map<String, Boolean> switchList = BotSwitch.getInstance().getSwitchList();
+        // 获取对应数据库记录
+        List<GroupSwitch> groupSwitchList = groupSwitchService.getGroupSwitchesByGroupId(subject.getId());
+
+        StringBuilder message = new StringBuilder();
+        for (String key : switchList.keySet()) {
+            // 查看是否已有记录
+            GroupSwitch groupSwitch = groupSwitchList.stream()
+                    .filter(gs -> gs.getName().equals(key))
+                    .findFirst()
+                    .orElse(null);
+            if (groupSwitch == null) {
+                message.append(key).append(" ").append(switchList.getOrDefault(key, false) ? "开启中" : "未开启").append("\n");
+            } else {
+                message.append(groupSwitch.getName()).append(" ").append(groupSwitch.isOn() ? "开启中" : "未开启").append("\n");
+            }
+        }
+
+        return message.toString();
     }
 }
