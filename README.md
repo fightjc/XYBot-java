@@ -1,5 +1,5 @@
 # XYBot
-a mirai base bot
+a mirai-base bot written in Java
 
 ## Development Environment
 | tools | version |
@@ -7,7 +7,7 @@ a mirai base bot
 | java | 1.8.0_291 |
 | springboot| 2.4.1 |
 | mybatis | 2.0.1 |
-| mirai-core-jvm | 2.7.1-dev-1 |
+| mirai-core-jvm | 2.9.0 |
 | sqlite-jdbc | 3.32.3.3 |
 
 ## Feature
@@ -23,7 +23,7 @@ a mirai base bot
 4. Have fun
 
 ## Current Command
-###### - 开关
+###### - 开关/列表
 群内 bot 管理员使用，在群内发送“开关”可以管理当前群内所有指令运行状态
 ###### - 每日抽签
 群内所有成员使用，在群内发送“抽签”即可收到签内容，一天只能抽签一次，每天4时重置
@@ -31,6 +31,12 @@ a mirai base bot
 游戏原神相关，群内所有成员使用，在群内发送“每日素材”即可获取当天原神可刷取角色天赋升级材料和武器升级材料图片
 ###### - 数据更新
 游戏原神相关，bot 管理员私信机器人“数据更新”，即可后台自动更新每日素材命令所需要的图片
+###### - 原神查询
+游戏原神相关，发送“查询”和需要查询物品的名称，可以对应物品说明，支持模糊搜索
+###### - 原神日历
+游戏原神相关，发送“原神日历”可获取游戏内公告内容和开始结束时间，并且可以设置是否每日推送
+###### - b站订阅
+群内bot管理员使用，发送“b站”可以查询并订阅指定b站用户动态，每5分钟推送一次最新动态
 
 ## Reference & Thanks
 - [mirai](https://github.com/mamoe/mirai) 是一个在全平台下运行，提供 QQ Android 协议支持的高效率机器人库
