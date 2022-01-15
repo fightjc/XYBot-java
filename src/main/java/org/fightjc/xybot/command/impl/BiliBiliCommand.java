@@ -9,7 +9,7 @@ import net.mamoe.mirai.message.data.PlainText;
 import net.mamoe.mirai.utils.ExternalResource;
 import org.fightjc.xybot.annotate.CommandAnnotate;
 import org.fightjc.xybot.annotate.SwitchAnnotate;
-import org.fightjc.xybot.command.impl.group.AdminGroupCommand;
+import org.fightjc.xybot.command.impl.group.MemberGroupCommand;
 import org.fightjc.xybot.pojo.Command;
 import org.fightjc.xybot.pojo.ResultOutput;
 import org.fightjc.xybot.pojo.bilibili.DynamicBean;
@@ -25,7 +25,7 @@ import java.util.List;
 
 @CommandAnnotate
 @SwitchAnnotate(name = "b站订阅")
-public class BiliBiliCommand extends AdminGroupCommand {
+public class BiliBiliCommand extends MemberGroupCommand {
 
     @Autowired
     protected BiliBiliService biliBiliService;
@@ -84,6 +84,11 @@ public class BiliBiliCommand extends AdminGroupCommand {
                 }
             case "订阅":
             case "退订":
+                // 判断是否有权限
+                if (!isGroupAdmin(sender) && !isGroupOwner(sender)) {
+                    return at.plus(new PlainText("当前用户无权限操作，请联系管理员！"));
+                }
+
                 String mid = args.get(1);
                 Long groupId = subject.getId();
                 boolean isSubscribe = opt.equals("订阅");
