@@ -30,6 +30,10 @@ public class MaterialBean {
         return materialType;
     }
 
+    public String getCategory() {
+        return category;
+    }
+
     public int getSortOrder() {
         return sortOrder;
     }

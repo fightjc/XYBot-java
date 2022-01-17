@@ -49,6 +49,14 @@ public class CharacterBean {
         return name;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
     public String getRarity() {
         return rarity;
     }
@@ -67,5 +75,13 @@ public class CharacterBean {
 
     public String getBirthday() {
         return birthday;
+    }
+
+    public String getConstellation() {
+        return constellation;
+    }
+
+    public Map<String, List<CostBean>> getCosts() {
+        return costs;
     }
 }

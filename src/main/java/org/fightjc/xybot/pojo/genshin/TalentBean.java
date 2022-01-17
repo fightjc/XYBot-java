@@ -60,6 +60,10 @@ public class TalentBean {
         return passive3;
     }
 
+    public Map<String, List<CostBean>> getCosts() {
+        return costs;
+    }
+
     public boolean needTalentMaterialType(TalentMaterialTypeBean talentMaterialType) {
         List<String> typeList = talentMaterialType.getAllTypeNames();
         for (String key : costs.keySet()) {

@@ -164,8 +164,7 @@ public class GenshinServiceImpl implements GenshinService {
 
         // 判断是否是角色
         if (characterNameMap.containsKey(name)) {
-            //return getCharacterInfo(characterNameMap.get(name));
-            return new ResultOutput<>(false, "功能还在完善，敬请期待！", null);
+            return getCharacterInfo(characterNameMap.get(name));
         }
         //endregion
 
@@ -749,6 +748,14 @@ public class GenshinServiceImpl implements GenshinService {
             return new ResultOutput<>(false, "获取 /data/characters/" + name + ".json 对象失败");
         }
 
+        // 角色图标
+        String imagePath = BotUtil.getGenshinFolderPath() + "/images/characters/" + name + ".png";
+        BufferedImage image = BotUtil.readImageFile(imagePath);
+        if (image == null) {
+            logger.error("获取 /images/characters/" + name + ".png 对象失败");
+            return new ResultOutput<>(false, "获取 /images/characters/" + name + ".png 对象失败");
+        }
+
         // 角色天赋
         TalentBean talentBean = BotUtil.readJsonFile(
                 BotUtil.getGenshinFolderPath() + "/data/talents/" + name + ".json",
@@ -759,68 +766,164 @@ public class GenshinServiceImpl implements GenshinService {
         }
 
         // 角色命座
-        ConstellationBean constellationBean = BotUtil.readJsonFile(
-                BotUtil.getGenshinFolderPath() + "/data/constellations/" + name + ".json",
-                ConstellationBean.class);
-        if (constellationBean == null) {
-            logger.error("获取 /data/constellations/" + name + ".json 对象失败");
-            return new ResultOutput<>(false, "获取 /data/constellations/" + name + ".json 对象失败");
+        if (false) {
+            ConstellationBean constellationBean = BotUtil.readJsonFile(
+                    BotUtil.getGenshinFolderPath() + "/data/constellations/" + name + ".json",
+                    ConstellationBean.class);
+            if (constellationBean == null) {
+                logger.error("获取 /data/constellations/" + name + ".json 对象失败");
+                return new ResultOutput<>(false, "获取 /data/constellations/" + name + ".json 对象失败");
+            }
         }
 
-        // 角色图标
-        String imagePath = BotUtil.getGenshinFolderPath() + "/images/characters/" + name + ".png";
-        BufferedImage image = BotUtil.readImageFile(imagePath);
-        if (image == null) {
-            logger.error("获取 /images/characters/" + name + ".png 对象失败");
-            return new ResultOutput<>(false, "获取 /images/characters/" + name + ".png 对象失败");
+        // 获取材料索引
+        JSONObject materialObject = BotUtil.readJsonFile(BotUtil.getGenshinFolderPath() + "/index/materials.json");
+        if (materialObject == null) {
+            logger.error("获取 /index/materials.json 对象失败");
+            return new ResultOutput<>(false, "获取 /index/materials.json 对象失败");
         }
 
-        //TODO: 太长了卡片显示不全
-//        String info =
-//                "{" +
-//                    "\"app\":\"com.tencent.miniapp\"," +
-//                    "\"view\":\"notification\"," +
-//                    "\"prompt\":\"角色\"," +
-//                    "\"desc\":\"\"," +
-//                    "\"ver\":\"0.0.0.1\"," +
-//                    "\"meta\":{" +
-//                        "\"notification\":{" +
-//                            "\"appInfo\":{" +
-//                                "\"appName\":\""+ characterBean.getName() + "\"," +
-//                                "\"appType\":4," +
-//                                "\"appid\":1109659848," +
-//                                "\"iconUrl\":\"" + characterMap.getString("icon") + "\"" +
-//                            "}," +
-//                            "\"data\":[" +
-//                                "{\"title\":\"星级\",\"value\":\"" + characterBean.getRarity() +"\"}," +
-//                                "{\"title\":\"神之眼\",\"value\":\"" + characterBean.getElement() + "\"}," +
-//                                "{\"title\":\"武器类型\",\"value\":\"" + characterBean.getWeaponType() + "\"}," +
-//                                "{\"title\":\"升级属性\",\"value\":\"" + characterBean.getSubStat() + "\"}," +
-//                                "{\"title\":\"生日\",\"value\":\"" + characterBean.getBirthday() + "\"}," +
-//                                "{\"title\":\"天赋\",\"value\":\"\"}," +
-//                                "{\"title\":\"" + talentBean.getCombat1().getName() + "\",\"value\":\"" + talentBean.getCombat1().getInfo() + "\"}," +
-//                                "{\"title\":\"" + talentBean.getCombat2().getName() + "\",\"value\":\"" + talentBean.getCombat2().getInfo() + "\"}," +
-//                                "{\"title\":\"" + talentBean.getCombat3().getName() + "\",\"value\":\"" + talentBean.getCombat3().getInfo() + "\"}," +
-//                                (talentBean.getCombatSp() == null ?
-//                                        "" : "{\"title\":\"" + talentBean.getCombatSp().getName() + "\",\"value\":\"" + talentBean.getCombatSp().getInfo() + "\"},") +
-//                                "{\"title\":\"" + talentBean.getPassive1().getName() + "\",\"value\":\"" + talentBean.getPassive1().getInfo() + "\"}," +
-//                                "{\"title\":\"" + talentBean.getPassive2().getName() + "\",\"value\":\"" + talentBean.getPassive2().getInfo() + "\"}," +
-//                                (talentBean.getPassive3() == null ?
-//                                        "" : "{\"title\":\"" + talentBean.getPassive3().getName() + "\",\"value\":\"" + talentBean.getPassive3().getInfo() + "\"},") +
-//                                "{\"title\":\"命之座\",\"value\":\"-\"}," +
-//                                "{\"title\":\"1." + constellationBean.getC1().getName() + "\",\"value\":\"" + constellationBean.getC1().getEffect() + "\"}," +
-//                                "{\"title\":\"2." + constellationBean.getC2().getName() + "\",\"value\":\"" + constellationBean.getC2().getEffect() + "\"}," +
-//                                "{\"title\":\"3." + constellationBean.getC3().getName() + "\",\"value\":\"" + constellationBean.getC3().getEffect() + "\"}," +
-//                                "{\"title\":\"4." + constellationBean.getC4().getName() + "\",\"value\":\"" + constellationBean.getC4().getEffect() + "\"}," +
-//                                "{\"title\":\"5." + constellationBean.getC5().getName() + "\",\"value\":\"" + constellationBean.getC5().getEffect() + "\"}," +
-//                                "{\"title\":\"6." + constellationBean.getC6().getName() + "\",\"value\":\"" + constellationBean.getC6().getEffect() + "\"}" +
-//                            "]" +
-//                        "}" +
-//                    "}" +
-//                "}";
-//        info = info.replace("\n", "\\n");
+        // 材料名和路径字典
+        Map<String, String> materialNameMap = materialObject.getObject("names", new TypeReference<Map<String, String>>(){});
+        if (materialNameMap == null) {
+            logger.error("获取 /index/materials.json 中 names 对象失败");
+            return new ResultOutput<>(false, "获取 /index/materials.json 中 names 对象失败");
+        }
 
-        return new ResultOutput<>(true, "", GenshinSearchDrawHelper.drawCharacterInfo());
+        CostDto mora;
+        List<CostDto> avatarList = new ArrayList<>();
+        List<CostDto> exchangeList = new ArrayList<>();
+        CostDto talent_mora;
+        List<CostDto> talent_avatarList = new ArrayList<>();
+        List<CostDto> talentList = new ArrayList<>();
+
+        // 角色突破
+        {
+            Map<String, MaterialBean> materialMap = new HashMap<>(); // 存储当前材料详细信息
+            Map<String, Map<String, Integer>> totalMaterialMap = new HashMap<>(); // 以材料类别和材料名分类
+            Map<String, List<CostBean>> costMap = characterBean.getCosts();
+            for (String key : costMap.keySet()) {
+                List<CostBean> costList = costMap.get(key);
+                for (CostBean cost : costList) {
+                    String materialName = cost.getName();
+
+                    if (!materialMap.containsKey(materialName)) {
+                        String materialPath = materialNameMap.get(materialName);
+
+                        MaterialBean bean = BotUtil.readJsonFile(BotUtil.getGenshinFolderPath() + "/data/materials/" + materialPath + ".json", MaterialBean.class);
+                        materialMap.put(materialName, bean);
+                    }
+
+                    MaterialBean material = materialMap.get(materialName);
+                    String type = material.getCategory();
+                    int count = cost.getCount();
+
+                    // 统计累加数量
+                    Map<String, Integer> materialSumMap = new HashMap<>();
+                    if (totalMaterialMap.containsKey(type)) {
+                        materialSumMap = totalMaterialMap.get(type);
+                    }
+                    if (materialSumMap.containsKey(materialName)) {
+                        count += materialSumMap.get(materialName);
+                    }
+                    materialSumMap.put(materialName, count);
+                    totalMaterialMap.put(type, materialSumMap);
+                }
+            }
+            // 组装材料dto
+            Map<String, Integer> adsorbateMap = totalMaterialMap.get("ADSORBATE");
+            mora = new CostDto("摩拉", adsorbateMap.get("摩拉"),
+                    BotUtil.readImageFile(BotUtil.getGenshinFolderPath() + "/images/materials/mora.png"),
+                    0, "");
+            Map<String, Integer> avatarMap = totalMaterialMap.get("AVATAR_MATERIAL");
+            for (String key : avatarMap.keySet()) {
+                String materialFilePath = materialNameMap.get(key);
+                CostDto cost = new CostDto(key, avatarMap.get(key),
+                        BotUtil.readImageFile(BotUtil.getGenshinFolderPath() + "/images/materials/" + materialFilePath + ".png"),
+                        materialMap.get(key).getSortOrder(), "");
+                avatarList.add(cost);
+            }
+            avatarList.sort(Comparator.comparing(CostDto::getSort)); // 根据sortOrder排序
+            Map<String, Integer> exchangeMap = totalMaterialMap.get("EXCHANGE");
+            for (String key : exchangeMap.keySet()) {
+                String materialFilePath = materialNameMap.get(key);
+                MaterialBean materialBean = materialMap.get(key);
+                List<String> daysOfWeek = materialBean.getDaysOfWeek();
+                String info = daysOfWeek == null ?
+                        "" : "（" + String.join("/", materialBean.getDaysOfWeek()) + "）"; // 刷取日期
+                CostDto cost = new CostDto(key, exchangeMap.get(key),
+                        BotUtil.readImageFile(BotUtil.getGenshinFolderPath() + "/images/materials/" + materialFilePath + ".png"),
+                        materialBean.getSortOrder(), info);
+                exchangeList.add(cost);
+            }
+            exchangeList.sort(Comparator.comparing(CostDto::getSort)); // 根据sortOrder排序
+        }
+
+        // 天赋突破
+        {
+            Map<String, MaterialBean> materialMap = new HashMap<>(); // 存储当前材料详细信息
+            Map<String, Map<String, Integer>> totalMaterialMap = new HashMap<>(); // 以材料类别和材料名分类
+            Map<String, List<CostBean>> costMap = talentBean.getCosts();
+            for (String key : costMap.keySet()) {
+                List<CostBean> costList = costMap.get(key);
+                for (CostBean cost : costList) {
+                    String materialName = cost.getName();
+
+                    if (!materialMap.containsKey(materialName)) {
+                        String materialPath = materialNameMap.get(materialName);
+
+                        MaterialBean bean = BotUtil.readJsonFile(BotUtil.getGenshinFolderPath() + "/data/materials/" + materialPath + ".json", MaterialBean.class);
+                        materialMap.put(materialName, bean);
+                    }
+
+                    MaterialBean material = materialMap.get(materialName);
+                    String type = material.getMaterialType();
+                    int count = cost.getCount();
+
+                    // 统计累加数量
+                    Map<String, Integer> materialSumMap = new HashMap<>();
+                    if (totalMaterialMap.containsKey(type)) {
+                        materialSumMap = totalMaterialMap.get(type);
+                    }
+                    if (materialSumMap.containsKey(materialName)) {
+                        count += materialSumMap.get(materialName);
+                    }
+                    materialSumMap.put(materialName, count);
+                    totalMaterialMap.put(type, materialSumMap);
+                }
+            }
+            // 组装材料dto
+            Map<String, Integer> adsorbateMap = totalMaterialMap.get("通用货币");
+            talent_mora = new CostDto("摩拉", adsorbateMap.get("摩拉"),
+                    BotUtil.readImageFile(BotUtil.getGenshinFolderPath() + "/images/materials/mora.png"),
+                    0, "");
+            Map<String, Integer> avatarMap = totalMaterialMap.get("角色培养素材");
+            for (String key : avatarMap.keySet()) {
+                String materialFilePath = materialNameMap.get(key);
+                CostDto cost = new CostDto(key, avatarMap.get(key),
+                        BotUtil.readImageFile(BotUtil.getGenshinFolderPath() + "/images/materials/" + materialFilePath + ".png"),
+                        materialMap.get(key).getSortOrder(), "");
+                talent_avatarList.add(cost);
+            }
+            talent_avatarList.sort(Comparator.comparing(CostDto::getSort)); // 根据sortOrder排序
+            Map<String, Integer> talentMap = totalMaterialMap.get("天赋培养素材");
+            for (String key : talentMap.keySet()) {
+                String materialFilePath = materialNameMap.get(key);
+                MaterialBean materialBean = materialMap.get(key);
+                List<String> daysOfWeek = materialBean.getDaysOfWeek();
+                String info = daysOfWeek == null ?
+                        "" : "（" + String.join("/", materialBean.getDaysOfWeek()) + "）"; // 刷取日期
+                CostDto cost = new CostDto(key, talentMap.get(key),
+                        BotUtil.readImageFile(BotUtil.getGenshinFolderPath() + "/images/materials/" + materialFilePath + ".png"),
+                        materialBean.getSortOrder(), info);
+                talentList.add(cost);
+            }
+            talentList.sort(Comparator.comparing(CostDto::getSort)); // 根据sortOrder排序
+        }
+
+        BufferedImage target = GenshinSearchDrawHelper.drawCharacterInfo(new CharacterDrawDto(image, characterBean,
+                mora, avatarList, exchangeList, talent_mora, talent_avatarList, talentList));
+        return new ResultOutput<>(true, "", target);
     }
 
     /**
@@ -892,12 +995,14 @@ public class GenshinServiceImpl implements GenshinService {
                 totalMaterialMap.put(type, materialSumMap);
             }
         }
+
         // 组装材料dto
-        Map<String, Integer> adsorbateMap =  totalMaterialMap.get("通用货币");
+        Map<String, Integer> adsorbateMap = totalMaterialMap.get("通用货币");
         CostDto mora = new CostDto("摩拉", adsorbateMap.get("摩拉"),
                 BotUtil.readImageFile(BotUtil.getGenshinFolderPath() + "/images/materials/mora.png"),
                 0, "");
-        Map<String, Integer> avatarMap =  totalMaterialMap.get("角色培养素材");
+
+        Map<String, Integer> avatarMap = totalMaterialMap.get("角色培养素材");
         List<CostDto> avatarList = new ArrayList<>();
         for (String key : avatarMap.keySet()) {
             String materialFilePath = materialNameMap.get(key);
@@ -907,6 +1012,7 @@ public class GenshinServiceImpl implements GenshinService {
             avatarList.add(cost);
         }
         avatarList.sort(Comparator.comparing(CostDto::getSort)); // 根据sortOrder排序
+
         Map<String, Integer> weaponMap =  totalMaterialMap.get("武器突破素材");
         List<CostDto> weaponList = new ArrayList<>();
         for (String key : weaponMap.keySet()) {
