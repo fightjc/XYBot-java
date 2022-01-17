@@ -333,6 +333,7 @@ public class BiliBiliServiceImpl implements BiliBiliService {
             List<String> mids = result.get(groupId);
             for (String mid : mids) {
                 List<DynamicDto> dynamicDtos = latestDynamics.get(mid);
+                if (dynamicDtos == null) continue;
                 for (DynamicDto dto : dynamicDtos) {
                     Group group = XYBot.getBot().getGroup(groupId);
                     if (group != null) {
