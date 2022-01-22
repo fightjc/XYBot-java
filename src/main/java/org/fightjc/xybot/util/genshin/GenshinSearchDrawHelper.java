@@ -80,7 +80,7 @@ public class GenshinSearchDrawHelper {
             int text_ascend_title_height = metrics_ascend_title.getAscent();
             height += text_ascend_title_height + ASCEND_LINE_GAP;
 
-            height += 2 * (MATERIAL_ICON_WIDTH + ASCEND_LINE_GAP) - ASCEND_LINE_GAP + MATERIAL_MARGIN;
+            height += 3 * (MATERIAL_ICON_WIDTH + ASCEND_LINE_GAP) - ASCEND_LINE_GAP + MATERIAL_MARGIN;
         }
         // 天赋突破材料表
         {
@@ -258,6 +258,28 @@ public class GenshinSearchDrawHelper {
                 currX += metrics_ascend.charsWidth(text.toCharArray(), 0, text.length()) + ASCEND_LINE_GAP;
             }
 
+            // 地区特产
+            currX = NAME_MARGIN;
+            currY += MATERIAL_ICON_WIDTH + ASCEND_LINE_GAP;
+            for (CostDto cost : dto.getExchangeAscend()) {
+                // 图片
+                BufferedImage image = cost.getImage();
+                if (image != null) {
+                    g2d.drawImage(image,
+                            currX,
+                            currY,
+                            MATERIAL_ICON_WIDTH,
+                            MATERIAL_ICON_WIDTH, null);
+                }
+                currX += MATERIAL_ICON_WIDTH;
+                // 文字
+                String text = " x " + cost.getCount();
+                g2d.drawString(text,
+                        currX,
+                        currY + text_ascend_height);
+                currX += metrics_ascend.charsWidth(text.toCharArray(), 0, text.length()) + ASCEND_LINE_GAP;
+            }
+
             currY += MATERIAL_ICON_WIDTH;
         }
         //endregion
@@ -271,7 +293,7 @@ public class GenshinSearchDrawHelper {
             int text_ascend_title_height = metrics_ascend_title.getAscent();
             g2d.setFont(f_ascend_title);
             g2d.setColor(Color.BLACK);
-            g2d.drawString("天赋突破材料表（满突破）",
+            g2d.drawString("天赋突破材料表（单个天赋满突破）",
                     currX,
                     currY + text_ascend_title_height);
 
