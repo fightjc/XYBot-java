@@ -13,6 +13,7 @@ import org.fightjc.xybot.command.impl.group.MemberGroupCommand;
 import org.fightjc.xybot.pojo.Command;
 import org.fightjc.xybot.pojo.ResultOutput;
 import org.fightjc.xybot.service.GenshinService;
+import org.fightjc.xybot.util.BotUtil;
 import org.fightjc.xybot.util.ImageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -37,23 +38,52 @@ public class GenshinSearchCommand extends MemberGroupCommand {
 
         // 检查命令格式
         if (args.size() != 1) {
-            return at.plus(new PlainText("使用方式：查询 [角色/武器/物品]"));
+            return at.plus(new PlainText("使用方式：查询 [钓鱼] [砍树] [角色/武器/物品]"));
         }
 
         // 查询物品
         String item = args.get(0);
-        ResultOutput<BufferedImage> result = genshinService.getInfoByName(item);
 
-        if (!result.getSuccess()) {
-            return at.plus(new PlainText(result.getInfo()));
-        } else {
-            BufferedImage image = result.getObject();
-            if (image == null) {
-                return at.plus(new PlainText(result.getInfo()));
-            } else {
-                ExternalResource resource = ImageUtil.bufferedImage2ExternalResource(image);
-                return at.plus(subject.uploadImage(resource));
-            }
+        switch (item) {
+            case "钓鱼":
+                String fishingPath1 = BotUtil.getGenshinFolderPath() + "/images/miscellaneous/fishing_1.png";
+                BufferedImage fishingImage1 = BotUtil.readImageFile(fishingPath1);
+
+                String fishingPath2 = BotUtil.getGenshinFolderPath() + "/images/miscellaneous/fishing_2.jpg";
+                BufferedImage fishingImage2 = BotUtil.readImageFile(fishingPath2);
+
+                if (fishingImage1 != null && fishingImage2 != null) {
+                    ExternalResource resource1 = ImageUtil.bufferedImage2ExternalResource(fishingImage1);
+                    ExternalResource resource2 = ImageUtil.bufferedImage2ExternalResource(fishingImage2);
+                    return at.plus(subject.uploadImage(resource1)).plus(subject.uploadImage(resource2));
+                } else {
+                    return at.plus(new PlainText("图片素材丢失，请联系管理员！"));
+                }
+            case "砍树":
+                String creationPath = BotUtil.getGenshinFolderPath() + "/images/miscellaneous/creation.jpg";
+                BufferedImage creationImage = BotUtil.readImageFile(creationPath);
+
+                if (creationImage != null) {
+                    ExternalResource resource = ImageUtil.bufferedImage2ExternalResource(creationImage);
+                    return at.plus(subject.uploadImage(resource));
+                } else {
+                    return at.plus(new PlainText("图片素材丢失，请联系管理员！"));
+                }
+            default:
+                ResultOutput<BufferedImage> result = genshinService.getInfoByName(item);
+
+                if (!result.getSuccess()) {
+                    return at.plus(new PlainText(result.getInfo()));
+                } else {
+                    BufferedImage image = result.getObject();
+                    if (image == null) {
+                        return at.plus(new PlainText(result.getInfo()));
+                    } else {
+                        ExternalResource resource = ImageUtil.bufferedImage2ExternalResource(image);
+                        return at.plus(subject.uploadImage(resource));
+                    }
+                }
         }
+
     }
 }
