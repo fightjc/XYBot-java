@@ -6,6 +6,7 @@ import org.fightjc.xybot.util.BotGacha;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +14,9 @@ import org.springframework.stereotype.Component;
 public class XYBotScheduleTask {
 
     private static final Logger logger = LoggerFactory.getLogger(XYBotScheduleTask.class);
+
+    @Value("${mode.debug}")
+    boolean isDebugMode;
 
     @Autowired
     protected BiliBiliService biliBiliService;
@@ -34,8 +38,10 @@ public class XYBotScheduleTask {
      */
     @Scheduled(cron = "0 0/5 * * * ?")
     private void biliBiliSubscribe() {
-        logger.info("查看b站订阅");
-        biliBiliService.checkNeedGroupNotify();
+        if (!isDebugMode) {
+            logger.info("查看b站订阅");
+            biliBiliService.checkNeedGroupNotify();
+        }
     }
 
     /**

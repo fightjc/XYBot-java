@@ -41,6 +41,9 @@ public class XYBotLoader implements ApplicationRunner {
     @Qualifier("allBotEvents")
     List<ListenerHost> events;
 
+    @Value("${mode.debug}")
+    boolean isDebugMode;
+
     @Autowired
     DBMigration dbMigration;
 
@@ -54,8 +57,14 @@ public class XYBotLoader implements ApplicationRunner {
     public void run(ApplicationArguments args) {
         // 准备数据库
         prepareDatabase();
-        // 启动bot
-        startupBot();
+
+        if (!isDebugMode) {
+            // 启动bot
+            startupBot();
+        } else {
+            // 测试用
+            System.out.println("start debug");
+        }
     }
 
     private void prepareDatabase() {
