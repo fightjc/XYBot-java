@@ -46,6 +46,8 @@ public class AnnounceBean {
         String des = "";
         if (start > 0) {
             des = start + "天后开始";
+        } else if (start == 0) {
+            des = "即将开始";
         } else {
             if (deadline > 0) {
                 if (isForever) {
