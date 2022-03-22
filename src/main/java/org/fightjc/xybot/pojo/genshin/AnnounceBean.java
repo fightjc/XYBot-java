@@ -40,8 +40,8 @@ public class AnnounceBean {
 
     public String getDeadLineDescription() {
         long current = new Date().getTime();
-        long start = (startTime.getTime() - current) / (24 * 60 * 60 * 1000);
-        long deadline =  (endTime.getTime() - current) / (24 * 60 * 60 * 1000);
+        double start = (startTime.getTime() - current) / (24 * 60 * 60 * 1000.0);
+        double deadline =  (endTime.getTime() - current) / (24 * 60 * 60 * 1000.0);
 
         String des = "";
         if (start > 0) {
