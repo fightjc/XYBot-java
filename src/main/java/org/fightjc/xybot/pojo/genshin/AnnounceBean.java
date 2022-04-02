@@ -44,16 +44,16 @@ public class AnnounceBean {
         double deadline =  (endTime.getTime() - current) / (24 * 60 * 60 * 1000.0);
 
         String des = "";
-        if (start > 0) {
-            des = start + "天后开始";
-        } else if (start == 0) {
+        if (start > 1) {
+            des = Math.round(start) + "天后开始";
+        } else if (start > 0) {
             des = "即将开始";
         } else {
-            if (deadline > 0) {
+            if (deadline > 1) {
                 if (isForever) {
                     des = "永久开放";
                 } else {
-                    des = deadline + "天后结束";
+                    des = Math.round(deadline) + "天后结束";
                 }
             } else {
                 des = "即将结束";
