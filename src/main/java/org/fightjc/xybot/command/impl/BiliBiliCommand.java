@@ -47,6 +47,8 @@ public class BiliBiliCommand extends MemberGroupCommand {
 
         String opt = args.get(0);
         switch (opt) {
+            case "帮助":
+                return at.plus(new PlainText(usage));
             case "列表":
                 List<DynamicBean> dynamicBeanList = biliBiliService.getGroupSubscribes(subject.getId());
 

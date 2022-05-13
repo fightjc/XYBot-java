@@ -35,16 +35,33 @@ public class GenshinSearchCommand extends MemberGroupCommand {
     @Override
     protected Message executeHandle(Member sender, ArrayList<String> args, MessageChain messageChain, Group subject) throws Exception {
         At at = new At(sender.getId());
+        String usage = "使用方式：查询 [帮助] [钓鱼] [砍树] [大伟丘] [角色/武器/物品]";
 
         // 检查命令格式
         if (args.size() != 1) {
-            return at.plus(new PlainText("使用方式：查询 [钓鱼] [砍树] [角色/武器/物品]"));
+            return at.plus(new PlainText(usage));
         }
 
         // 查询物品
         String item = args.get(0);
 
         switch (item) {
+            case "帮助":
+                return at.plus(new PlainText(usage));
+            case "大伟丘":
+                String hiliPath1 = BotUtil.getGenshinFolderPath() + "/images/miscellaneous/unusualhilichurl_1.png";
+                BufferedImage hiliImage1 = BotUtil.readImageFile(hiliPath1);
+
+                String hiliPath2 = BotUtil.getGenshinFolderPath() + "/images/miscellaneous/unusualhilichurl_2.png";
+                BufferedImage hiliImage2 = BotUtil.readImageFile(hiliPath2);
+
+                if (hiliImage1 != null && hiliImage2 != null) {
+                    ExternalResource resource1 = ImageUtil.bufferedImage2ExternalResource(hiliImage1);
+                    ExternalResource resource2 = ImageUtil.bufferedImage2ExternalResource(hiliImage2);
+                    return at.plus(subject.uploadImage(resource1)).plus(subject.uploadImage(resource2));
+                } else {
+                    return at.plus(new PlainText("图片素材丢失，请联系管理员！"));
+                }
             case "钓鱼":
                 String fishingPath1 = BotUtil.getGenshinFolderPath() + "/images/miscellaneous/fishing_1.png";
                 BufferedImage fishingImage1 = BotUtil.readImageFile(fishingPath1);

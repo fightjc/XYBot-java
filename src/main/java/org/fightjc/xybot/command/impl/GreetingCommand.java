@@ -26,8 +26,12 @@ public class GreetingCommand extends MemberGroupCommand {
 
     @Override
     protected Message executeHandle(Member sender, ArrayList<String> args, MessageChain messageChain, Group subject) throws Exception {
-        At at = new At(sender.getId());
+//        At at = new At(sender.getId());
         String greeting = "你在说啥？";
+
+        if (args.size() != 1) {
+            return null;
+        }
 
         Random random = new Random();
         int seed = random.nextInt(20) + 1;
