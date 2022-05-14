@@ -29,7 +29,8 @@ public class GreetingCommand extends MemberGroupCommand {
 //        At at = new At(sender.getId());
         String greeting = "你在说啥？";
 
-        if (args.size() != 1) {
+        if (args.size() != 0) {
+            // 对带参数（空格）不予理会
             return null;
         }
 
