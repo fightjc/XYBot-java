@@ -2,7 +2,7 @@
 	"element": ["Geo", "Dendro", "Hydro", "Anemo", "Electro", "Cryo", "Pyro", "Adaptive"],
 	"weapontype": ["Claymore", "Sword", "Polearm", "Catalyst", "Bow"],
 	"gender": ["Male", "Female"],
-	"region": ["蒙德", "璃月", "稻妻"],
+	"region": ["蒙德", "璃月", "稻妻", "须弥"],
 	"rarity": ["1", "2", "3", "4", "5"],
 	"minrarity": ["1", "2", "3", "4", "5"],
 	"maxrarity": ["1", "2", "3", "4", "5"],
