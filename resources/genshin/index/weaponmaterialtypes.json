@@ -1,27 +1,37 @@
 {
   "namemap": {
+    "adistantsea": "远海夷地",
     "aerosiderite": "漆黑陨铁",
     "borealwolf": "凛风奔狼",
     "dandeliongladiator": "狮牙斗士",
     "decarabian": "高塔孤王",
+    "forestdew": "谧林涓露",
     "guyun": "孤云寒林",
+    "mask": "今昔剧画",
     "mistveiledelixir": "雾海云间",
-    "adistantsea": "远海夷地",
     "narukami": "鸣神御灵",
-    "mask": "今昔剧画"
+    "oasisgarden": "绿洲花园",
+    "scorchingmight": "烈日威权"
   },
   "names": {
+    "远海夷地": "adistantsea",
     "漆黑陨铁": "aerosiderite",
     "凛风奔狼": "borealwolf",
     "狮牙斗士": "dandeliongladiator",
     "高塔孤王": "decarabian",
+    "谧林涓露": "forestdew",
     "孤云寒林": "guyun",
+    "今昔剧画": "mask",
     "雾海云间": "mistveiledelixir",
-    "远海夷地": "adistantsea",
     "鸣神御灵": "narukami",
-    "今昔剧画": "mask"
+    "绿洲花园": "oasisgarden",
+    "烈日威权": "scorchingmight"
   },
   "aliases": {
+    "远海夷地的瑚枝": "adistantsea",
+    "远海夷地的玉枝": "adistantsea",
+    "远海夷地的琼枝": "adistantsea",
+    "远海夷地的金枝": "adistantsea",
     "漆黑陨铁的一粒": "aerosiderite",
     "漆黑陨铁的一片": "aerosiderite",
     "漆黑陨铁的一角": "aerosiderite",
@@ -38,68 +48,85 @@
     "高塔孤王的残垣": "decarabian",
     "高塔孤王的断片": "decarabian",
     "高塔孤王的碎梦": "decarabian",
+    "谧林涓露的铜符": "forestdew",
+    "谧林涓露的铁符": "forestdew",
+    "谧林涓露的银符": "forestdew",
+    "谧林涓露的金符": "forestdew",
     "孤云寒林的光砂": "guyun",
     "孤云寒林的辉岩": "guyun",
     "孤云寒林的圣骸": "guyun",
     "孤云寒林的神体": "guyun",
+    "今昔剧画之恶尉": "mask",
+    "今昔剧画之虎啮": "mask",
+    "今昔剧画之一角": "mask",
+    "今昔剧画之鬼人": "mask",
     "雾海云间的铅丹": "mistveiledelixir",
     "雾海云间的汞丹": "mistveiledelixir",
     "雾海云间的金丹": "mistveiledelixir",
     "雾海云间的转还": "mistveiledelixir",
-    "远海夷地的瑚枝": "adistantsea",
-    "远海夷地的玉枝": "adistantsea",
-    "远海夷地的琼枝": "adistantsea",
-    "远海夷地的金枝": "adistantsea",
     "鸣神御灵的亲爱": "narukami",
     "鸣神御灵的欢喜": "narukami",
     "鸣神御灵的勇武": "narukami",
     "鸣神御灵的明惠": "narukami",
-    "今昔剧画之恶尉": "mask",
-    "今昔剧画之虎啮": "mask",
-    "今昔剧画之一角": "mask",
-    "今昔剧画之鬼人": "mask"
+    "绿洲花园的追忆": "oasisgarden",
+    "绿洲花园的恩惠": "oasisgarden",
+    "绿洲花园的哀思": "oasisgarden",
+    "绿洲花园的真谛": "oasisgarden",
+    "烈日威权的残响": "scorchingmight",
+    "烈日威权的余光": "scorchingmight",
+    "烈日威权的梦想": "scorchingmight",
+    "烈日威权的旧日": "scorchingmight"
   },
   "categories": {
-    "周三": [
-      "aerosiderite",
-      "dandeliongladiator",
-      "mask"
-    ],
-    "周六": [
-      "aerosiderite",
-      "dandeliongladiator",
-      "mask"
-    ],
-    "周日": [
-      "aerosiderite",
-      "borealwolf",
-      "dandeliongladiator",
-      "decarabian",
-      "guyun",
-      "mistveiledelixir",
+    "周一": [
       "adistantsea",
-      "narukami",
-      "mask"
-    ],
-    "璃月": [
-      "aerosiderite",
-      "guyun",
-      "mistveiledelixir"
-    ],
-    "震雷连山密宫": [
-      "aerosiderite",
-      "guyun",
-      "mistveiledelixir"
+      "decarabian",
+      "forestdew",
+      "guyun"
     ],
     "周二": [
       "borealwolf",
       "mistveiledelixir",
-      "narukami"
+      "narukami",
+      "oasisgarden"
+    ],
+    "周三": [
+      "aerosiderite",
+      "dandeliongladiator",
+      "mask",
+      "scorchingmight"
+    ],
+    "周四": [
+      "adistantsea",
+      "decarabian",
+      "forestdew",
+      "guyun"
     ],
     "周五": [
       "borealwolf",
       "mistveiledelixir",
-      "narukami"
+      "narukami",
+      "oasisgarden"
+    ],
+    "周六": [
+      "aerosiderite",
+      "dandeliongladiator",
+      "mask",
+      "scorchingmight"
+    ],
+    "周日": [
+      "adistantsea",
+      "aerosiderite",
+      "borealwolf",
+      "dandeliongladiator",
+      "decarabian",
+      "forestdew",
+      "guyun",
+      "mask",
+      "mistveiledelixir",
+      "narukami",
+      "oasisgarden",
+      "scorchingmight"
     ],
     "蒙德": [
       "borealwolf",
@@ -111,15 +138,15 @@
       "dandeliongladiator",
       "decarabian"
     ],
-    "周一": [
-      "decarabian",
+    "璃月": [
+      "aerosiderite",
       "guyun",
-      "adistantsea"
+      "mistveiledelixir"
     ],
-    "周四": [
-      "decarabian",
+    "震雷连山密宫": [
+      "aerosiderite",
       "guyun",
-      "adistantsea"
+      "mistveiledelixir"
     ],
     "稻妻": [
       "adistantsea",
@@ -130,6 +157,16 @@
       "adistantsea",
       "narukami",
       "mask"
+    ],
+    "须弥": [
+      "forestdew",
+      "oasisgarden",
+      "scorchingmight"
+    ],
+    "有顶塔": [
+      "forestdew",
+      "oasisgarden",
+      "scorchingmight"
     ]
   }
 }

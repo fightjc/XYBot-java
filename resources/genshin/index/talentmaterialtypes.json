@@ -1,48 +1,83 @@
 {
   "namemap": {
+    "admonition": "诤言",
     "ballad": "诗文",
     "diligence": "勤劳",
     "elegance": "风雅",
     "freedom": "自由",
     "gold": "黄金",
+    "ingenuity": "巧思",
+    "light": "天光",
+    "praxis":  "笃行",
     "prosperity": "繁荣",
     "resistance": "抗争",
-    "transience": "浮世",
-    "light": "天光"
+    "transience": "浮世"
   },
   "names": {
+    "诤言": "admonition",
     "诗文": "ballad",
     "勤劳": "diligence",
     "风雅": "elegance",
     "自由": "freedom",
     "黄金": "gold",
+    "巧思": "ingenuity",
+    "天光": "light",
+    "笃行": "praxis",
     "繁荣": "prosperity",
     "抗争": "resistance",
-    "浮世": "transience",
-    "天光": "light"
+    "浮世": "transience"
   },
   "aliases": {},
   "categories": {
+    "周一": [
+      "admonition",
+      "freedom",
+      "prosperity",
+      "transience"
+    ],
+    "周二": [
+      "diligence",
+      "elegance",
+      "ingenuity",
+      "resistance"
+    ],
     "周三": [
       "ballad",
       "gold",
-      "light"
+      "light",
+      "praxis"
+    ],
+    "周四": [
+      "admonition",
+      "freedom",
+      "prosperity",
+      "transience"
+    ],
+    "周五": [
+      "diligence",
+      "elegance",
+      "ingenuity",
+      "resistance"
     ],
     "周六": [
       "ballad",
       "gold",
-      "light"
+      "light",
+      "praxis"
     ],
     "周日": [
+      "admonition",
       "ballad",
       "diligence",
       "elegance",
       "freedom",
       "gold",
+      "ingenuity",
+      "light",
+      "praxis",
       "prosperity",
       "resistance",
-      "transience",
-      "light"
+      "transience"
     ],
     "蒙德": [
       "ballad",
@@ -54,16 +89,6 @@
       "freedom",
       "resistance"
     ],
-    "周二": [
-      "diligence",
-      "resistance",
-      "elegance"
-    ],
-    "周五": [
-      "diligence",
-      "resistance",
-      "elegance"
-    ],
     "璃月": [
       "diligence",
       "gold",
@@ -74,25 +99,25 @@
       "gold",
       "prosperity"
     ],
-    "周一": [
-      "freedom",
-      "prosperity",
-      "transience"
-    ],
-    "周四": [
-      "freedom",
-      "prosperity",
-      "transience"
-    ],
     "稻妻": [
       "elegance",
-      "transience",
-      "light"
+      "light",
+      "transience"
     ],
     "堇色之庭": [
       "elegance",
-      "transience",
-      "light"
+      "light",
+      "transience"
+    ],
+    "须弥": [
+      "admonition",
+      "ingenuity",
+      "praxis"
+    ],
+    "昏识塔": [
+      "admonition",
+      "ingenuity",
+      "praxis"
     ]
   }
 }
