@@ -12,6 +12,7 @@
 		"collei": "柯莱",
 		"diluc": "迪卢克",
 		"diona": "迪奥娜",
+		"dori": "多莉",
 		"eula": "优菈",
 		"fischl": "菲谢尔",
 		"ganyu": "甘雨",
@@ -68,6 +69,7 @@
 		"柯莱": "collei",
 		"迪卢克": "diluc",
 		"迪奥娜": "diona",
+		"多莉": "dori",
 		"优菈": "eula",
 		"菲谢尔": "fischl",
 		"甘雨": "ganyu",
@@ -135,6 +137,8 @@
 		"夜枭座": "diluc",
 		"猫尾特调": "diona",
 		"小猫座": "diona",
+		"梦园藏金": "dori",
+		"神灯座": "dori",
 		"浪沫的旋舞": "eula",
 		"浪沫座": "eula",
 		"断罪皇女！！": "fischl",
@@ -227,6 +231,7 @@
 			"chongyun",
 			"collei",
 			"diona",
+			"dori",
 			"fischl",
 			"gorou",
 			"kaeya",
@@ -344,6 +349,7 @@
 			"collei",
 			"diluc",
 			"diona",
+			"dori",
 			"eula",
 			"fischl",
 			"ganyu",
@@ -591,6 +597,7 @@
 			"beidou",
 			"collei",
 			"diona",
+			"dori",
 			"eula",
 			"fischl",
 			"ganyu",
@@ -802,6 +809,7 @@
 			"beidou",
 			"chongyun",
 			"diluc",
+			"dori",
 			"eula",
 			"noelle",
 			"razor",
@@ -895,6 +903,7 @@
 		],
 		"生命值": [
 			"barbara",
+			"dori",
 			"kukishinobu"
 		],
 		"七月": [
@@ -956,6 +965,7 @@
 		],
 		"雷": [
 			"beidou",
+			"dori",
 			"fischl",
 			"keqing",
 			"kujousara",
@@ -993,6 +1003,7 @@
 		],
 		"最胜紫晶碎屑": [
 			"beidou",
+			"dori",
 			"fischl",
 			"keqing",
 			"kujousara",
@@ -1018,6 +1029,7 @@
 		],
 		"最胜紫晶断片": [
 			"beidou",
+			"dori",
 			"fischl",
 			"keqing",
 			"kujousara",
@@ -1046,6 +1058,7 @@
 		],
 		"最胜紫晶块": [
 			"beidou",
+			"dori",
 			"fischl",
 			"keqing",
 			"kujousara",
@@ -1067,6 +1080,7 @@
 		],
 		"最胜紫晶": [
 			"beidou",
+			"dori",
 			"fischl",
 			"keqing",
 			"kujousara",
@@ -1103,6 +1117,7 @@
 		],
 		"须弥": [
 			"collei",
+			"dori",
 			"tighnari"
 		],
 		"五月": [
@@ -1165,9 +1180,25 @@
 			"kaeya"
 		],
 		"十二月": [
+			"dori",
 			"ganyu",
 			"tighnari",
 			"zhongli"
+		],
+		"劫波莲": [
+			"dori"
+		],
+		"褪色红绸": [
+			"dori"
+		],
+		"藏雷野实": [
+			"dori"
+		],
+		"镶边红绸": [
+			"dori"
+		],
+		"织金红绸": [
+			"dori"
 		],
 		"暴击伤害": [
 			"eula",

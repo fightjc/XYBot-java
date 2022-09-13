@@ -11,6 +11,7 @@
 		"collei": "柯莱",
 		"diluc": "迪卢克",
 		"diona": "迪奥娜",
+		"dori": "多莉",
 		"eula": "优菈",
 		"fischl": "菲谢尔",
 		"ganyu": "甘雨",
@@ -69,6 +70,7 @@
 		"柯莱": "collei",
 		"迪卢克": "diluc",
 		"迪奥娜": "diona",
+		"多莉": "dori",
 		"优菈": "eula",
 		"菲谢尔": "fischl",
 		"甘雨": "ganyu",
@@ -129,6 +131,7 @@
 			"collei",
 			"diluc",
 			"diona",
+			"dori",
 			"eula",
 			"fischl",
 			"ganyu",
@@ -242,6 +245,7 @@
 			"collei",
 			"diluc",
 			"diona",
+			"dori",
 			"eula",
 			"fischl",
 			"ganyu",
@@ -610,13 +614,28 @@
 			"hutao",
 			"tartaglia"
 		],
+		"「巧思」的教导": [
+			"dori"
+		],
+		"褪色红绸": [
+			"dori"
+		],
 		"「巧思」的指引": [
+			"dori",
 			"travelerdendro"
+		],
+		"镶边红绸": [
+			"dori"
 		],
 		"「巧思」的哲学": [
+			"dori",
 			"travelerdendro"
 		],
+		"织金红绸": [
+			"dori"
+		],
 		"血玉之枝": [
+			"dori",
 			"kamisatoayaka",
 			"yanfei"
 		],
