@@ -32,6 +32,7 @@
 		"lisa": "丽莎",
 		"lumine": "荧",
 		"mona": "莫娜",
+		"nilou": "妮露",
 		"ningguang": "凝光",
 		"noelle": "诺艾尔",
 		"qiqi": "七七",
@@ -91,6 +92,7 @@
 		"丽莎": "lisa",
 		"荧": "lumine",
 		"莫娜": "mona",
+		"妮露": "nilou",
 		"凝光": "ningguang",
 		"诺艾尔": "noelle",
 		"七七": "qiqi",
@@ -179,6 +181,8 @@
 		"沙漏座": "lisa",
 		"星天水镜": "mona",
 		"映天座": "mona",
+		"莲光落舞筵": "nilou",
+		"睡莲座": "nilou",
 		"掩月天权": "ningguang",
 		"玑衡仪座": "ningguang",
 		"未授勋之花": "noelle",
@@ -279,6 +283,7 @@
 			"klee",
 			"lumine",
 			"mona",
+			"nilou",
 			"qiqi",
 			"raidenshogun",
 			"sangonomiyakokomi",
@@ -308,6 +313,7 @@
 			"keqing",
 			"kukishinobu",
 			"lumine",
+			"nilou",
 			"qiqi",
 			"xingqiu"
 		],
@@ -380,6 +386,7 @@
 			"lisa",
 			"lumine",
 			"mona",
+			"nilou",
 			"ningguang",
 			"noelle",
 			"qiqi",
@@ -628,6 +635,7 @@
 			"lisa",
 			"lumine",
 			"mona",
+			"nilou",
 			"ningguang",
 			"noelle",
 			"qiqi",
@@ -903,6 +911,7 @@
 			"candace",
 			"kamisatoayato",
 			"mona",
+			"nilou",
 			"sangonomiyakokomi",
 			"tartaglia",
 			"xingqiu",
@@ -924,7 +933,8 @@
 			"barbara",
 			"candace",
 			"dori",
-			"kukishinobu"
+			"kukishinobu",
+			"nilou"
 		],
 		"七月": [
 			"barbara",
@@ -941,6 +951,7 @@
 			"candace",
 			"kamisatoayato",
 			"mona",
+			"nilou",
 			"sangonomiyakokomi",
 			"tartaglia",
 			"xingqiu",
@@ -956,6 +967,7 @@
 			"candace",
 			"kamisatoayato",
 			"mona",
+			"nilou",
 			"sangonomiyakokomi",
 			"tartaglia",
 			"xingqiu",
@@ -972,6 +984,7 @@
 			"candace",
 			"kamisatoayato",
 			"mona",
+			"nilou",
 			"sangonomiyakokomi",
 			"tartaglia",
 			"xingqiu",
@@ -982,6 +995,7 @@
 			"candace",
 			"kamisatoayato",
 			"mona",
+			"nilou",
 			"sangonomiyakokomi",
 			"tartaglia",
 			"xingqiu",
@@ -1262,6 +1276,7 @@
 		"十二月": [
 			"dori",
 			"ganyu",
+			"nilou",
 			"tighnari",
 			"zhongli"
 		],
@@ -1460,13 +1475,22 @@
 			"noelle",
 			"rosaria"
 		],
+		"帕蒂沙兰": [
+			"nilou"
+		],
 		"蕈兽孢子": [
+			"nilou",
 			"tighnari"
 		],
+		"永续机芯": [
+			"nilou"
+		],
 		"荧光孢粉": [
+			"nilou",
 			"tighnari"
 		],
 		"孢囊晶尘": [
+			"nilou",
 			"tighnari"
 		],
 		"琉璃百合": [

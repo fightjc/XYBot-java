@@ -30,6 +30,7 @@
 		"kukishinobu": "久岐忍",
 		"lisa": "丽莎",
 		"mona": "莫娜",
+		"nilou": "妮露",
 		"ningguang": "凝光",
 		"noelle": "诺艾尔",
 		"qiqi": "七七",
@@ -91,6 +92,7 @@
 		"久岐忍": "kukishinobu",
 		"丽莎": "lisa",
 		"莫娜": "mona",
+		"妮露": "nilou",
 		"凝光": "ningguang",
 		"诺艾尔": "noelle",
 		"七七": "qiqi",
@@ -154,6 +156,7 @@
 			"kukishinobu",
 			"lisa",
 			"mona",
+			"nilou",
 			"ningguang",
 			"noelle",
 			"qiqi",
@@ -273,6 +276,7 @@
 			"kukishinobu",
 			"lisa",
 			"mona",
+			"nilou",
 			"ningguang",
 			"noelle",
 			"qiqi",
@@ -561,7 +565,8 @@
 		"祸神之禊泪": [
 			"candace",
 			"collei",
-			"kukishinobu"
+			"kukishinobu",
+			"nilou"
 		],
 		"「勤劳」的教导": [
 			"chongyun",
@@ -620,14 +625,17 @@
 			"yunjin"
 		],
 		"「笃行」的教导": [
-			"collei"
+			"collei",
+			"nilou"
 		],
 		"「笃行」的指引": [
 			"collei",
+			"nilou",
 			"travelerdendro"
 		],
 		"「笃行」的哲学": [
 			"collei",
+			"nilou",
 			"travelerdendro"
 		],
 		"凶将之手眼": [
@@ -800,14 +808,17 @@
 			"xiangling"
 		],
 		"蕈兽孢子": [
+			"nilou",
 			"tighnari",
 			"travelerdendro"
 		],
 		"荧光孢粉": [
+			"nilou",
 			"tighnari",
 			"travelerdendro"
 		],
 		"孢囊晶尘": [
+			"nilou",
 			"tighnari",
 			"travelerdendro"
 		],
