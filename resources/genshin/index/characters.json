@@ -32,6 +32,7 @@
 		"lisa": "丽莎",
 		"lumine": "荧",
 		"mona": "莫娜",
+		"nahida": "纳西妲",
 		"nilou": "妮露",
 		"ningguang": "凝光",
 		"noelle": "诺艾尔",
@@ -92,6 +93,7 @@
 		"丽莎": "lisa",
 		"荧": "lumine",
 		"莫娜": "mona",
+		"纳西妲": "nahida",
 		"妮露": "nilou",
 		"凝光": "ningguang",
 		"诺艾尔": "noelle",
@@ -181,6 +183,8 @@
 		"沙漏座": "lisa",
 		"星天水镜": "mona",
 		"映天座": "mona",
+		"白草净华": "nahida",
+		"智慧主座": "nahida",
 		"莲光落舞筵": "nilou",
 		"睡莲座": "nilou",
 		"掩月天权": "ningguang",
@@ -283,6 +287,7 @@
 			"klee",
 			"lumine",
 			"mona",
+			"nahida",
 			"nilou",
 			"qiqi",
 			"raidenshogun",
@@ -386,6 +391,7 @@
 			"lisa",
 			"lumine",
 			"mona",
+			"nahida",
 			"nilou",
 			"ningguang",
 			"noelle",
@@ -635,6 +641,7 @@
 			"lisa",
 			"lumine",
 			"mona",
+			"nahida",
 			"nilou",
 			"ningguang",
 			"noelle",
@@ -922,6 +929,7 @@
 			"klee",
 			"lisa",
 			"mona",
+			"nahida",
 			"ningguang",
 			"sangonomiyakokomi",
 			"shikanoinheizou",
@@ -1159,6 +1167,7 @@
 			"collei",
 			"cyno",
 			"dori",
+			"nahida",
 			"nilou",
 			"tighnari"
 		],
@@ -1202,10 +1211,12 @@
 		],
 		"草": [
 			"collei",
+			"nahida",
 			"tighnari"
 		],
 		"生长碧翡碎屑": [
 			"collei",
+			"nahida",
 			"tighnari"
 		],
 		"树王圣体菇": [
@@ -1213,6 +1224,7 @@
 		],
 		"生长碧翡断片": [
 			"collei",
+			"nahida",
 			"tighnari"
 		],
 		"蕈王钩喙": [
@@ -1221,10 +1233,12 @@
 		],
 		"生长碧翡块": [
 			"collei",
+			"nahida",
 			"tighnari"
 		],
 		"生长碧翡": [
 			"collei",
+			"nahida",
 			"tighnari"
 		],
 		"暴击伤害": [
@@ -1276,16 +1290,19 @@
 		"十二月": [
 			"dori",
 			"ganyu",
+			"layla",
 			"nilou",
 			"tighnari",
 			"zhongli"
 		],
 		"劫波莲": [
-			"dori"
+			"dori",
+			"nahida"
 		],
 		"十月": [
 			"eula",
 			"kaedeharakazuha",
+			"nahida",
 			"sayu",
 			"xingqiu",
 			"xinyan"
@@ -1407,6 +1424,7 @@
 		"元素精通": [
 			"kaedeharakazuha",
 			"lisa",
+			"nahida",
 			"sayu",
 			"xiangling"
 		],
@@ -1470,28 +1488,38 @@
 			"shikanoinheizou",
 			"yelan"
 		],
-		"落落莓": [
-			"lisa",
-			"noelle",
-			"rosaria"
-		],
-		"帕蒂沙兰": [
-			"nilou"
-		],
-		"蕈兽孢子": [
-			"nilou",
+		"月莲": [
+			"layla",
 			"tighnari"
 		],
 		"永续机芯": [
 			"nilou"
 		],
+		"落落莓": [
+			"lisa",
+			"noelle",
+			"rosaria"
+		],
+		"蕈兽孢子": [
+			"nahida",
+			"nilou",
+			"tighnari"
+		],
+		"灭诤草蔓": [
+			"nahida"
+		],
 		"荧光孢粉": [
+			"nahida",
 			"nilou",
 			"tighnari"
 		],
 		"孢囊晶尘": [
+			"nahida",
 			"nilou",
 			"tighnari"
+		],
+		"帕蒂沙兰": [
+			"nilou"
 		],
 		"琉璃百合": [
 			"ningguang",
@@ -1540,9 +1568,6 @@
 			"yoimiya"
 		],
 		"草元素伤害加成": [
-			"tighnari"
-		],
-		"月莲": [
 			"tighnari"
 		],
 		"绝云椒椒": [
@@ -1695,12 +1720,14 @@
 			"雷霆数珠",
 			"鸣草",
 			"符纹之齿",
-			"落落莓",
-			"帕蒂沙兰",
-			"蕈兽孢子",
+			"月莲",
 			"永续机芯",
+			"落落莓",
+			"蕈兽孢子",
+			"灭诤草蔓",
 			"荧光孢粉",
 			"孢囊晶尘",
+			"帕蒂沙兰",
 			"琉璃百合",
 			"琉璃袋",
 			"天云草实",
@@ -1709,7 +1736,6 @@
 			"星螺",
 			"幽灯蕈",
 			"阴燃之珠",
-			"月莲",
 			"绝云椒椒"
 		],
 		"region": [
