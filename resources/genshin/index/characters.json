@@ -16,6 +16,7 @@
 		"diona": "迪奥娜",
 		"dori": "多莉",
 		"eula": "优菈",
+		"faruzan": "珐露珊",
 		"fischl": "菲谢尔",
 		"ganyu": "甘雨",
 		"gorou": "五郎",
@@ -29,6 +30,7 @@
 		"klee": "可莉",
 		"kujousara": "九条裟罗",
 		"kukishinobu": "久岐忍",
+		"layla": "莱依拉",
 		"lisa": "丽莎",
 		"lumine": "荧",
 		"mona": "莫娜",
@@ -49,6 +51,7 @@
 		"thoma": "托马",
 		"tighnari": "提纳里",
 		"venti": "温迪",
+		"wanderer": "流浪者",
 		"xiangling": "香菱",
 		"xiao": "魈",
 		"xingqiu": "行秋",
@@ -77,6 +80,7 @@
 		"迪奥娜": "diona",
 		"多莉": "dori",
 		"优菈": "eula",
+		"珐露珊": "faruzan",
 		"菲谢尔": "fischl",
 		"甘雨": "ganyu",
 		"五郎": "gorou",
@@ -90,6 +94,7 @@
 		"可莉": "klee",
 		"九条裟罗": "kujousara",
 		"久岐忍": "kukishinobu",
+		"莱依拉": "layla",
 		"丽莎": "lisa",
 		"荧": "lumine",
 		"莫娜": "mona",
@@ -110,6 +115,7 @@
 		"托马": "thoma",
 		"提纳里": "tighnari",
 		"温迪": "venti",
+		"流浪者": "wanderer",
 		"香菱": "xiangling",
 		"魈": "xiao",
 		"行秋": "xingqiu",
@@ -153,6 +159,8 @@
 		"神灯座": "dori",
 		"浪沫的旋舞": "eula",
 		"浪沫座": "eula",
+		"机逐封秘": "faruzan",
+		"蔓藤花饰座": "faruzan",
 		"断罪皇女！！": "fischl",
 		"幻鸦座": "fischl",
 		"循循守月": "ganyu",
@@ -179,6 +187,8 @@
 		"羽团扇座": "kujousara",
 		"烦恼刈除": "kukishinobu",
 		"烦恼刈座": "kukishinobu",
+		"绮思晚星": "layla",
+		"夜莺座": "layla",
 		"蔷薇魔女": "lisa",
 		"沙漏座": "lisa",
 		"星天水镜": "mona",
@@ -217,6 +227,8 @@
 		"郭狐座": "tighnari",
 		"风色诗人": "venti",
 		"歌仙座": "venti",
+		"久世浮倾": "wanderer",
+		"浪客座": "wanderer",
 		"万民百味": "xiangling",
 		"长杓座": "xiangling",
 		"护法夜叉": "xiao",
@@ -249,11 +261,13 @@
 			"collei",
 			"diona",
 			"dori",
+			"faruzan",
 			"fischl",
 			"gorou",
 			"kaeya",
 			"kujousara",
 			"kukishinobu",
+			"layla",
 			"lisa",
 			"ningguang",
 			"noelle",
@@ -296,6 +310,7 @@
 			"tartaglia",
 			"tighnari",
 			"venti",
+			"wanderer",
 			"xiao",
 			"yaemiko",
 			"yelan",
@@ -317,6 +332,7 @@
 			"kamisatoayato",
 			"keqing",
 			"kukishinobu",
+			"layla",
 			"lumine",
 			"nilou",
 			"qiqi",
@@ -327,6 +343,7 @@
 			"amber",
 			"chongyun",
 			"collei",
+			"faruzan",
 			"fischl",
 			"kujousara",
 			"lumine",
@@ -354,6 +371,7 @@
 			"thoma",
 			"tighnari",
 			"venti",
+			"wanderer",
 			"xiao",
 			"xingqiu",
 			"zhongli"
@@ -375,6 +393,7 @@
 			"diona",
 			"dori",
 			"eula",
+			"faruzan",
 			"fischl",
 			"ganyu",
 			"gorou",
@@ -388,6 +407,7 @@
 			"klee",
 			"kujousara",
 			"kukishinobu",
+			"layla",
 			"lisa",
 			"lumine",
 			"mona",
@@ -408,6 +428,7 @@
 			"thoma",
 			"tighnari",
 			"venti",
+			"wanderer",
 			"xiangling",
 			"xiao",
 			"xingqiu",
@@ -536,6 +557,7 @@
 			"barbara",
 			"cyno",
 			"klee",
+			"layla",
 			"qiqi",
 			"yoimiya"
 		],
@@ -559,6 +581,7 @@
 			"barbara",
 			"cyno",
 			"klee",
+			"layla",
 			"qiqi",
 			"yoimiya"
 		],
@@ -576,6 +599,7 @@
 			"barbara",
 			"cyno",
 			"klee",
+			"layla",
 			"qiqi",
 			"yoimiya"
 		],
@@ -596,6 +620,7 @@
 			"ganyu",
 			"kaeya",
 			"kamisatoayaka",
+			"layla",
 			"qiqi",
 			"rosaria",
 			"shenhe"
@@ -605,6 +630,7 @@
 			"amber",
 			"collei",
 			"diona",
+			"faruzan",
 			"fischl",
 			"ganyu",
 			"gorou",
@@ -629,6 +655,7 @@
 			"diona",
 			"dori",
 			"eula",
+			"faruzan",
 			"fischl",
 			"ganyu",
 			"hutao",
@@ -638,6 +665,7 @@
 			"klee",
 			"kujousara",
 			"kukishinobu",
+			"layla",
 			"lisa",
 			"lumine",
 			"mona",
@@ -674,6 +702,7 @@
 			"ganyu",
 			"kaeya",
 			"kamisatoayaka",
+			"layla",
 			"qiqi",
 			"rosaria",
 			"shenhe"
@@ -696,6 +725,7 @@
 			"ganyu",
 			"kaeya",
 			"kamisatoayaka",
+			"layla",
 			"qiqi",
 			"rosaria",
 			"shenhe"
@@ -718,6 +748,7 @@
 			"ganyu",
 			"kaeya",
 			"kamisatoayaka",
+			"layla",
 			"qiqi",
 			"rosaria",
 			"shenhe"
@@ -736,6 +767,7 @@
 			"ganyu",
 			"kaeya",
 			"kamisatoayaka",
+			"layla",
 			"qiqi",
 			"rosaria",
 			"shenhe"
@@ -754,6 +786,7 @@
 		],
 		"八月": [
 			"amber",
+			"faruzan",
 			"mona",
 			"ningguang"
 		],
@@ -851,6 +884,7 @@
 		"暴击率": [
 			"aratakiitto",
 			"diluc",
+			"wanderer",
 			"xiao",
 			"yaemiko",
 			"yelan",
@@ -934,6 +968,7 @@
 			"sangonomiyakokomi",
 			"shikanoinheizou",
 			"sucrose",
+			"wanderer",
 			"yaemiko",
 			"yanfei"
 		],
@@ -942,6 +977,7 @@
 			"candace",
 			"dori",
 			"kukishinobu",
+			"layla",
 			"nilou"
 		],
 		"七月": [
@@ -1167,9 +1203,12 @@
 			"collei",
 			"cyno",
 			"dori",
+			"faruzan",
+			"layla",
 			"nahida",
 			"nilou",
-			"tighnari"
+			"tighnari",
+			"wanderer"
 		],
 		"五月": [
 			"candace",
@@ -1179,22 +1218,27 @@
 			"yunjin"
 		],
 		"赤念果": [
-			"candace"
+			"candace",
+			"faruzan"
 		],
 		"褪色红绸": [
 			"candace",
-			"dori"
+			"dori",
+			"faruzan"
 		],
 		"导光四面体": [
-			"candace"
+			"candace",
+			"faruzan"
 		],
 		"镶边红绸": [
 			"candace",
-			"dori"
+			"dori",
+			"faruzan"
 		],
 		"织金红绸": [
 			"candace",
-			"dori"
+			"dori",
+			"faruzan"
 		],
 		"石珀": [
 			"chongyun",
@@ -1220,7 +1264,8 @@
 			"tighnari"
 		],
 		"树王圣体菇": [
-			"collei"
+			"collei",
+			"wanderer"
 		],
 		"生长碧翡断片": [
 			"collei",
@@ -1281,7 +1326,8 @@
 		"一月": [
 			"diona",
 			"rosaria",
-			"thoma"
+			"thoma",
+			"wanderer"
 		],
 		"嘟嘟莲": [
 			"diona",
@@ -1310,6 +1356,61 @@
 		"蒲公英籽": [
 			"eula",
 			"jean"
+		],
+		"风": [
+			"faruzan",
+			"jean",
+			"kaedeharakazuha",
+			"sayu",
+			"shikanoinheizou",
+			"sucrose",
+			"venti",
+			"wanderer",
+			"xiao"
+		],
+		"自在松石碎屑": [
+			"faruzan",
+			"jean",
+			"kaedeharakazuha",
+			"sayu",
+			"shikanoinheizou",
+			"sucrose",
+			"venti",
+			"wanderer",
+			"xiao"
+		],
+		"自在松石断片": [
+			"faruzan",
+			"jean",
+			"kaedeharakazuha",
+			"sayu",
+			"shikanoinheizou",
+			"sucrose",
+			"venti",
+			"wanderer",
+			"xiao"
+		],
+		"自在松石块": [
+			"faruzan",
+			"jean",
+			"kaedeharakazuha",
+			"sayu",
+			"shikanoinheizou",
+			"sucrose",
+			"venti",
+			"wanderer",
+			"xiao"
+		],
+		"自在松石": [
+			"faruzan",
+			"jean",
+			"kaedeharakazuha",
+			"sayu",
+			"shikanoinheizou",
+			"sucrose",
+			"venti",
+			"wanderer",
+			"xiao"
 		],
 		"清心": [
 			"ganyu",
@@ -1360,15 +1461,6 @@
 			"xiao",
 			"yanfei"
 		],
-		"风": [
-			"jean",
-			"kaedeharakazuha",
-			"sayu",
-			"shikanoinheizou",
-			"sucrose",
-			"venti",
-			"xiao"
-		],
 		"治疗加成": [
 			"jean",
 			"qiqi"
@@ -1380,46 +1472,10 @@
 			"qiqi",
 			"shenhe"
 		],
-		"自在松石碎屑": [
-			"jean",
-			"kaedeharakazuha",
-			"sayu",
-			"shikanoinheizou",
-			"sucrose",
-			"venti",
-			"xiao"
-		],
-		"自在松石断片": [
-			"jean",
-			"kaedeharakazuha",
-			"sayu",
-			"shikanoinheizou",
-			"sucrose",
-			"venti",
-			"xiao"
-		],
 		"飓风之种": [
 			"jean",
 			"sucrose",
 			"venti"
-		],
-		"自在松石块": [
-			"jean",
-			"kaedeharakazuha",
-			"sayu",
-			"shikanoinheizou",
-			"sucrose",
-			"venti",
-			"xiao"
-		],
-		"自在松石": [
-			"jean",
-			"kaedeharakazuha",
-			"sayu",
-			"shikanoinheizou",
-			"sucrose",
-			"venti",
-			"xiao"
 		],
 		"元素精通": [
 			"kaedeharakazuha",
@@ -1450,18 +1506,21 @@
 			"kamisatoayaka",
 			"kamisatoayato",
 			"raidenshogun",
+			"wanderer",
 			"yaemiko"
 		],
 		"影打刀镡": [
 			"kamisatoayaka",
 			"kamisatoayato",
 			"raidenshogun",
+			"wanderer",
 			"yaemiko"
 		],
 		"名刀镡": [
 			"kamisatoayaka",
 			"kamisatoayato",
 			"raidenshogun",
+			"wanderer",
 			"yaemiko"
 		],
 		"排异之露": [
@@ -1493,7 +1552,9 @@
 			"tighnari"
 		],
 		"永续机芯": [
-			"nilou"
+			"layla",
+			"nilou",
+			"wanderer"
 		],
 		"落落莓": [
 			"lisa",
@@ -1696,6 +1757,10 @@
 			"嘟嘟莲",
 			"劫波莲",
 			"蒲公英籽",
+			"自在松石碎屑",
+			"自在松石断片",
+			"自在松石块",
+			"自在松石",
 			"清心",
 			"骗骗花蜜",
 			"微光花蜜",
@@ -1704,11 +1769,7 @@
 			"恒常机关之心",
 			"霓裳花",
 			"未熟之玉",
-			"自在松石碎屑",
-			"自在松石断片",
 			"飓风之种",
-			"自在松石块",
-			"自在松石",
 			"海灵芝",
 			"魔偶机心",
 			"绯樱绣球",
