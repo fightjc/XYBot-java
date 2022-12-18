@@ -1,7 +1,7 @@
 package org.fightjc.xybot.startup;
 
-import org.fightjc.xybot.service.BiliBiliService;
-import org.fightjc.xybot.service.GenshinService;
+import org.fightjc.xybot.module.bilibili.service.BiliBiliService;
+import org.fightjc.xybot.module.genshin.service.GenshinService;
 import org.fightjc.xybot.util.BotGacha;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

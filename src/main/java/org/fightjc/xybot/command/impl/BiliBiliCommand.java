@@ -12,10 +12,10 @@ import org.fightjc.xybot.annotate.SwitchAnnotate;
 import org.fightjc.xybot.command.impl.group.MemberGroupCommand;
 import org.fightjc.xybot.pojo.Command;
 import org.fightjc.xybot.pojo.ResultOutput;
-import org.fightjc.xybot.pojo.bilibili.DynamicBean;
-import org.fightjc.xybot.pojo.bilibili.SubscribeBean;
-import org.fightjc.xybot.pojo.bilibili.UserInfoDto;
-import org.fightjc.xybot.service.BiliBiliService;
+import org.fightjc.xybot.module.bilibili.pojo.DynamicBean;
+import org.fightjc.xybot.module.bilibili.pojo.SubscribeBean;
+import org.fightjc.xybot.module.bilibili.pojo.UserInfoDto;
+import org.fightjc.xybot.module.bilibili.service.BiliBiliService;
 import org.fightjc.xybot.util.ImageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 

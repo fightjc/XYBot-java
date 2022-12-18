@@ -12,14 +12,13 @@ import org.fightjc.xybot.annotate.SwitchAnnotate;
 import org.fightjc.xybot.command.impl.group.MemberGroupCommand;
 import org.fightjc.xybot.pojo.Command;
 import org.fightjc.xybot.pojo.ResultOutput;
-import org.fightjc.xybot.pojo.genshin.GroupCalendarBean;
-import org.fightjc.xybot.service.GenshinService;
+import org.fightjc.xybot.module.genshin.pojo.GroupCalendarBean;
+import org.fightjc.xybot.module.genshin.service.GenshinService;
 import org.fightjc.xybot.util.ImageUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.List;
 
 @CommandAnnotate
 @SwitchAnnotate(name = "原神日历")

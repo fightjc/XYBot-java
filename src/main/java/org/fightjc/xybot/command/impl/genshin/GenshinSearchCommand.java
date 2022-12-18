@@ -12,7 +12,7 @@ import org.fightjc.xybot.annotate.SwitchAnnotate;
 import org.fightjc.xybot.command.impl.group.MemberGroupCommand;
 import org.fightjc.xybot.pojo.Command;
 import org.fightjc.xybot.pojo.ResultOutput;
-import org.fightjc.xybot.service.GenshinService;
+import org.fightjc.xybot.module.genshin.service.GenshinService;
 import org.fightjc.xybot.util.BotUtil;
 import org.fightjc.xybot.util.ImageUtil;
 import org.springframework.beans.factory.annotation.Autowired;

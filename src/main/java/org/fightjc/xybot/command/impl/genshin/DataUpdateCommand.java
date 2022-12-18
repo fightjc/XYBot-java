@@ -8,7 +8,7 @@ import org.fightjc.xybot.annotate.CommandAnnotate;
 import org.fightjc.xybot.command.impl.friend.AdminFriendCommand;
 import org.fightjc.xybot.pojo.Command;
 import org.fightjc.xybot.pojo.ResultOutput;
-import org.fightjc.xybot.service.GenshinService;
+import org.fightjc.xybot.module.genshin.service.GenshinService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;

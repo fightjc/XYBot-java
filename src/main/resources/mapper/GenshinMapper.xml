@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.fightjc.xybot.dao.GenshinDao">
+<mapper namespace="org.fightjc.xybot.module.genshin.dao.GenshinDao">
 
-    <select id="getAllGroupCalendar" resultType="org.fightjc.xybot.pojo.genshin.GroupCalendarBean">
+    <select id="getAllGroupCalendar" resultType="org.fightjc.xybot.module.genshin.pojo.GroupCalendarBean">
         select
             *
         from
             genshin_calendar
     </select>
 
-    <select id="getGroupCalendar" resultType="org.fightjc.xybot.pojo.genshin.GroupCalendarBean">
+    <select id="getGroupCalendar" resultType="org.fightjc.xybot.module.genshin.pojo.GroupCalendarBean">
         select
             *
         from
@@ -19,7 +19,7 @@
         order by GroupId asc limit 1
     </select>
 
-    <update id="updateGroupCalendar" parameterType="org.fightjc.xybot.pojo.genshin.GroupCalendarBean">
+    <update id="updateGroupCalendar" parameterType="org.fightjc.xybot.module.genshin.pojo.GroupCalendarBean">
         update genshin_calendar
         set
             IsActive = #{isActive}
@@ -27,14 +27,14 @@
             GroupId = #{groupId}
     </update>
 
-    <insert id="createGroupCalendar" parameterType="org.fightjc.xybot.pojo.genshin.GroupCalendarBean">
+    <insert id="createGroupCalendar" parameterType="org.fightjc.xybot.module.genshin.pojo.GroupCalendarBean">
         insert into genshin_calendar
             (GroupId, IsActive)
         values
             (#{groupId}, #{isActive})
     </insert>
 
-    <insert id="createGroupCalendarRecord" parameterType="org.fightjc.xybot.pojo.genshin.GroupCalendarRecordBean">
+    <insert id="createGroupCalendarRecord" parameterType="org.fightjc.xybot.module.genshin.pojo.GroupCalendarRecordBean">
         insert into genshin_calendarRecord
             (GroupId, IsActive, ModifiedUserId, ModifiedTime)
         values
