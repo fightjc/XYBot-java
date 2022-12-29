@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Configuration
-@MapperScan(basePackages = "org.fightjc.xybot.dao")
+@MapperScan(basePackages = { "org.fightjc.xybot.dao", "org.fightjc.xybot.module.**.dao" })
 public class DBMigrationConfig {
 
     @Autowired
@@ -46,6 +46,7 @@ public class DBMigrationConfig {
         tables.add(migration_v1());
         tables.add(migration_v2());
         tables.add(migration_v3());
+        tables.add(migration_v4());
 
         return tables;
     }
@@ -116,8 +117,7 @@ public class DBMigrationConfig {
     }
 
     /**
-     *  add tables for genshin calendar subscribe
-     * @return
+     * add tables for genshin calendar subscribe
      */
     private DBMigrationTable migration_v3() {
         String remark = "addGenshinCalendar";
@@ -140,5 +140,29 @@ public class DBMigrationConfig {
         sqlList.add(create_GenshinCalendarRecord);
 
         return new DBMigrationTable(3, remark, sqlList);
+    }
+
+    /**
+     * add tables for users & user roles
+     */
+    private DBMigrationTable migration_v4() {
+        String remark = "addUserLogin";
+        List<String> sqlList = new ArrayList<>();
+
+        String create_User =
+                "create table User(" +
+                        "Id INTEGER PRIMARY KEY autoincrement," +
+                        "Username varchar(100)," +
+                        "Password varchar(100)," +
+                        "IsDelete varchar(1));";
+        sqlList.add(create_User);
+
+//        String create_Role = "";
+//        sqlList.add(create_Role);
+
+//        String create_UserRole = "";
+//        sqlList.add(create_UserRole);
+
+        return new DBMigrationTable(4, remark, sqlList);
     }
 }

@@ -1,5 +1,6 @@
 package org.fightjc.xybot.db;
 
+import org.apache.http.util.TextUtils;
 import org.fightjc.xybot.dao.BotDBDao;
 import org.fightjc.xybot.po.DBMigrationTable;
 import org.fightjc.xybot.pojo.BotDB;
@@ -45,6 +46,9 @@ public class DBMigration {
             if (migrationId > currentVersion) {
                 logger.info("即将同步数据库，版本为 " + migrationId);
                 for (String sql : table.getSqlList()) {
+                    if (TextUtils.isEmpty(sql)) {
+                        continue;
+                    }
                     logger.info(sql);
                     dbDao.runDDLSql(sql);
                 }

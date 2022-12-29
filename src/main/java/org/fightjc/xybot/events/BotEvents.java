@@ -1,7 +1,11 @@
 package org.fightjc.xybot.events;
 
 import kotlin.coroutines.CoroutineContext;
+import net.mamoe.mirai.event.EventHandler;
+import net.mamoe.mirai.event.EventPriority;
+import net.mamoe.mirai.event.ListeningStatus;
 import net.mamoe.mirai.event.SimpleListenerHost;
+import net.mamoe.mirai.event.events.NudgeEvent;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +25,18 @@ public class BotEvents extends SimpleListenerHost {
         super.handleException(context, exception);
         logger.error(exception.getMessage());
     }
+
+//    /**
+//     * 机器人被戳
+//     * @param event
+//     * @return
+//     * @throws Exception
+//     */
+//    @NotNull
+//    @EventHandler(priority = EventPriority.NORMAL)
+//    public ListeningStatus onBotNudged(@NotNull NudgeEvent event) throws Exception {
+//        return ListeningStatus.LISTENING;
+//    }
 
 //    /**
 //     * Bot 登录完成

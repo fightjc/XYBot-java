@@ -1,24 +1,24 @@
 package org.fightjc.xybot.pojo;
 
+import lombok.Data;
+
 /**
  * 映射表 __migrationhistory
  */
+@Data
 public class BotDB {
-    Integer id;
 
-    String remark;
+    private Integer id;
 
-    int version;
+    private String remark;
 
-    String executeTime;
+    private int version;
+
+    private String executeTime;
 
     public BotDB(String remark, int version, String executeTime) {
         this.remark = remark;
         this.version = version;
         this.executeTime = executeTime;
-    }
-
-    public int getVersion() {
-        return version;
     }
 }

@@ -1,9 +1,13 @@
 package org.fightjc.xybot.pojo;
 
+import lombok.Data;
+
 /**
  * 映射表 GroupSwitch
  */
+@Data
 public class GroupSwitch {
+
     private Integer id;
 
     private Long groupId;
@@ -16,17 +20,5 @@ public class GroupSwitch {
         this.groupId = groupId;
         this.name = name;
         this.isOn = isOn;
-    }
-
-    public Long getGroupId() {
-        return groupId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public boolean isOn() {
-        return isOn;
     }
 }
