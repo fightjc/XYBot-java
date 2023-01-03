@@ -75,10 +75,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //        auth.userDetailsService().passwordEncoder(passwordEncoder());
     }
 
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder(12);
-//    }
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder(12);
+    }
 
     @Override
     @Bean
