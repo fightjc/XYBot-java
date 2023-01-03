@@ -1,6 +1,6 @@
 package org.fightjc.xybot.service;
 
-import org.fightjc.xybot.pojo.GroupSwitch;
+import org.fightjc.xybot.model.entity.GroupSwitch;
 
 import java.util.List;
 

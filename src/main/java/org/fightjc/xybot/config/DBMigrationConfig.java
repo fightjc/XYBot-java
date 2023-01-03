@@ -1,7 +1,7 @@
 package org.fightjc.xybot.config;
 
 import org.apache.ibatis.session.SqlSessionFactory;
-import org.fightjc.xybot.po.DBMigrationTable;
+import org.fightjc.xybot.model.DBMigrationTable;
 import org.fightjc.xybot.util.BotUtil;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;

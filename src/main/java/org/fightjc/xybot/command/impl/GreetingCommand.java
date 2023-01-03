@@ -2,14 +2,13 @@ package org.fightjc.xybot.command.impl;
 
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.contact.Member;
-import net.mamoe.mirai.message.data.At;
 import net.mamoe.mirai.message.data.Message;
 import net.mamoe.mirai.message.data.MessageChain;
 import net.mamoe.mirai.message.data.PlainText;
 import org.fightjc.xybot.annotate.CommandAnnotate;
 import org.fightjc.xybot.annotate.SwitchAnnotate;
 import org.fightjc.xybot.command.impl.group.MemberGroupCommand;
-import org.fightjc.xybot.pojo.Command;
+import org.fightjc.xybot.model.Command;
 
 import java.util.ArrayList;
 import java.util.List;

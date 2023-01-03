@@ -2,7 +2,7 @@ package org.fightjc.xybot.command.impl.group;
 
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.contact.Member;
-import org.fightjc.xybot.pojo.ResultOutput;
+import org.fightjc.xybot.model.dto.ResultOutput;
 import org.springframework.beans.factory.annotation.Value;
 
 public abstract class AdminGroupCommand extends BaseGroupCommand {

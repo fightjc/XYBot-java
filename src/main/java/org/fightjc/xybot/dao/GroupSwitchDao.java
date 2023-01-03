@@ -1,8 +1,8 @@
 package org.fightjc.xybot.dao;
 
 import org.apache.ibatis.annotations.Param;
-import org.fightjc.xybot.pojo.GroupSwitch;
-import org.fightjc.xybot.pojo.GroupSwitchRecord;
+import org.fightjc.xybot.model.entity.GroupSwitch;
+import org.fightjc.xybot.model.entity.GroupSwitchRecord;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

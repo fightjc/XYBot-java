@@ -5,7 +5,7 @@ import net.mamoe.mirai.message.data.Message;
 import net.mamoe.mirai.message.data.MessageChain;
 import net.mamoe.mirai.message.data.PlainText;
 import org.fightjc.xybot.command.FriendCommand;
-import org.fightjc.xybot.pojo.ResultOutput;
+import org.fightjc.xybot.model.dto.ResultOutput;
 
 import java.util.ArrayList;
 

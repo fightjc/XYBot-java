@@ -1,7 +1,7 @@
 package org.fightjc.xybot.dao;
 
 import org.apache.ibatis.annotations.Param;
-import org.fightjc.xybot.pojo.BotDB;
+import org.fightjc.xybot.model.entity.BotDB;
 import org.springframework.stereotype.Repository;
 
 @Repository

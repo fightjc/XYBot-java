@@ -1,7 +1,7 @@
 package org.fightjc.xybot.module.genshin;
 
 import com.idrsolutions.image.png.PngCompressor;
-import org.fightjc.xybot.pojo.ResultOutput;
+import org.fightjc.xybot.model.dto.ResultOutput;
 import org.fightjc.xybot.module.genshin.pojo.MaterialResultDto;
 import org.fightjc.xybot.module.genshin.pojo.NameMapBean;
 import org.fightjc.xybot.util.BotUtil;

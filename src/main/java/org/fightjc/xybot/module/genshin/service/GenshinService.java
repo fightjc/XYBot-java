@@ -1,6 +1,6 @@
 package org.fightjc.xybot.module.genshin.service;
 
-import org.fightjc.xybot.pojo.ResultOutput;
+import org.fightjc.xybot.model.dto.ResultOutput;
 import org.fightjc.xybot.module.genshin.pojo.GroupCalendarBean;
 import org.fightjc.xybot.module.genshin.service.impl.GenshinServiceImpl;
 

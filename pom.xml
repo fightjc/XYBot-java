@@ -16,7 +16,7 @@
         <commons-lang3.version>3.11</commons-lang3.version>
         <httpclient.version>4.5.13</httpclient.version>
         <mirai.version>2.9.0</mirai.version>
-        <fastjson.version>1.2.74</fastjson.version>
+        <fastjson.version>1.2.83</fastjson.version>
         <OpenViewerFX.version>6.6.14</OpenViewerFX.version>
         <jjwt.version>0.9.1</jjwt.version>
         <lombok.version>1.18.20</lombok.version>

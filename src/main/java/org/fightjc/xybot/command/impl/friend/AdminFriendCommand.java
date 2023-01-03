@@ -1,7 +1,7 @@
 package org.fightjc.xybot.command.impl.friend;
 
 import net.mamoe.mirai.contact.Friend;
-import org.fightjc.xybot.pojo.ResultOutput;
+import org.fightjc.xybot.model.dto.ResultOutput;
 import org.springframework.beans.factory.annotation.Value;
 
 public abstract class AdminFriendCommand extends BaseFriendCommand {

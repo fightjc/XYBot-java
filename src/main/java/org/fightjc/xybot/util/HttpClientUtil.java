@@ -13,7 +13,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
-import org.fightjc.xybot.po.HttpClientResult;
+import org.fightjc.xybot.model.dto.HttpClientResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

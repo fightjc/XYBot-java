@@ -2,11 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.fightjc.xybot.dao.BotDBDao">
 
-    <select id="getCurrentVersionInfo" resultType="org.fightjc.xybot.pojo.BotDB">
+    <select id="getCurrentVersionInfo" resultType="org.fightjc.xybot.model.entity.BotDB">
         select * from __migrationhistory order by version desc limit 1;
     </select>
 
-    <update id="createMigrationHistory" parameterType="org.fightjc.xybot.pojo.BotDB">
+    <update id="createMigrationHistory" parameterType="org.fightjc.xybot.model.entity.BotDB">
         insert into __migrationhistory (Remark, Version, ExecuteTime) values (#{remark}, #{version}, #{executeTime});
     </update>
 

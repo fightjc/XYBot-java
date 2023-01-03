@@ -1,6 +1,6 @@
 package org.fightjc.xybot.module.bilibili.service;
 
-import org.fightjc.xybot.pojo.ResultOutput;
+import org.fightjc.xybot.model.dto.ResultOutput;
 import org.fightjc.xybot.module.bilibili.pojo.DynamicBean;
 import org.fightjc.xybot.module.bilibili.pojo.DynamicDto;
 import org.fightjc.xybot.module.bilibili.pojo.SubscribeBean;

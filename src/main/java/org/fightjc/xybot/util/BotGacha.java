@@ -2,8 +2,8 @@ package org.fightjc.xybot.util;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import org.fightjc.xybot.pojo.Gacha;
-import org.fightjc.xybot.pojo.ResultOutput;
+import org.fightjc.xybot.model.Gacha;
+import org.fightjc.xybot.model.dto.ResultOutput;
 
 import java.util.ArrayList;
 import java.util.HashMap;

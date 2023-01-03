@@ -6,7 +6,7 @@ import org.fightjc.xybot.bot.XYBot;
 import org.fightjc.xybot.db.DBInitHelper;
 import org.fightjc.xybot.db.DBMigration;
 import org.fightjc.xybot.events.CommandEvents;
-import org.fightjc.xybot.pojo.GroupSwitch;
+import org.fightjc.xybot.model.entity.GroupSwitch;
 import org.fightjc.xybot.service.GroupSwitchService;
 import org.fightjc.xybot.util.BotSwitch;
 import org.slf4j.Logger;
@@ -64,6 +64,7 @@ public class XYBotLoader implements ApplicationRunner {
         } else {
             // 测试用
             System.out.println("start debug");
+            System.out.println("end debug");
         }
     }
 

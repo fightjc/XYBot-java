@@ -1,6 +1,6 @@
 package org.fightjc.xybot.command;
 
-import org.fightjc.xybot.pojo.Command;
+import org.fightjc.xybot.model.Command;
 
 public interface BaseCommand {
 

@@ -6,7 +6,7 @@ import net.mamoe.mirai.message.data.MessageChain;
 import net.mamoe.mirai.message.data.PlainText;
 import org.fightjc.xybot.annotate.CommandAnnotate;
 import org.fightjc.xybot.command.impl.friend.AdminFriendCommand;
-import org.fightjc.xybot.pojo.Command;
+import org.fightjc.xybot.model.Command;
 import org.fightjc.xybot.util.BotGacha;
 
 import java.util.ArrayList;

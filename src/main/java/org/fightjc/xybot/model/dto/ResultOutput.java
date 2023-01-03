@@ -1,4 +1,4 @@
-package org.fightjc.xybot.pojo;
+package org.fightjc.xybot.model.dto;
 
 public class ResultOutput<T> {
 

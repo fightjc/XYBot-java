@@ -1,4 +1,4 @@
-package org.fightjc.xybot.po;
+package org.fightjc.xybot.model.dto;
 
 import java.io.Serializable;
 

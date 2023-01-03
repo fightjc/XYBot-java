@@ -1,8 +1,8 @@
 package org.fightjc.xybot.service.impl;
 
 import org.fightjc.xybot.dao.GroupSwitchDao;
-import org.fightjc.xybot.pojo.GroupSwitch;
-import org.fightjc.xybot.pojo.GroupSwitchRecord;
+import org.fightjc.xybot.model.entity.GroupSwitch;
+import org.fightjc.xybot.model.entity.GroupSwitchRecord;
 import org.fightjc.xybot.service.GroupSwitchService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

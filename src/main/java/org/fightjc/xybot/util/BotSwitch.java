@@ -1,6 +1,6 @@
 package org.fightjc.xybot.util;
 
-import org.fightjc.xybot.pojo.ResultOutput;
+import org.fightjc.xybot.model.dto.ResultOutput;
 
 import java.util.HashMap;
 import java.util.Map;

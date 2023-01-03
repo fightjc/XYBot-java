@@ -1,22 +1,24 @@
-package org.fightjc.xybot.pojo;
+package org.fightjc.xybot.model.entity;
 
+import lombok.Data;
 import org.fightjc.xybot.util.MessageUtil;
 
 /**
  * 映射表 GroupSwitchRecord
  */
+@Data
 public class GroupSwitchRecord {
-    Integer id;
+    private Integer id;
 
-    Long groupId;
+    private Long groupId;
 
-    String name;
+    private String name;
 
-    boolean isOn;
+    private boolean isOn;
 
-    Long modifiedUserId;
+    private Long modifiedUserId;
 
-    String modifiedTime;
+    private String modifiedTime;
 
     public GroupSwitchRecord(Long groupId, String name, boolean isOn, Long modifiedUserId, String modifiedTime) {
         this.groupId = groupId;
