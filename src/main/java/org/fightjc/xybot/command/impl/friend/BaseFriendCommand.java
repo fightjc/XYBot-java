@@ -5,6 +5,7 @@ import net.mamoe.mirai.message.data.Message;
 import net.mamoe.mirai.message.data.MessageChain;
 import net.mamoe.mirai.message.data.PlainText;
 import org.fightjc.xybot.command.FriendCommand;
+import org.fightjc.xybot.enums.ResultCode;
 import org.fightjc.xybot.model.dto.ResultOutput;
 
 import java.util.ArrayList;
@@ -13,9 +14,9 @@ public abstract class BaseFriendCommand implements FriendCommand {
 
     @Override
     public Message execute(Friend sender, ArrayList<String> args, MessageChain messageChain, Friend subject) throws Exception {
-        ResultOutput result = checkRole(sender, subject);
-        if (!result.getSuccess()) {
-            return new PlainText(result.getInfo());
+        ResultOutput<String> result = checkRole(sender, subject);
+        if (ResultCode.SUCCESS.getCode() != result.getCode()) {
+            return new PlainText(result.getMsg());
         }
         return executeHandle(sender, args, messageChain, subject);
     }

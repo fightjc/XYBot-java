@@ -10,6 +10,7 @@ import net.mamoe.mirai.utils.ExternalResource;
 import org.fightjc.xybot.annotate.CommandAnnotate;
 import org.fightjc.xybot.annotate.SwitchAnnotate;
 import org.fightjc.xybot.command.impl.group.MemberGroupCommand;
+import org.fightjc.xybot.enums.ResultCode;
 import org.fightjc.xybot.model.Command;
 import org.fightjc.xybot.model.dto.ResultOutput;
 import org.fightjc.xybot.module.genshin.service.GenshinService;
@@ -78,12 +79,12 @@ public class DailyMaterialCommand extends MemberGroupCommand {
             }
         }
 
-        if (!result.getSuccess()) {
-            return at.plus(new PlainText(result.getInfo()));
+        if (ResultCode.SUCCESS.getCode() != result.getCode()) {
+            return at.plus(new PlainText(result.getMsg()));
         } else {
             BufferedImage image = result.getObject();
             if (image == null) {
-                return at.plus(new PlainText(result.getInfo()));
+                return at.plus(new PlainText(result.getMsg()));
             } else {
                 ExternalResource resource = ImageUtil.bufferedImage2ExternalResource(image);
                 return at.plus(subject.uploadImage(resource));

@@ -1,32 +1,24 @@
 package org.fightjc.xybot.model.dto;
 
+import lombok.Getter;
+import org.fightjc.xybot.enums.ResultCode;
+
+@Getter
 public class ResultOutput<T> {
 
-    private boolean success;
+    private int code;
 
-    private String info;
+    private String msg;
 
     private T object;
 
-    public ResultOutput(boolean success, String info) {
-        this(success, info, null);
+    public ResultOutput(ResultCode resultCode, String info) {
+        this(resultCode, info, null);
     }
 
-    public ResultOutput(boolean success, String info, T object) {
-        this.success = success;
-        this.info = info;
+    public ResultOutput(ResultCode resultCode, String msg, T object) {
+        this.code = resultCode.getCode();
+        this.msg = msg;
         this.object = object;
-    }
-
-    public boolean getSuccess() {
-        return success;
-    }
-
-    public String getInfo() {
-        return info;
-    }
-
-    public T getObject() {
-        return object;
     }
 }

@@ -1,6 +1,7 @@
 package org.fightjc.xybot.module.genshin;
 
 import com.idrsolutions.image.png.PngCompressor;
+import org.fightjc.xybot.enums.ResultCode;
 import org.fightjc.xybot.model.dto.ResultOutput;
 import org.fightjc.xybot.module.genshin.pojo.MaterialResultDto;
 import org.fightjc.xybot.module.genshin.pojo.NameMapBean;
@@ -58,7 +59,7 @@ public class GenshinMaterialDrawHelper {
      * @param data
      * @return
      */
-    public static ResultOutput drawDailyMaterial(List<MaterialResultDto> data) {
+    public static ResultOutput<String> drawDailyMaterial(List<MaterialResultDto> data) {
         for (MaterialResultDto dto : data) {
             List<MaterialResultDto.MaterialInfo> talentMaterialList = dto.talentMaterialList;
             List<MaterialResultDto.MaterialInfo> weaponMaterialList = dto.weaponMaterialList;
@@ -289,7 +290,7 @@ public class GenshinMaterialDrawHelper {
             //endregion
         }
 
-        return new ResultOutput<>(true, "生成每日素材图片成功");
+        return new ResultOutput<>(ResultCode.SUCCESS, "生成每日素材图片成功");
     }
 
     /**

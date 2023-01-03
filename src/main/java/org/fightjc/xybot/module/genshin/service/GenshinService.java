@@ -20,7 +20,7 @@ public interface GenshinService {
      * 更新每日素材汇总图片
      * @return
      */
-    ResultOutput updateDailyMaterial();
+    ResultOutput<String> updateDailyMaterial();
 
     /**
      * 通过名字查询角色或物品
@@ -33,7 +33,7 @@ public interface GenshinService {
      * 检查原神资源完整性
      * @return
      */
-    ResultOutput checkGenshinResource();
+    ResultOutput<String> checkGenshinResource();
 
     /**
      * 获取原神日历

@@ -31,10 +31,10 @@ public class DailyLuckCommand extends MemberGroupCommand {
 
     @Override
     protected Message executeHandle(Member sender, ArrayList<String> args, MessageChain messageChain, Group subject) throws Exception {
-        ResultOutput result = BotGacha.getInstance().getGacha(sender.getId());
+        ResultOutput<String> result = BotGacha.getInstance().getGacha(sender.getId());
 
         At at = new At(sender.getId());
-        PlainText plainText = new PlainText(result.getInfo());
+        PlainText plainText = new PlainText(result.getMsg());
         return at.plus(plainText);
     }
 }

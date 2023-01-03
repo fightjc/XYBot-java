@@ -1,5 +1,6 @@
 package org.fightjc.xybot.util;
 
+import org.fightjc.xybot.enums.ResultCode;
 import org.fightjc.xybot.model.dto.ResultOutput;
 
 import java.util.HashMap;
@@ -44,7 +45,7 @@ public class BotSwitch {
     public ResultOutput<Boolean> getGroupSwitchStatus(Long groupId, String name) {
         String key = getGroupSwitchMapKey(groupId, name);
         if (groupSwitchList.containsKey(key)) {
-            return new ResultOutput<>(true, "", groupSwitchList.get(key));
+            return new ResultOutput<>(ResultCode.SUCCESS, "", groupSwitchList.get(key));
         } else {
             return getSwitchDefaultValue(name);
         }
@@ -57,9 +58,9 @@ public class BotSwitch {
      */
     public ResultOutput<Boolean> getSwitchDefaultValue(String name) {
         if (switchList.containsKey(name)) {
-            return new ResultOutput<>(true, "", switchList.getOrDefault(name, false));
+            return new ResultOutput<>(ResultCode.SUCCESS, "", switchList.getOrDefault(name, false));
         } else {
-            return new ResultOutput<>(false, "[" + name + "] 功能不存在", false);
+            return new ResultOutput<>(ResultCode.FAILED, "[" + name + "] 功能不存在", false);
         }
     }
 
@@ -86,7 +87,7 @@ public class BotSwitch {
             groupSwitchList.put(key, isOn);
         }
 
-        return new ResultOutput(true, "");
+        return new ResultOutput<>(ResultCode.SUCCESS, "");
     }
 
     private String getGroupSwitchMapKey(Long groupId, String name) {

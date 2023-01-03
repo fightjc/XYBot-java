@@ -35,14 +35,14 @@ public class DataUpdateCommand extends AdminFriendCommand {
 
         if (args.size() == 0) {
             // 更新每日素材图片
-            ResultOutput result_udm = genshinService.updateDailyMaterial();
-            result.append("\n").append(result_udm.getInfo());
+            ResultOutput<String> result_udm = genshinService.updateDailyMaterial();
+            result.append("\n").append(result_udm.getMsg());
         } else {
             String opt = args.get(0);
             switch (opt) {
                 case "检查":
-                    ResultOutput cgr = genshinService.checkGenshinResource();
-                    result.append("\n").append(cgr.getInfo());
+                    ResultOutput<String> cgr = genshinService.checkGenshinResource();
+                    result.append("\n").append(cgr.getMsg());
                     break;
                 default:
                     return new PlainText(usage);

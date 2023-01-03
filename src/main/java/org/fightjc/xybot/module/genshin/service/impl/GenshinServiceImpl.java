@@ -7,6 +7,7 @@ import me.xdrop.fuzzywuzzy.FuzzySearch;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.utils.ExternalResource;
 import org.fightjc.xybot.bot.XYBot;
+import org.fightjc.xybot.enums.ResultCode;
 import org.fightjc.xybot.module.genshin.dao.GenshinDao;
 import org.fightjc.xybot.module.genshin.pojo.*;
 import org.fightjc.xybot.model.dto.HttpClientResult;
@@ -108,37 +109,37 @@ public class GenshinServiceImpl implements GenshinService {
      */
     public ResultOutput<BufferedImage> getDailyMaterial(DAILY_MATERIAL_WEEK day) {
         if (day == DAILY_MATERIAL_WEEK.SUN) {
-            return new ResultOutput<>(true, "笨蛋，周日啥资源都有哦～");
+            return new ResultOutput<>(ResultCode.SUCCESS, "笨蛋，周日啥资源都有哦～");
         }
 
         String pngPath = BotUtil.getGenshinFolderPath() + "/dailymaterial_" + day.id + ".png";
         BufferedImage rawImage = BotUtil.readImageFile(pngPath);
 
         if (rawImage == null) {
-            return new ResultOutput<>(false, "读取图片资源失败");
+            return new ResultOutput<>(ResultCode.FAILED, "读取图片资源失败");
         }
 
-        return new ResultOutput<>(true, "读取图片资源成功", rawImage);
+        return new ResultOutput<>(ResultCode.SUCCESS, "读取图片资源成功", rawImage);
     }
 
     /**
      * 更新每日素材汇总图片
      * @return
      */
-    public ResultOutput updateDailyMaterial() {
+    public ResultOutput<String> updateDailyMaterial() {
         // 获取每日材料整合数据结果
         ResultOutput<List<MaterialResultDto>> materialResult = getMaterialResult();
-        if (!materialResult.getSuccess()) {
-            return materialResult;
+        if (ResultCode.SUCCESS.getCode() != materialResult.getCode()) {
+            return new ResultOutput<>(ResultCode.FAILED, materialResult.getMsg());
         }
 
         // 更新每日素材图片
-        ResultOutput drawResult = GenshinMaterialDrawHelper.drawDailyMaterial(materialResult.getObject());
-        if (!drawResult.getSuccess()) {
+        ResultOutput<String> drawResult = GenshinMaterialDrawHelper.drawDailyMaterial(materialResult.getObject());
+        if (ResultCode.SUCCESS.getCode() != drawResult.getCode()) {
             return drawResult;
         }
 
-        return new ResultOutput<>(true, "更新每日素材图片成功");
+        return new ResultOutput<>(ResultCode.SUCCESS, "更新每日素材图片成功");
     }
 
     /**
@@ -151,14 +152,14 @@ public class GenshinServiceImpl implements GenshinService {
         JSONObject charObject = BotUtil.readJsonFile(BotUtil.getGenshinFolderPath() + "/index/characters.json");
         if (charObject == null) {
             logger.error("获取 /index/characters.json 对象失败");
-            return new ResultOutput<>(false, "获取 /index/characters.json 对象失败");
+            return new ResultOutput<>(ResultCode.FAILED, "获取 /index/characters.json 对象失败");
         }
 
         // 角色名和路径字典
         Map<String, String> characterNameMap = charObject.getObject("names", new TypeReference<Map<String, String>>(){});
         if (characterNameMap == null) {
             logger.error("获取 /index/characters.json 中 names 对象失败");
-            return new ResultOutput<>(false, "获取 /index/characters.json 中 names 对象失败");
+            return new ResultOutput<>(ResultCode.FAILED, "获取 /index/characters.json 中 names 对象失败");
         }
 
         // 判断是否是角色
@@ -171,14 +172,14 @@ public class GenshinServiceImpl implements GenshinService {
         JSONObject weaponObject = BotUtil.readJsonFile(BotUtil.getGenshinFolderPath() + "/index/weapons.json");
         if (weaponObject == null) {
             logger.error("获取 /index/weapons.json 对象失败");
-            return new ResultOutput<>(false, "获取 /index/weapons.json 对象失败");
+            return new ResultOutput<>(ResultCode.FAILED, "获取 /index/weapons.json 对象失败");
         }
 
         // 武器名和路径字典
         Map<String, String> weaponNameMap = weaponObject.getObject("names", new TypeReference<Map<String, String>>(){});
         if (weaponNameMap == null) {
             logger.error("获取 /index/weapons.json 中 names 对象失败");
-            return new ResultOutput<>(false, "获取 /index/weapons.json 中 names 对象失败");
+            return new ResultOutput<>(ResultCode.FAILED, "获取 /index/weapons.json 中 names 对象失败");
         }
 
         // 判断是否是武器
@@ -191,25 +192,25 @@ public class GenshinServiceImpl implements GenshinService {
         JSONObject materialObject = BotUtil.readJsonFile(BotUtil.getGenshinFolderPath() + "/index/materials.json");
         if (materialObject == null) {
             logger.error("获取 /index/materials.json 对象失败");
-            return new ResultOutput<>(false, "获取 /index/materials.json 对象失败");
+            return new ResultOutput<>(ResultCode.FAILED, "获取 /index/materials.json 对象失败");
         }
 
         // 材料名和路径字典
         Map<String, String> materialNameMap = materialObject.getObject("names", new TypeReference<Map<String, String>>(){});
         if (materialNameMap == null) {
             logger.error("获取 /index/materials.json 中 names 对象失败");
-            return new ResultOutput<>(false, "获取 /index/materials.json 中 names 对象失败");
+            return new ResultOutput<>(ResultCode.FAILED, "获取 /index/materials.json 中 names 对象失败");
         }
 
         // 判断是否是材料
         if (materialNameMap.containsKey(name)) {
             //return getMaterialInfo(materialNameMap.get(name));
-            return new ResultOutput<>(false, "功能还在完善，敬请期待！", null);
+            return new ResultOutput<>(ResultCode.FAILED, "功能还在完善，敬请期待！", null);
         }
         //endregion
 
         //region 模糊搜索
-        List<String> itemList = new ArrayList() {{
+        List<String> itemList = new ArrayList<String>() {{
             addAll(characterNameMap.keySet());
             addAll(weaponNameMap.keySet());
             addAll(materialNameMap.keySet());
@@ -218,32 +219,32 @@ public class GenshinServiceImpl implements GenshinService {
                 .filter(s -> FuzzySearch.ratio(name, s) > 50)
                 .collect(Collectors.toList());
         if (result.size() > 0) {
-            return new ResultOutput<>(false, "找不到 " + name + " 的相关信息，也许你要找的是\n" + String.join("，", result));
+            return new ResultOutput<>(ResultCode.FAILED, "找不到 " + name + " 的相关信息，也许你要找的是\n" + String.join("，", result));
         }
         //endregion
 
-        return new ResultOutput<>(false, "找不到 " + name + " 的相关信息，以后即使知道也不告诉你～");
+        return new ResultOutput<>(ResultCode.FAILED, "找不到 " + name + " 的相关信息，以后即使知道也不告诉你～");
     }
 
     /**
      * 检查原神资源完整性
      * @return
      */
-    public ResultOutput checkGenshinResource() {
+    public ResultOutput<String> checkGenshinResource() {
         StringBuilder result = new StringBuilder();
 
         //region 检查角色
         JSONObject charObject = BotUtil.readJsonFile(BotUtil.getGenshinFolderPath() + "/index/characters.json");
         if (charObject == null) {
             logger.error("获取 /index/characters.json 对象失败");
-            return new ResultOutput<>(false, "获取 /index/characters.json 对象失败");
+            return new ResultOutput<>(ResultCode.FAILED, "获取 /index/characters.json 对象失败");
         }
 
         // 角色名和路径字典
         Map<String, String> characterNameMap = charObject.getObject("names", new TypeReference<Map<String, String>>(){});
         if (characterNameMap == null) {
             logger.error("获取 /index/characters.json 中 names 对象失败");
-            return new ResultOutput<>(false, "获取 /index/characters.json 中 names 对象失败");
+            return new ResultOutput<>(ResultCode.FAILED, "获取 /index/characters.json 中 names 对象失败");
         }
 
         for (String character : characterNameMap.keySet()) {
@@ -267,14 +268,14 @@ public class GenshinServiceImpl implements GenshinService {
         JSONObject weaponObject = BotUtil.readJsonFile(BotUtil.getGenshinFolderPath() + "/index/weapons.json");
         if (weaponObject == null) {
             logger.error("获取 /index/weapons.json 对象失败");
-            return new ResultOutput<>(false, "获取 /index/weapons.json 对象失败");
+            return new ResultOutput<>(ResultCode.FAILED, "获取 /index/weapons.json 对象失败");
         }
 
         // 武器名和路径字典
         Map<String, String> weaponNameMap = weaponObject.getObject("names", new TypeReference<Map<String, String>>(){});
         if (weaponNameMap == null) {
             logger.error("获取 /index/weapons.json 中 names 对象失败");
-            return new ResultOutput<>(false, "获取 /index/weapons.json 中 names 对象失败");
+            return new ResultOutput<>(ResultCode.FAILED, "获取 /index/weapons.json 中 names 对象失败");
         }
 
         for (String weapon : weaponNameMap.keySet()) {
@@ -298,14 +299,14 @@ public class GenshinServiceImpl implements GenshinService {
         JSONObject materialObject = BotUtil.readJsonFile(BotUtil.getGenshinFolderPath() + "/index/materials.json");
         if (materialObject == null) {
             logger.error("获取 /index/materials.json 对象失败");
-            return new ResultOutput<>(false, "获取 /index/materials.json 对象失败");
+            return new ResultOutput<>(ResultCode.FAILED, "获取 /index/materials.json 对象失败");
         }
 
         // 材料名和路径字典
         Map<String, String> materialNameMap = materialObject.getObject("names", new TypeReference<Map<String, String>>(){});
         if (materialNameMap == null) {
             logger.error("获取 /index/materials.json 中 names 对象失败");
-            return new ResultOutput<>(false, "获取 /index/materials.json 中 names 对象失败");
+            return new ResultOutput<>(ResultCode.FAILED, "获取 /index/materials.json 中 names 对象失败");
         }
 
         for (String material : materialNameMap.keySet()) {
@@ -370,9 +371,9 @@ public class GenshinServiceImpl implements GenshinService {
         //endregion
 
         if (result.length() > 0) {
-            return new ResultOutput<>(false, result.toString());
+            return new ResultOutput<>(ResultCode.FAILED, result.toString());
         } else {
-            return new ResultOutput<>(true, "恭喜，原神资源完整！");
+            return new ResultOutput<>(ResultCode.SUCCESS, "恭喜，原神资源完整！");
         }
     }
 
@@ -382,12 +383,12 @@ public class GenshinServiceImpl implements GenshinService {
      */
     public ResultOutput<BufferedImage> getCalendar() {
         ResultOutput<List<AnnounceBean>> result = getGenshinAnnouncement();
-        if (result.getSuccess()) {
+        if (ResultCode.SUCCESS.getCode() == result.getCode()) {
             List<AnnounceBean> announceList = result.getObject();
             BufferedImage bi = GenshinAnnounceDrawHelper.drawAnnounce(announceList);
-            return new ResultOutput<>(true, "", bi);
+            return new ResultOutput<>(ResultCode.SUCCESS, "", bi);
         }
-        return new ResultOutput<>(false, result.getInfo());
+        return new ResultOutput<>(ResultCode.FAILED, result.getMsg());
     }
 
     /**
@@ -395,7 +396,7 @@ public class GenshinServiceImpl implements GenshinService {
      */
     public void postGroupGenshinCalendar() {
         ResultOutput<BufferedImage> result = getCalendar();
-        if (result.getSuccess()) {
+        if (ResultCode.SUCCESS.getCode() == result.getCode()) {
             BufferedImage image = result.getObject();
             if (image != null) {
                 try {
@@ -438,14 +439,14 @@ public class GenshinServiceImpl implements GenshinService {
         JSONObject categoriesObject = BotUtil.readJsonFile(BotUtil.getGenshinFolderPath() + "/data/categories.json");
         if (categoriesObject == null) {
             logger.error("获取 /data/categories.json 对象失败");
-            return new ResultOutput<>(false, "获取 /data/categories.json 对象失败");
+            return new ResultOutput<>(ResultCode.FAILED, "获取 /data/categories.json 对象失败");
         }
 
         // 星期
         JSONArray dayArray = categoriesObject.getJSONArray("day");
         if (dayArray == null) {
             logger.error("获取 /data/categories.json 中 day 对象失败");
-            return new ResultOutput<>(false, "获取 /data/categories.json 中 day 对象失败");
+            return new ResultOutput<>(ResultCode.FAILED, "获取 /data/categories.json 中 day 对象失败");
         }
         List<String> dayList = dayArray.toJavaList(String.class);
 
@@ -453,7 +454,7 @@ public class GenshinServiceImpl implements GenshinService {
         JSONArray regionArray = categoriesObject.getJSONArray("region");
         if (regionArray == null) {
             logger.error("获取 /data/categories.json 中 region 对象失败");
-            return new ResultOutput<>(false, "获取 /data/categories.json 中 region 对象失败");
+            return new ResultOutput<>(ResultCode.FAILED, "获取 /data/categories.json 中 region 对象失败");
         }
         List<String> regionList = regionArray.toJavaList(String.class);
 
@@ -461,7 +462,7 @@ public class GenshinServiceImpl implements GenshinService {
         JSONArray rarityArray = categoriesObject.getJSONArray("rarity");
         if (rarityArray == null) {
             logger.error("获取 /data/categories.json 中 rarity 对象失败");
-            return new ResultOutput<>(false, "获取 /data/categories.json 中 rarity 对象失败");
+            return new ResultOutput<>(ResultCode.FAILED, "获取 /data/categories.json 中 rarity 对象失败");
         }
         List<String> rarityList = rarityArray.toJavaList(String.class);
 
@@ -472,14 +473,14 @@ public class GenshinServiceImpl implements GenshinService {
         JSONObject materialObject = BotUtil.readJsonFile(BotUtil.getGenshinFolderPath() + "/index/materials.json");
         if (materialObject == null) {
             logger.error("获取 /index/materials.json 对象失败");
-            return new ResultOutput<>(false, "获取 /index/materials.json 对象失败");
+            return new ResultOutput<>(ResultCode.FAILED, "获取 /index/materials.json 对象失败");
         }
 
         // 材料名和路径字典
         materialNameMap = materialObject.getObject("names", new TypeReference<Map<String, String>>(){});
         if (materialNameMap == null) {
             logger.error("获取 /index/materials.json 中 names 对象失败");
-            return new ResultOutput<>(false, "获取 /index/materials.json 中 names 对象失败");
+            return new ResultOutput<>(ResultCode.FAILED, "获取 /index/materials.json 中 names 对象失败");
         }
 
         //endregion
@@ -489,13 +490,13 @@ public class GenshinServiceImpl implements GenshinService {
         JSONObject tmtObject = BotUtil.readJsonFile(BotUtil.getGenshinFolderPath() + "/index/talentmaterialtypes.json");
         if (tmtObject == null) {
             logger.error("获取 /index/talentmaterialtypes.json 对象失败");
-            return new ResultOutput<>(false, "获取 /index/talentmaterialtypes.json 对象失败");
+            return new ResultOutput<>(ResultCode.FAILED, "获取 /index/talentmaterialtypes.json 对象失败");
         }
 
         JSONObject tmtCategories = tmtObject.getJSONObject("categories");
         if (tmtCategories == null) {
             logger.error("获取 /index/talentmaterialtypes.json 中 categories 对象失败");
-            return new ResultOutput<>(false, "获取 /index/talentmaterialtypes.json 中 categories 对象失败");
+            return new ResultOutput<>(ResultCode.FAILED, "获取 /index/talentmaterialtypes.json 中 categories 对象失败");
         }
 
         // 根据星期生成字典
@@ -523,13 +524,13 @@ public class GenshinServiceImpl implements GenshinService {
         JSONObject wmtObject = BotUtil.readJsonFile(BotUtil.getGenshinFolderPath() + "/index/weaponmaterialtypes.json");
         if (wmtObject == null) {
             logger.error("获取 /index/weaponmaterialtypes.json 对象失败");
-            return new ResultOutput<>(false, "获取 /index/weaponmaterialtypes.json 对象失败");
+            return new ResultOutput<>(ResultCode.FAILED, "获取 /index/weaponmaterialtypes.json 对象失败");
         }
 
         JSONObject wmtCategories = wmtObject.getJSONObject("categories");
         if (wmtCategories == null) {
             logger.error("获取 /index/weaponmaterialtypes.json 中 categories 对象失败");
-            return new ResultOutput<>(false, "获取 /index/weaponmaterialtypes.json 中 categories 对象失败");
+            return new ResultOutput<>(ResultCode.FAILED, "获取 /index/weaponmaterialtypes.json 中 categories 对象失败");
         }
 
         // 根据星期生成字典
@@ -556,20 +557,20 @@ public class GenshinServiceImpl implements GenshinService {
         JSONObject charObject = BotUtil.readJsonFile(BotUtil.getGenshinFolderPath() + "/index/characters.json");
         if (charObject == null) {
             logger.error("获取 /index/characters.json 对象失败");
-            return new ResultOutput<>(false, "获取 /index/characters.json 对象失败");
+            return new ResultOutput<>(ResultCode.FAILED, "获取 /index/characters.json 对象失败");
         }
 
         // 角色名和路径字典
         characterNameMap = charObject.getObject("names", new TypeReference<Map<String, String>>(){});
         if (characterNameMap == null) {
             logger.error("获取 /index/characters.json 中 names 对象失败");
-            return new ResultOutput<>(false, "获取 /index/characters.json 中 names 对象失败");
+            return new ResultOutput<>(ResultCode.FAILED, "获取 /index/characters.json 中 names 对象失败");
         }
 
         JSONObject charCategories = charObject.getJSONObject("categories");
         if (charCategories == null) {
             logger.error("获取 /index/characters.json 中 categories 对象失败");
-            return new ResultOutput<>(false, "获取 /index/characters.json 中 categories 对象失败");
+            return new ResultOutput<>(ResultCode.FAILED, "获取 /index/characters.json 中 categories 对象失败");
         }
 
         // 根据星级生成字典
@@ -597,20 +598,20 @@ public class GenshinServiceImpl implements GenshinService {
         JSONObject weaponObject = BotUtil.readJsonFile(BotUtil.getGenshinFolderPath() + "/index/weapons.json");
         if (weaponObject == null) {
             logger.error("获取 /index/weapons.json 对象失败");
-            return new ResultOutput<>(false, "获取 /index/weapons.json 对象失败");
+            return new ResultOutput<>(ResultCode.FAILED, "获取 /index/weapons.json 对象失败");
         }
 
         // 武器名和路径字典
         weaponNameMap = weaponObject.getObject("names", new TypeReference<Map<String, String>>(){});
         if (weaponNameMap == null) {
             logger.error("获取 /index/weapons.json 中 names 对象失败");
-            return new ResultOutput<>(false, "获取 /index/weapons.json 中 names 对象失败");
+            return new ResultOutput<>(ResultCode.FAILED, "获取 /index/weapons.json 中 names 对象失败");
         }
 
         JSONObject weaponCategories = weaponObject.getJSONObject("categories");
         if (weaponCategories == null) {
             logger.error("获取 /index/weapons.json 中 categories 对象失败");
-            return new ResultOutput<>(false, "获取 /index/weapons.json 中 categories 对象失败");
+            return new ResultOutput<>(ResultCode.FAILED, "获取 /index/weapons.json 中 categories 对象失败");
         }
 
         // 根据星级生成字典
@@ -729,7 +730,7 @@ public class GenshinServiceImpl implements GenshinService {
 
         //endregion
 
-        return new ResultOutput<>(true, "生成每日素材整合数据成功", materialResultDtoList);
+        return new ResultOutput<>(ResultCode.SUCCESS, "生成每日素材整合数据成功", materialResultDtoList);
     }
 
     /**
@@ -744,7 +745,7 @@ public class GenshinServiceImpl implements GenshinService {
                 CharacterBean.class);
         if (characterBean == null) {
             logger.error("获取 /data/characters/" + name + ".json 对象失败");
-            return new ResultOutput<>(false, "获取 /data/characters/" + name + ".json 对象失败");
+            return new ResultOutput<>(ResultCode.FAILED, "获取 /data/characters/" + name + ".json 对象失败");
         }
 
         // 角色图标
@@ -752,7 +753,7 @@ public class GenshinServiceImpl implements GenshinService {
         BufferedImage image = BotUtil.readImageFile(imagePath);
         if (image == null) {
             logger.error("获取 /images/characters/" + name + ".png 对象失败");
-            return new ResultOutput<>(false, "获取 /images/characters/" + name + ".png 对象失败");
+            return new ResultOutput<>(ResultCode.FAILED, "获取 /images/characters/" + name + ".png 对象失败");
         }
 
         // 角色天赋
@@ -761,7 +762,7 @@ public class GenshinServiceImpl implements GenshinService {
                 TalentBean.class);
         if (talentBean == null) {
             logger.error("获取 /data/talents/" + name + ".json 对象失败");
-            return new ResultOutput<>(false, "获取 /data/talents/" + name + ".json 对象失败");
+            return new ResultOutput<>(ResultCode.FAILED, "获取 /data/talents/" + name + ".json 对象失败");
         }
 
         // 角色命座
@@ -771,7 +772,7 @@ public class GenshinServiceImpl implements GenshinService {
                     ConstellationBean.class);
             if (constellationBean == null) {
                 logger.error("获取 /data/constellations/" + name + ".json 对象失败");
-                return new ResultOutput<>(false, "获取 /data/constellations/" + name + ".json 对象失败");
+                return new ResultOutput<>(ResultCode.FAILED, "获取 /data/constellations/" + name + ".json 对象失败");
             }
         }
 
@@ -779,14 +780,14 @@ public class GenshinServiceImpl implements GenshinService {
         JSONObject materialObject = BotUtil.readJsonFile(BotUtil.getGenshinFolderPath() + "/index/materials.json");
         if (materialObject == null) {
             logger.error("获取 /index/materials.json 对象失败");
-            return new ResultOutput<>(false, "获取 /index/materials.json 对象失败");
+            return new ResultOutput<>(ResultCode.FAILED, "获取 /index/materials.json 对象失败");
         }
 
         // 材料名和路径字典
         Map<String, String> materialNameMap = materialObject.getObject("names", new TypeReference<Map<String, String>>(){});
         if (materialNameMap == null) {
             logger.error("获取 /index/materials.json 中 names 对象失败");
-            return new ResultOutput<>(false, "获取 /index/materials.json 中 names 对象失败");
+            return new ResultOutput<>(ResultCode.FAILED, "获取 /index/materials.json 中 names 对象失败");
         }
 
         CostDto mora;
@@ -922,7 +923,7 @@ public class GenshinServiceImpl implements GenshinService {
 
         BufferedImage target = GenshinSearchDrawHelper.drawCharacterInfo(new CharacterDrawDto(image, characterBean,
                 mora, avatarList, exchangeList, talent_mora, talent_avatarList, talentList));
-        return new ResultOutput<>(true, "", target);
+        return new ResultOutput<>(ResultCode.SUCCESS, "", target);
     }
 
     /**
@@ -937,7 +938,7 @@ public class GenshinServiceImpl implements GenshinService {
                 WeaponBean.class);
         if (weaponBean == null) {
             logger.error("获取 /data/weapons/" + name + ".json 对象失败");
-            return new ResultOutput<>(false, "获取 /data/weapons/" + name + ".json 对象失败");
+            return new ResultOutput<>(ResultCode.FAILED, "获取 /data/weapons/" + name + ".json 对象失败");
         }
 
         // 武器图标
@@ -945,21 +946,21 @@ public class GenshinServiceImpl implements GenshinService {
         BufferedImage image = BotUtil.readImageFile(imagePath);
         if (image == null) {
             logger.error("获取 /images/weapons/" + name + ".png 对象失败");
-            return new ResultOutput<>(false, "获取 /images/weapons/" + name + ".png 对象失败");
+            return new ResultOutput<>(ResultCode.FAILED, "获取 /images/weapons/" + name + ".png 对象失败");
         }
 
         // 获取材料索引
         JSONObject materialObject = BotUtil.readJsonFile(BotUtil.getGenshinFolderPath() + "/index/materials.json");
         if (materialObject == null) {
             logger.error("获取 /index/materials.json 对象失败");
-            return new ResultOutput<>(false, "获取 /index/materials.json 对象失败");
+            return new ResultOutput<>(ResultCode.FAILED, "获取 /index/materials.json 对象失败");
         }
 
         // 材料名和路径字典
         Map<String, String> materialNameMap = materialObject.getObject("names", new TypeReference<Map<String, String>>(){});
         if (materialNameMap == null) {
             logger.error("获取 /index/materials.json 中 names 对象失败");
-            return new ResultOutput<>(false, "获取 /index/materials.json 中 names 对象失败");
+            return new ResultOutput<>(ResultCode.FAILED, "获取 /index/materials.json 中 names 对象失败");
         }
 
         // 武器突破材料表
@@ -1027,7 +1028,7 @@ public class GenshinServiceImpl implements GenshinService {
 
         BufferedImage target = GenshinSearchDrawHelper.drawWeaponInfo(new WeaponDrawDto(image, weaponBean,
                 mora, avatarList, weaponList));
-        return new ResultOutput<>(true, "", target);
+        return new ResultOutput<>(ResultCode.SUCCESS, "", target);
     }
 
     /**
@@ -1036,7 +1037,7 @@ public class GenshinServiceImpl implements GenshinService {
      * @return
      */
     private ResultOutput<BufferedImage> getMaterialInfo(String name) {
-        return new ResultOutput<>(true, "", GenshinSearchDrawHelper.drawMaterialInfo());
+        return new ResultOutput<>(ResultCode.SUCCESS, "", GenshinSearchDrawHelper.drawMaterialInfo());
     }
 
     /**
@@ -1149,10 +1150,10 @@ public class GenshinServiceImpl implements GenshinService {
             // 分别按结束时间和开始时间排序
             announceList.sort(Comparator.comparing((AnnounceBean::getDeadLine)).thenComparing(AnnounceBean::getStartTime));
 
-            return new ResultOutput<>(true, "查询成功", announceList);
+            return new ResultOutput<>(ResultCode.SUCCESS, "查询成功", announceList);
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResultOutput<>(false, "请求网络失败");
+            return new ResultOutput<>(ResultCode.FAILED, "请求网络失败");
         }
     }
 }

@@ -1,6 +1,7 @@
 package org.fightjc.xybot.command.impl.friend;
 
 import net.mamoe.mirai.contact.Friend;
+import org.fightjc.xybot.enums.ResultCode;
 import org.fightjc.xybot.model.dto.ResultOutput;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -12,9 +13,9 @@ public abstract class AdminFriendCommand extends BaseFriendCommand {
     @Override
     protected ResultOutput<String> checkRole(Friend sender, Friend subject) {
         if (sender.getId() == adminUid) {
-            return new ResultOutput<>(true, "role permitted");
+            return new ResultOutput<>(ResultCode.SUCCESS, "role permitted");
         } else {
-            return new ResultOutput<>(false, "无权限操作该指令，请联系管理员");
+            return new ResultOutput<>(ResultCode.FAILED, "无权限操作该指令，请联系管理员");
         }
     }
 }

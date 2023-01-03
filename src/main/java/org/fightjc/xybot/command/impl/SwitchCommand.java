@@ -7,6 +7,7 @@ import net.mamoe.mirai.message.data.MessageChain;
 import net.mamoe.mirai.message.data.PlainText;
 import org.fightjc.xybot.annotate.CommandAnnotate;
 import org.fightjc.xybot.command.impl.group.AdminGroupCommand;
+import org.fightjc.xybot.enums.ResultCode;
 import org.fightjc.xybot.model.Command;
 import org.fightjc.xybot.model.entity.GroupSwitch;
 import org.fightjc.xybot.model.dto.ResultOutput;
@@ -52,8 +53,8 @@ public class SwitchCommand extends AdminGroupCommand {
 
                 // 检测功能是否存在
                 ResultOutput<Boolean> result = BotSwitch.getInstance().getSwitchDefaultValue(componentName);
-                if (!result.getSuccess()) {
-                    return new PlainText(result.getInfo());
+                if (ResultCode.SUCCESS.getCode() != result.getCode()) {
+                    return new PlainText(result.getMsg());
                 }
 
                 // 写入数据库

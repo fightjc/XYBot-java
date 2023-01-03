@@ -7,6 +7,7 @@ import net.mamoe.mirai.message.data.At;
 import net.mamoe.mirai.message.data.Message;
 import net.mamoe.mirai.message.data.MessageChain;
 import org.fightjc.xybot.command.GroupCommand;
+import org.fightjc.xybot.enums.ResultCode;
 import org.fightjc.xybot.model.dto.ResultOutput;
 
 import java.util.ArrayList;
@@ -15,9 +16,9 @@ public abstract class BaseGroupCommand implements GroupCommand {
 
     @Override
     public Message execute(Member sender, ArrayList<String> args, MessageChain messageChain, Group subject) throws Exception {
-        ResultOutput result = checkRole(sender, subject);
-        if (!result.getSuccess()) {
-            return new At(sender.getId()).plus(result.getInfo());
+        ResultOutput<String> result = checkRole(sender, subject);
+        if (ResultCode.SUCCESS.getCode() != result.getCode()) {
+            return new At(sender.getId()).plus(result.getMsg());
         }
         return executeHandle(sender, args, messageChain, subject);
     }

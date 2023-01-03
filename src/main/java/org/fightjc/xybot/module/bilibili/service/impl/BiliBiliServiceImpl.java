@@ -6,6 +6,7 @@ import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.message.data.PlainText;
 import net.mamoe.mirai.utils.ExternalResource;
 import org.fightjc.xybot.bot.XYBot;
+import org.fightjc.xybot.enums.ResultCode;
 import org.fightjc.xybot.module.bilibili.dao.BiliBiliDao;
 import org.fightjc.xybot.module.bilibili.pojo.*;
 import org.fightjc.xybot.model.dto.HttpClientResult;
@@ -139,13 +140,13 @@ public class BiliBiliServiceImpl implements BiliBiliService {
                             .append(")\n粉丝：").append(fans)
                             .append("\n个性签名：").append(usign);
                 }
-                return new ResultOutput<>(true, "查询成功", builder.toString());
+                return new ResultOutput<>(ResultCode.SUCCESS, "查询成功", builder.toString());
             } else {
-                return new ResultOutput<>(false, content.getString("message"));
+                return new ResultOutput<>(ResultCode.FAILED, content.getString("message"));
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResultOutput<>(false, "请求网络失败");
+            return new ResultOutput<>(ResultCode.FAILED, "请求网络失败");
         }
     }
 
@@ -173,13 +174,13 @@ public class BiliBiliServiceImpl implements BiliBiliService {
                 String sign = data.getString("sign");
                 String face = data.getString("face");
                 UserInfoDto dto = new UserInfoDto(mid, name, sex, face, sign);
-                return new ResultOutput<>(true, "查询成功", dto);
+                return new ResultOutput<>(ResultCode.SUCCESS, "查询成功", dto);
             } else {
-                return new ResultOutput<>(false, content.getString("message"));
+                return new ResultOutput<>(ResultCode.FAILED, content.getString("message"));
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResultOutput<>(false, "请求网络失败");
+            return new ResultOutput<>(ResultCode.FAILED, "请求网络失败");
         }
     }
 
@@ -285,13 +286,13 @@ public class BiliBiliServiceImpl implements BiliBiliService {
                 // 记录最新动态
                 updateDynamicOffset(mid, latestDynamicId);
 
-                return new ResultOutput<>(true, "获取动态成功", dynamicDtoList);
+                return new ResultOutput<>(ResultCode.SUCCESS, "获取动态成功", dynamicDtoList);
             } else {
-                return new ResultOutput<>(false, content.getString("message"));
+                return new ResultOutput<>(ResultCode.FAILED, content.getString("message"));
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResultOutput<>(false, "请求网络失败");
+            return new ResultOutput<>(ResultCode.FAILED, "请求网络失败");
         }
     }
 
@@ -314,7 +315,7 @@ public class BiliBiliServiceImpl implements BiliBiliService {
                 continue;
             }
             ResultOutput<List<DynamicDto>> latest = getLatestDynamic(dynamic.getMid(), ""/*dynamic.getOffset()*/);
-            if (latest.getSuccess()) {
+            if (ResultCode.SUCCESS.getCode() == latest.getCode()) {
                 latestDynamics.put(dynamic.getMid(), latest.getObject());
             }
         }

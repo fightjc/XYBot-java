@@ -24,7 +24,7 @@ public class JwtProvider {
     @Value("${security.jwt.secretKey}")
     private String secretKey;
 
-    private Duration expiration = Duration.ofDays(1);
+    private final Duration expiration = Duration.ofDays(1);
 
     public String createToken(String username) {
         Claims claims = Jwts.claims().setSubject(username);

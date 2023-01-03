@@ -10,6 +10,7 @@ import net.mamoe.mirai.utils.ExternalResource;
 import org.fightjc.xybot.annotate.CommandAnnotate;
 import org.fightjc.xybot.annotate.SwitchAnnotate;
 import org.fightjc.xybot.command.impl.group.MemberGroupCommand;
+import org.fightjc.xybot.enums.ResultCode;
 import org.fightjc.xybot.model.Command;
 import org.fightjc.xybot.model.dto.ResultOutput;
 import org.fightjc.xybot.module.bilibili.pojo.DynamicBean;
@@ -62,17 +63,17 @@ public class BiliBiliCommand extends MemberGroupCommand {
             case "查询":
                 String keyword = args.get(1);
                 ResultOutput<String> searchUserResult = biliBiliService.searchUser(keyword);
-                if (searchUserResult.getSuccess()) {
+                if (ResultCode.SUCCESS.getCode() == searchUserResult.getCode()) {
                     String info = "为您查询到下面结果：\n" + searchUserResult.getObject();
                     return at.plus(new PlainText(info));
                 } else {
-                    return at.plus(new PlainText(searchUserResult.getInfo()));
+                    return at.plus(new PlainText(searchUserResult.getMsg()));
                 }
             case "up":
                 String upMid = args.get(1);
 
                 ResultOutput<UserInfoDto> getUpInfoResult = biliBiliService.getUpInfo(upMid);
-                if (getUpInfoResult.getSuccess()) {
+                if (ResultCode.SUCCESS.getCode() == getUpInfoResult.getCode()) {
                     UserInfoDto userInfoDto = getUpInfoResult.getObject();
                     String info = userInfoDto.getName() + " (" + userInfoDto.getMid() + ")\n" +
                             "性别：" + userInfoDto.getSex() + "\n" +
@@ -82,7 +83,7 @@ public class BiliBiliCommand extends MemberGroupCommand {
                     ExternalResource image = ImageUtil.bufferedImage2ExternalResource(faceImage);
                     return at.plus(subject.uploadImage(image)).plus(new PlainText(info));
                 } else {
-                    return at.plus(new PlainText(getUpInfoResult.getInfo()));
+                    return at.plus(new PlainText(getUpInfoResult.getMsg()));
                 }
             case "订阅":
             case "退订":
@@ -97,7 +98,7 @@ public class BiliBiliCommand extends MemberGroupCommand {
 
                 // 检查mid是否存在
                 ResultOutput<UserInfoDto> resultOutput = biliBiliService.getUpInfo(mid);
-                if (!resultOutput.getSuccess()) {
+                if (ResultCode.SUCCESS.getCode() != resultOutput.getCode()) {
                     return at.plus(new PlainText("找不到要操作的对象，请再次检查mid"));
                 }
                 UserInfoDto userInfoDto = resultOutput.getObject();

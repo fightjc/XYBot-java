@@ -10,6 +10,7 @@ import net.mamoe.mirai.utils.ExternalResource;
 import org.fightjc.xybot.annotate.CommandAnnotate;
 import org.fightjc.xybot.annotate.SwitchAnnotate;
 import org.fightjc.xybot.command.impl.group.MemberGroupCommand;
+import org.fightjc.xybot.enums.ResultCode;
 import org.fightjc.xybot.model.Command;
 import org.fightjc.xybot.model.dto.ResultOutput;
 import org.fightjc.xybot.module.genshin.pojo.GroupCalendarBean;
@@ -67,16 +68,16 @@ public class GenshinCalendarCommand extends MemberGroupCommand {
         }
 
         ResultOutput<BufferedImage> result = genshinService.getCalendar();
-        if (result.getSuccess()) {
+        if (ResultCode.SUCCESS.getCode() == result.getCode()) {
             BufferedImage image = result.getObject();
             if (image == null) {
-                return at.plus(new PlainText(result.getInfo()));
+                return at.plus(new PlainText(result.getMsg()));
             } else {
                 ExternalResource resource = ImageUtil.bufferedImage2ExternalResource(image);
                 return at.plus(subject.uploadImage(resource));
             }
         } else {
-            return at.plus(new PlainText(result.getInfo()));
+            return at.plus(new PlainText(result.getMsg()));
         }
     }
 }

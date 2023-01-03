@@ -2,6 +2,7 @@ package org.fightjc.xybot.util;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import org.fightjc.xybot.enums.ResultCode;
 import org.fightjc.xybot.model.Gacha;
 import org.fightjc.xybot.model.dto.ResultOutput;
 
@@ -66,10 +67,10 @@ public class BotGacha {
      * @param id
      * @return
      */
-    public ResultOutput getGacha(Long id) {
+    public ResultOutput<String> getGacha(Long id) {
         // 当天一个id只能做一次抽签
         if (checkHasGacha(id)) {
-            return new ResultOutput(false, "你今天已经抽过签了，欢迎明天再来~");
+            return new ResultOutput<>(ResultCode.FAILED, "你今天已经抽过签了，欢迎明天再来~");
         }
         gachaRecord.add(id);
 
@@ -84,7 +85,7 @@ public class BotGacha {
             }
             sum += weight;
         }
-        return new ResultOutput(true, "你抽到了 " + result.getTitle() + "\n" + result.getContent());
+        return new ResultOutput<>(ResultCode.SUCCESS, "你抽到了 " + result.getTitle() + "\n" + result.getContent());
     }
 
     /**
