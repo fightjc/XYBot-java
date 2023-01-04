@@ -315,8 +315,8 @@ public class BiliBiliServiceImpl implements BiliBiliService {
                 continue;
             }
             ResultOutput<List<DynamicDto>> latest = getLatestDynamic(dynamic.getMid(), ""/*dynamic.getOffset()*/);
-            if (ResultCode.SUCCESS.getCode() == latest.getCode()) {
-                latestDynamics.put(dynamic.getMid(), latest.getObject());
+            if (ResultCode.SUCCESS.getCode() == latest.getStatus()) {
+                latestDynamics.put(dynamic.getMid(), latest.getData());
             }
         }
 

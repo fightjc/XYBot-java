@@ -5,7 +5,7 @@ import lombok.Getter;
 @Getter
 public enum ResultCode {
 
-    SUCCESS(0000, "success"),
+    SUCCESS(1000, "success"),
 
     UNAUTHORIZED(1001, "unauthorized"),
 

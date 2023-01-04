@@ -91,7 +91,7 @@ public class CommandEvents extends SimpleListenerHost {
             if (groupCommand != null) {
                 SwitchAnnotate annotate = groupCommand.getClass().getAnnotation(SwitchAnnotate.class);
                 // 如果是动态组件指令则查询是否有开启该指令
-                if (annotate != null && !BotSwitch.getInstance().getGroupSwitchStatus(event.getSubject().getId(), annotate.name()).getObject()) {
+                if (annotate != null && !BotSwitch.getInstance().getGroupSwitchStatus(event.getSubject().getId(), annotate.name()).getData()) {
                     return ListeningStatus.LISTENING;
                 }
                 // 执行指令
@@ -124,7 +124,7 @@ public class CommandEvents extends SimpleListenerHost {
             if (friendCommand != null) {
                 SwitchAnnotate annotate = friendCommand.getClass().getAnnotation(SwitchAnnotate.class);
                 // 如果是动态组件指令则查询是否有开启该指令
-                if (annotate != null && !BotSwitch.getInstance().getGroupSwitchStatus(event.getSubject().getId(), annotate.name()).getObject()) {
+                if (annotate != null && !BotSwitch.getInstance().getGroupSwitchStatus(event.getSubject().getId(), annotate.name()).getData()) {
                     return ListeningStatus.LISTENING;
                 }
                 // 执行指令

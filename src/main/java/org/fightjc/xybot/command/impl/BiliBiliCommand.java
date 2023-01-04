@@ -63,8 +63,8 @@ public class BiliBiliCommand extends MemberGroupCommand {
             case "查询":
                 String keyword = args.get(1);
                 ResultOutput<String> searchUserResult = biliBiliService.searchUser(keyword);
-                if (ResultCode.SUCCESS.getCode() == searchUserResult.getCode()) {
-                    String info = "为您查询到下面结果：\n" + searchUserResult.getObject();
+                if (ResultCode.SUCCESS.getCode() == searchUserResult.getStatus()) {
+                    String info = "为您查询到下面结果：\n" + searchUserResult.getData();
                     return at.plus(new PlainText(info));
                 } else {
                     return at.plus(new PlainText(searchUserResult.getMsg()));
@@ -73,8 +73,8 @@ public class BiliBiliCommand extends MemberGroupCommand {
                 String upMid = args.get(1);
 
                 ResultOutput<UserInfoDto> getUpInfoResult = biliBiliService.getUpInfo(upMid);
-                if (ResultCode.SUCCESS.getCode() == getUpInfoResult.getCode()) {
-                    UserInfoDto userInfoDto = getUpInfoResult.getObject();
+                if (ResultCode.SUCCESS.getCode() == getUpInfoResult.getStatus()) {
+                    UserInfoDto userInfoDto = getUpInfoResult.getData();
                     String info = userInfoDto.getName() + " (" + userInfoDto.getMid() + ")\n" +
                             "性别：" + userInfoDto.getSex() + "\n" +
                             "个性签名：" + userInfoDto.getSign() + "\n\n" +
@@ -98,10 +98,10 @@ public class BiliBiliCommand extends MemberGroupCommand {
 
                 // 检查mid是否存在
                 ResultOutput<UserInfoDto> resultOutput = biliBiliService.getUpInfo(mid);
-                if (ResultCode.SUCCESS.getCode() != resultOutput.getCode()) {
+                if (ResultCode.SUCCESS.getCode() != resultOutput.getStatus()) {
                     return at.plus(new PlainText("找不到要操作的对象，请再次检查mid"));
                 }
-                UserInfoDto userInfoDto = resultOutput.getObject();
+                UserInfoDto userInfoDto = resultOutput.getData();
 
                 // 检查是否已订阅
                 SubscribeBean subscribeBean = biliBiliService.getGroupSubscribe(groupId, mid);

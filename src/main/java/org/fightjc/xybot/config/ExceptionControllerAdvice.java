@@ -16,9 +16,10 @@ public class ExceptionControllerAdvice {
 
     @ExceptionHandler(ApiException.class)
     public ResultOutput<String> handleApiException(ApiException e) {
-        return new ResultOutput<>(ResultCode.FAILED, e.getMessage());
+        return new ResultOutput<>(e.getResultCode(), e.getMessage());
     }
 
+    @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResultOutput<String> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         ObjectError objectError = e.getBindingResult().getAllErrors().get(0);
         return new ResultOutput<>(ResultCode.VALIDATE_FAILED, objectError.getDefaultMessage());

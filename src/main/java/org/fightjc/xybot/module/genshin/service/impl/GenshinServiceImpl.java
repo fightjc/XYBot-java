@@ -129,13 +129,13 @@ public class GenshinServiceImpl implements GenshinService {
     public ResultOutput<String> updateDailyMaterial() {
         // 获取每日材料整合数据结果
         ResultOutput<List<MaterialResultDto>> materialResult = getMaterialResult();
-        if (ResultCode.SUCCESS.getCode() != materialResult.getCode()) {
+        if (ResultCode.SUCCESS.getCode() != materialResult.getStatus()) {
             return new ResultOutput<>(ResultCode.FAILED, materialResult.getMsg());
         }
 
         // 更新每日素材图片
-        ResultOutput<String> drawResult = GenshinMaterialDrawHelper.drawDailyMaterial(materialResult.getObject());
-        if (ResultCode.SUCCESS.getCode() != drawResult.getCode()) {
+        ResultOutput<String> drawResult = GenshinMaterialDrawHelper.drawDailyMaterial(materialResult.getData());
+        if (ResultCode.SUCCESS.getCode() != drawResult.getStatus()) {
             return drawResult;
         }
 
@@ -383,8 +383,8 @@ public class GenshinServiceImpl implements GenshinService {
      */
     public ResultOutput<BufferedImage> getCalendar() {
         ResultOutput<List<AnnounceBean>> result = getGenshinAnnouncement();
-        if (ResultCode.SUCCESS.getCode() == result.getCode()) {
-            List<AnnounceBean> announceList = result.getObject();
+        if (ResultCode.SUCCESS.getCode() == result.getStatus()) {
+            List<AnnounceBean> announceList = result.getData();
             BufferedImage bi = GenshinAnnounceDrawHelper.drawAnnounce(announceList);
             return new ResultOutput<>(ResultCode.SUCCESS, "", bi);
         }
@@ -396,8 +396,8 @@ public class GenshinServiceImpl implements GenshinService {
      */
     public void postGroupGenshinCalendar() {
         ResultOutput<BufferedImage> result = getCalendar();
-        if (ResultCode.SUCCESS.getCode() == result.getCode()) {
-            BufferedImage image = result.getObject();
+        if (ResultCode.SUCCESS.getCode() == result.getStatus()) {
+            BufferedImage image = result.getData();
             if (image != null) {
                 try {
                     ExternalResource resource = ImageUtil.bufferedImage2ExternalResource(image);

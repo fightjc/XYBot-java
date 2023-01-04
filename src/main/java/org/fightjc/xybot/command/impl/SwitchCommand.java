@@ -53,7 +53,7 @@ public class SwitchCommand extends AdminGroupCommand {
 
                 // 检测功能是否存在
                 ResultOutput<Boolean> result = BotSwitch.getInstance().getSwitchDefaultValue(componentName);
-                if (ResultCode.SUCCESS.getCode() != result.getCode()) {
+                if (ResultCode.SUCCESS.getCode() != result.getStatus()) {
                     return new PlainText(result.getMsg());
                 }
 

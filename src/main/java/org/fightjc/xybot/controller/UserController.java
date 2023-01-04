@@ -1,6 +1,8 @@
 package org.fightjc.xybot.controller;
 
-import org.fightjc.xybot.model.dto.LoginInput;
+import org.fightjc.xybot.exception.ApiException;
+import org.fightjc.xybot.model.dto.user.LoginInput;
+import org.fightjc.xybot.model.dto.user.LoginOutput;
 import org.fightjc.xybot.model.entity.User;
 import org.fightjc.xybot.security.JwtProvider;
 import org.fightjc.xybot.service.UserService;
@@ -28,21 +30,17 @@ public class UserController {
 
     @PostMapping("/login")
     @ResponseBody
-    public String login(@Valid @RequestBody LoginInput input) {
+    public LoginOutput login(@Valid @RequestBody LoginInput input) {
         try {
             User user = userService.login(input.getUsername(), input.getPassword());
             if (user != null) {
                 String token = jwtProvider.createToken(user.getUsername());
-                return "{ " +
-                        "'username': '" + input.getUsername() + "'" +
-                        "'token': '" + token + "'" +
-                        " }";
+                return new LoginOutput(input.getUsername(), token);
             } else {
-                return "login fail";
+                throw new ApiException("login fail");
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            return e.getMessage();
+            throw new ApiException(e.getMessage());
         }
     }
 
@@ -53,8 +51,7 @@ public class UserController {
             userService.createUser(user);
             return "create user " + input.getUsername() + " success!";
         } catch (Exception e) {
-            e.printStackTrace();
-            return e.getMessage();
+            throw new ApiException(e.getMessage());
         }
     }
 }

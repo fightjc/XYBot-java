@@ -68,8 +68,8 @@ public class GenshinCalendarCommand extends MemberGroupCommand {
         }
 
         ResultOutput<BufferedImage> result = genshinService.getCalendar();
-        if (ResultCode.SUCCESS.getCode() == result.getCode()) {
-            BufferedImage image = result.getObject();
+        if (ResultCode.SUCCESS.getCode() == result.getStatus()) {
+            BufferedImage image = result.getData();
             if (image == null) {
                 return at.plus(new PlainText(result.getMsg()));
             } else {

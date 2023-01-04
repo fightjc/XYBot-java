@@ -15,7 +15,7 @@ public abstract class BaseFriendCommand implements FriendCommand {
     @Override
     public Message execute(Friend sender, ArrayList<String> args, MessageChain messageChain, Friend subject) throws Exception {
         ResultOutput<String> result = checkRole(sender, subject);
-        if (ResultCode.SUCCESS.getCode() != result.getCode()) {
+        if (ResultCode.SUCCESS.getCode() != result.getStatus()) {
             return new PlainText(result.getMsg());
         }
         return executeHandle(sender, args, messageChain, subject);

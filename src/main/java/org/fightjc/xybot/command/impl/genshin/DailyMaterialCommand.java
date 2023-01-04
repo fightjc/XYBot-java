@@ -79,10 +79,10 @@ public class DailyMaterialCommand extends MemberGroupCommand {
             }
         }
 
-        if (ResultCode.SUCCESS.getCode() != result.getCode()) {
+        if (ResultCode.SUCCESS.getCode() != result.getStatus()) {
             return at.plus(new PlainText(result.getMsg()));
         } else {
-            BufferedImage image = result.getObject();
+            BufferedImage image = result.getData();
             if (image == null) {
                 return at.plus(new PlainText(result.getMsg()));
             } else {

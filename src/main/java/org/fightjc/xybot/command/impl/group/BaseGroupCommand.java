@@ -17,7 +17,7 @@ public abstract class BaseGroupCommand implements GroupCommand {
     @Override
     public Message execute(Member sender, ArrayList<String> args, MessageChain messageChain, Group subject) throws Exception {
         ResultOutput<String> result = checkRole(sender, subject);
-        if (ResultCode.SUCCESS.getCode() != result.getCode()) {
+        if (ResultCode.SUCCESS.getCode() != result.getStatus()) {
             return new At(sender.getId()).plus(result.getMsg());
         }
         return executeHandle(sender, args, messageChain, subject);

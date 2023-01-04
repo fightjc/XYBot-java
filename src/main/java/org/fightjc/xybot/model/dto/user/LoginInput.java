@@ -1,4 +1,4 @@
-package org.fightjc.xybot.model.dto;
+package org.fightjc.xybot.model.dto.user;
 
 import lombok.Data;
 
@@ -12,7 +12,7 @@ public class LoginInput {
     @Size(min = 1, max = 100)
     private String username;
 
-    @NotNull
+    @NotNull(message = "密码不能为空")
     @Size(min = 1, max = 100)
     private String password;
 }
