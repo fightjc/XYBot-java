@@ -62,11 +62,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public UserDto userLogin(String username, String password) {
         User exitedUser = userRepository.findByUsername(username);
         if (exitedUser == null) {
-            throw new ApiException("user or password error"); // do not expose detail
+            return null;
         }
         boolean result = passwordEncoder.matches(password, exitedUser.getPassword());
         if (!result) {
-            throw new ApiException("user or password error"); // do not expose detail
+            return null;
         }
         return modelMapper.map(exitedUser, UserDto.class);
     }

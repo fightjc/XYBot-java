@@ -45,7 +45,7 @@ public class UserController {
             Role role = userService.getRoleByUsername(username);
             return new LoginOutput(username, role.getName(), token);
         } else {
-            throw new ApiException("login fail");
+            return null;
         }
     }
 
