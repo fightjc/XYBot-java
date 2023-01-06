@@ -154,14 +154,43 @@ public class DBMigrationConfig {
                         "Id INTEGER PRIMARY KEY autoincrement," +
                         "Username varchar(100)," +
                         "Password varchar(100)," +
-                        "IsDelete varchar(1));";
+                        "Name varchar(100)," +
+                        "Email varchar(100)," +
+                        "CreationTime varchar(20)," +
+                        "IsDelete varchar(1)," +
+                        "DeletionTime varchar(20))";
         sqlList.add(create_User);
 
-//        String create_Role = "";
-//        sqlList.add(create_Role);
+        String insert_User =
+                "insert into User(Id, Username, Password, Name, IsDelete)" +
+                        "values(1, \"xybot\", \"$2a$12$iNyi7G570wZ6bfXIiIuDp.uxmWRrXJ5tw839jEZ77T884EbYdIyRy\", \"xybot\", 0)";
+        sqlList.add(insert_User);
 
-//        String create_UserRole = "";
-//        sqlList.add(create_UserRole);
+        String create_Role =
+                "create table Role(" +
+                        "Id INTEGER PRIMARY KEY autoincrement," +
+                        "Name varchar(100)," +
+                        "IsDefault varchar(1))";
+        sqlList.add(create_Role);
+
+        String insert_Role =
+                "insert into Role(Id, Name, IsDefault)" +
+                        "values(1, \"admin\", 0)";
+        sqlList.add(insert_Role);
+
+        String create_UserRole =
+                "create table UserRole(" +
+                        "UserId INTEGER PRIMARY KEY," +
+                        "RoleId INTEGER)";
+        sqlList.add(create_UserRole);
+
+        String insert_UserRole =
+                "insert into UserRole(UserId, RoleId)" +
+                        "values(1, 1)";
+        sqlList.add(insert_UserRole);
+
+//        String create_RolePermission = "";
+//        sqlList.add(create_RolePermission);
 
         return new DBMigrationTable(4, remark, sqlList);
     }

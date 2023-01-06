@@ -1,14 +1,11 @@
-package org.fightjc.xybot.model.entity;
+package org.fightjc.xybot.model.dto.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-/**
- * 映射表 User
- */
 @Data
 @AllArgsConstructor
-public class User {
+public class UserDto {
 
     private Integer id;
 

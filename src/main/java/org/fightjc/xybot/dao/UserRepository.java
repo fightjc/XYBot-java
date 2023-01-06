@@ -1,5 +1,6 @@
 package org.fightjc.xybot.dao;
 
+import org.fightjc.xybot.model.entity.Role;
 import org.fightjc.xybot.model.entity.User;
 import org.springframework.stereotype.Repository;
 
@@ -18,4 +19,11 @@ public interface UserRepository {
      * @param user
      */
     void createUser(User user);
+
+    /**
+     * 获取用户角色
+     * @param username
+     * @return
+     */
+    Role getRoleByUser(String username);
 }

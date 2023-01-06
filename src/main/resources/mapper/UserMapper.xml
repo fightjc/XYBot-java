@@ -3,8 +3,7 @@
 <mapper namespace="org.fightjc.xybot.dao.UserRepository">
 
     <select id="findByUsername" parameterType="String" resultType="org.fightjc.xybot.model.entity.User">
-        select
-            *
+        select *
         from User
         where
             Username = #{_parameter} and IsDelete = 0
@@ -12,8 +11,17 @@
 
     <insert id="createUser" parameterType="org.fightjc.xybot.model.entity.User">
         insert into User
-            (Username, Password, IsDelete)
+            (Username, Password, Name, Email, CreationTime, IsDelete, DeletionTime)
         values
-            (#{username}, #{password}, #{isDelete})
+            (#{username}, #{password}, #{name}, #{email}, #{creationTime}, #{isDelete}, #{deletionTime})
     </insert>
+
+    <select id="getRoleByUser" parameterType="String" resultType="org.fightjc.xybot.model.entity.Role">
+        select *
+        from Role r
+        left join UserRole ur
+        left join User u
+        where
+            r.Id = ur.RoleId and u.Id = ur.UserId and u.username = #{_parameter}
+    </select>
 </mapper>

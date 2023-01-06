@@ -9,5 +9,7 @@ public class LoginOutput {
 
     private String username;
 
+    private String role;
+
     private String token;
 }

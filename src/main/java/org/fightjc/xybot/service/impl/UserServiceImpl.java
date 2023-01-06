@@ -2,8 +2,12 @@ package org.fightjc.xybot.service.impl;
 
 import org.fightjc.xybot.dao.UserRepository;
 import org.fightjc.xybot.exception.ApiException;
+import org.fightjc.xybot.model.dto.user.UserDto;
+import org.fightjc.xybot.model.entity.Role;
 import org.fightjc.xybot.model.entity.User;
 import org.fightjc.xybot.service.UserService;
+import org.fightjc.xybot.util.MessageUtil;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,6 +19,8 @@ import java.util.Collections;
 
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
+
+    private final static ModelMapper modelMapper = new ModelMapper();
 
     @Autowired
     private UserRepository userRepository;
@@ -41,18 +47,19 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public void createUser(User user) {
-        User exitedUser = userRepository.findByUsername(user.getUsername());
+    public void createUser(UserDto newUser) {
+        User exitedUser = userRepository.findByUsername(newUser.getUsername());
         if (exitedUser != null) {
             throw new ApiException("user " + exitedUser.getUsername() + " has been created");
         }
-        // 加密密码
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        User user = modelMapper.map(newUser, User.class);
+        user.setPassword(passwordEncoder.encode(user.getPassword())); // 加密密码
+        user.setCreationTime(MessageUtil.getCurrentDateTime()); // 创建时间为当前
         userRepository.createUser(user);
     }
 
     @Override
-    public User login(String username, String password) {
+    public UserDto userLogin(String username, String password) {
         User exitedUser = userRepository.findByUsername(username);
         if (exitedUser == null) {
             throw new ApiException("user or password error"); // do not expose detail
@@ -61,6 +68,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         if (!result) {
             throw new ApiException("user or password error"); // do not expose detail
         }
-        return exitedUser;
+        return modelMapper.map(exitedUser, UserDto.class);
+    }
+
+    @Override
+    public Role getRoleByUsername(String username) {
+        return userRepository.getRoleByUser(username);
     }
 }
