@@ -1,32 +1,31 @@
 package org.fightjc.xybot.security;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Locale;
 
 @Component
-public class CrossOriginFilter implements Filter {
+public class CrossOriginFilter extends OncePerRequestFilter {
 
     @Override
-    public void init(FilterConfig filterConfig) throws ServletException { }
+    public void doFilterInternal(HttpServletRequest servletRequest,
+                                 HttpServletResponse servletResponse,
+                                 FilterChain filterChain) throws ServletException, IOException {
+        servletResponse.setHeader("Access-control-Allow-Origin", servletRequest.getHeader("Origin"));
+        servletResponse.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS,PUT,DELETE");
+        servletResponse.setHeader("Access-Control-Max-Age", "3600");
+        servletResponse.setHeader("Access-Control-Allow-Headers", servletRequest.getHeader("Access-Control-Request-Headers"));
 
-    @Override
-    public void doFilter(ServletRequest servletRequest,
-                         ServletResponse servletResponse,
-                         FilterChain filterChain) throws IOException, ServletException {
-        HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
-        HttpServletResponse httpServletResponse = (HttpServletResponse) servletResponse;
-
-        httpServletResponse.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS,PUT,DELETE");
-        httpServletResponse.setHeader("Access-Control-Max-Age", "3600");
-        httpServletResponse.setHeader("Access-control-Allow-Origin", httpServletRequest.getHeader("Origin"));
-        httpServletResponse.setHeader("Access-Control-Allow-Headers", httpServletRequest.getHeader("Access-Control-Request-Headers"));
-        filterChain.doFilter(servletRequest, servletResponse);
+        if (StringUtils.equals("OPTIONS", servletRequest.getMethod().toUpperCase(Locale.ROOT))) {
+            servletResponse.setStatus(HttpServletResponse.SC_OK);
+        } else {
+            filterChain.doFilter(servletRequest, servletResponse);
+        }
     }
-
-    @Override
-    public void destroy() { }
 }

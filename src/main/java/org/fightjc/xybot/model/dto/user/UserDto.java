@@ -1,10 +1,8 @@
 package org.fightjc.xybot.model.dto.user;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-@AllArgsConstructor
 public class UserDto {
 
     private Integer id;

@@ -28,6 +28,5 @@ public class ResultOutput<T> {
         this.status = status;
         this.msg = msg;
         this.data = data;
-
     }
 }

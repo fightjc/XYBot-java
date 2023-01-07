@@ -1,6 +1,5 @@
 package org.fightjc.xybot.controller.api;
 
-import org.fightjc.xybot.exception.ApiException;
 import org.fightjc.xybot.model.dto.user.LoginInput;
 import org.fightjc.xybot.model.dto.user.LoginOutput;
 import org.fightjc.xybot.model.dto.user.RegisterInput;
@@ -15,6 +14,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Arrays;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/user")
@@ -36,7 +37,7 @@ public class UserController {
     @PostMapping("/login")
     @ResponseBody
     public LoginOutput login(@Valid @RequestBody LoginInput input) {
-        //TODO: 登陆重复判断
+        //TODO: 登录重复判断
         String username = input.getUsername();
         String password = input.getPassword();
         UserDto user = userService.userLogin(username, password);
@@ -49,10 +50,17 @@ public class UserController {
         }
     }
 
-    @GetMapping("/logout")
-    public String logout() {
-        //TODO:
-        return "logout success";
+    @GetMapping("/permissions")
+    // 返回类型必须定义为 List<Object>，否则 org.fightjc.xybot.config.ResponseControllerAdvice 中返回
+    // body 转化 json 失败报 HttpMessageNotWritableException
+    public List<Object> permissions() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        //TODO: get permissions by role name from database
+        String[] list = { "test" };
+
+        return Arrays.asList(list);
     }
 
     @PostMapping("/register")

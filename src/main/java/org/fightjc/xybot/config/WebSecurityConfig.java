@@ -1,5 +1,6 @@
 package org.fightjc.xybot.config;
 
+import org.fightjc.xybot.security.CrossOriginFilter;
 import org.fightjc.xybot.security.JwtAccessDeniedHandler;
 import org.fightjc.xybot.security.JwtAuthenticationEntryPoint;
 import org.fightjc.xybot.security.JwtFilter;
@@ -28,6 +29,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private JwtAccessDeniedHandler accessDeniedHandler;
     @Autowired
+    private CrossOriginFilter crossOriginFilter;
+    @Autowired
     private JwtFilter jwtFilter;
 
     @Override
@@ -53,6 +56,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticationEntryPoint(authenticationEntryPoint)
                 .accessDeniedHandler(accessDeniedHandler);
 
+        http.addFilterBefore(crossOriginFilter, UsernamePasswordAuthenticationFilter.class);
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
