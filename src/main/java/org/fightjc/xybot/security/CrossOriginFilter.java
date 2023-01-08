@@ -22,7 +22,7 @@ public class CrossOriginFilter extends OncePerRequestFilter {
         servletResponse.setHeader("Access-Control-Max-Age", "3600");
         servletResponse.setHeader("Access-Control-Allow-Headers", servletRequest.getHeader("Access-Control-Request-Headers"));
 
-        if (StringUtils.equals("OPTIONS", servletRequest.getMethod().toUpperCase(Locale.ROOT))) {
+        if (StringUtils.equalsIgnoreCase("OPTIONS", servletRequest.getMethod())) {
             servletResponse.setStatus(HttpServletResponse.SC_OK);
         } else {
             filterChain.doFilter(servletRequest, servletResponse);

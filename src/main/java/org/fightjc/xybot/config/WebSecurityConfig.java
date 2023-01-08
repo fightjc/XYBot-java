@@ -1,6 +1,5 @@
 package org.fightjc.xybot.config;
 
-import org.fightjc.xybot.security.CrossOriginFilter;
 import org.fightjc.xybot.security.JwtAccessDeniedHandler;
 import org.fightjc.xybot.security.JwtAuthenticationEntryPoint;
 import org.fightjc.xybot.security.JwtFilter;
@@ -18,6 +17,12 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.CorsUtils;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -29,12 +34,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private JwtAccessDeniedHandler accessDeniedHandler;
     @Autowired
-    private CrossOriginFilter crossOriginFilter;
-    @Autowired
     private JwtFilter jwtFilter;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        // cors
+        http.cors().configurationSource(corsConfigurationSource());
+
         // Disable CSRF (cross site request forgery)
         http.csrf().disable();
         http.headers().frameOptions().disable();
@@ -45,6 +51,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         // Entry points
         http.authorizeRequests()
+                .requestMatchers(CorsUtils::isPreFlightRequest).permitAll() // OPTIONS methods
                 .antMatchers("/test").permitAll()
                 .antMatchers("/api/user/login").permitAll()
                 .antMatchers("/api/user/register").permitAll()
@@ -56,13 +63,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticationEntryPoint(authenticationEntryPoint)
                 .accessDeniedHandler(accessDeniedHandler);
 
-        http.addFilterBefore(crossOriginFilter, UsernamePasswordAuthenticationFilter.class);
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        // Allow swagger to be accessed without authentication
+        // Allow resources to be accessed without authentication
 //        web.ignoring()
 //                .antMatchers("/v2/api-docs")
 //                .antMatchers("/swagger-resources/**")
@@ -77,6 +83,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         super.configure(auth);
 //        auth.userDetailsService().passwordEncoder(passwordEncoder());
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration corsConfiguration = new CorsConfiguration();
+        corsConfiguration.setAllowCredentials(false);
+        corsConfiguration.setAllowedOrigins(Arrays.asList("*"));
+        corsConfiguration.setAllowedHeaders(Arrays.asList("Content-Type", "Access-Control-Allow-Headers", "Authorization", "X-Requested-With"));
+        corsConfiguration.setAllowedMethods(Arrays.asList("GET", "POST", "OPTION", "PUT", "DELETE"));
+        corsConfiguration.setMaxAge(3600L);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/api/**", corsConfiguration);
+        return source;
     }
 
     @Bean
