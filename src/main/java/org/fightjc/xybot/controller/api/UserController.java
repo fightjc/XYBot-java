@@ -1,5 +1,7 @@
 package org.fightjc.xybot.controller.api;
 
+import org.fightjc.xybot.enums.ResultCode;
+import org.fightjc.xybot.model.dto.ResultOutput;
 import org.fightjc.xybot.model.dto.user.LoginInput;
 import org.fightjc.xybot.model.dto.user.LoginOutput;
 import org.fightjc.xybot.model.dto.user.RegisterInput;
@@ -10,6 +12,7 @@ import org.fightjc.xybot.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,12 +30,6 @@ public class UserController {
     private JwtProvider jwtProvider;
     @Autowired
     private UserService userService;
-
-    @GetMapping("/test")
-    public String test() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return authentication.getName();
-    }
 
     @PostMapping("/login")
     @ResponseBody
@@ -58,16 +55,27 @@ public class UserController {
         String username = authentication.getName();
 
         //TODO: get permissions by role name from database
-        String[] list = { "test" };
+        String[] list = { "system.user", "system.role" };
 
         return Arrays.asList(list);
     }
 
     @PostMapping("/register")
     @ResponseBody
-    public String register(@Valid @RequestBody RegisterInput input) {
+    public ResultOutput<String> register(@Valid @RequestBody RegisterInput input) {
         UserDto newUser = modelMapper.map(input, UserDto.class);
-        userService.createUser(newUser);
-        return "create user " + input.getUsername() + " success!";
+        return userService.createUser(newUser);
     }
+
+    @PostMapping("/delete")
+    public ResultOutput<String> delete(String username) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        for (GrantedAuthority grantedAuthority : authentication.getAuthorities()){
+            if ("admin".equals(grantedAuthority.getAuthority())) {
+                return userService.deleteUser(username);
+            }
+        }
+        return new ResultOutput<>(ResultCode.UNAUTHORIZED, "该用户没有权限删除");
+    }
+
 }

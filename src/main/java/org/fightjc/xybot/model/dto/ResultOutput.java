@@ -12,6 +12,10 @@ public class ResultOutput<T> {
 
     private T data;
 
+    public ResultOutput(ResultCode resultCode) {
+        this(resultCode, resultCode.getMsg());
+    }
+
     public ResultOutput(ResultCode resultCode, String msg) {
         this(resultCode, msg, null);
     }
