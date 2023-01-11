@@ -386,7 +386,7 @@ public class GenshinServiceImpl implements GenshinService {
         if (ResultCode.SUCCESS.getCode() == result.getStatus()) {
             List<AnnounceBean> announceList = result.getData();
             BufferedImage bi = GenshinAnnounceDrawHelper.drawAnnounce(announceList);
-            return new ResultOutput<>(ResultCode.SUCCESS, "", bi);
+            return new ResultOutput<>(ResultCode.SUCCESS, bi);
         }
         return new ResultOutput<>(ResultCode.FAILED, result.getMsg());
     }
@@ -923,7 +923,7 @@ public class GenshinServiceImpl implements GenshinService {
 
         BufferedImage target = GenshinSearchDrawHelper.drawCharacterInfo(new CharacterDrawDto(image, characterBean,
                 mora, avatarList, exchangeList, talent_mora, talent_avatarList, talentList));
-        return new ResultOutput<>(ResultCode.SUCCESS, "", target);
+        return new ResultOutput<>(ResultCode.SUCCESS, target);
     }
 
     /**
@@ -1028,7 +1028,7 @@ public class GenshinServiceImpl implements GenshinService {
 
         BufferedImage target = GenshinSearchDrawHelper.drawWeaponInfo(new WeaponDrawDto(image, weaponBean,
                 mora, avatarList, weaponList));
-        return new ResultOutput<>(ResultCode.SUCCESS, "", target);
+        return new ResultOutput<>(ResultCode.SUCCESS, target);
     }
 
     /**
@@ -1037,7 +1037,7 @@ public class GenshinServiceImpl implements GenshinService {
      * @return
      */
     private ResultOutput<BufferedImage> getMaterialInfo(String name) {
-        return new ResultOutput<>(ResultCode.SUCCESS, "", GenshinSearchDrawHelper.drawMaterialInfo());
+        return new ResultOutput<>(ResultCode.SUCCESS, GenshinSearchDrawHelper.drawMaterialInfo());
     }
 
     /**

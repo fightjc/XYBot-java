@@ -2,26 +2,48 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.fightjc.xybot.dao.UserRepository">
 
+    <select id="getUsersCount"
+            parameterType="org.fightjc.xybot.model.dto.user.GetAllUserInput"
+            resultType="integer">
+        select count(*) from User
+        <if test="filter != null and filter != ''">
+            <where>
+                Username like concat('%', #{filter}, '%')
+            </where>
+        </if>
+    </select>
+
+    <select id="getUsers"
+            parameterType="org.fightjc.xybot.model.dto.user.GetAllUserInput"
+            resultType="org.fightjc.xybot.model.entity.User">
+        select
+            *
+        from
+            User
+        <if test="filter != null and filter != ''">
+            <where>
+                Username like concat('%', #{filter}, '%')
+            </where>
+        </if>
+        limit #{skipCount}, #{maxResultCount}
+    </select>
+
     <select id="findByUsername" parameterType="String" resultType="org.fightjc.xybot.model.entity.User">
-        select *
-        from User
-        where
-            Username = #{_parameter} and IsDelete = 0
+        select * from User where Username = #{_parameter} and IsDelete = 0
     </select>
 
     <insert id="createUser" parameterType="org.fightjc.xybot.model.entity.User">
-        insert into User
-            (Username, Password, Name, Email, CreationTime, IsDelete, DeletionTime)
-        values
-            (#{username}, #{password}, #{name}, #{email}, #{creationTime}, #{isDelete}, #{deletionTime})
+        insert into User (Username, Password, Name, Email, CreationTime, IsDelete, DeletionTime)
+        values (#{username}, #{password}, #{name}, #{email}, #{creationTime}, #{isDelete}, #{deletionTime})
     </insert>
 
-    <select id="getRoleByUser" parameterType="String" resultType="org.fightjc.xybot.model.entity.Role">
-        select *
-        from Role r
-        left join UserRole ur
-        left join User u
+    <select id="getRoleByUserId" parameterType="integer" resultType="org.fightjc.xybot.model.entity.Role">
+        select
+            r.*
+        from
+            Role r
+            inner join UserRole ur on r.Id = ur.RoleId
         where
-            r.Id = ur.RoleId and u.Id = ur.UserId and u.username = #{_parameter}
+             ur.UserId = #{_parameter}
     </select>
 </mapper>

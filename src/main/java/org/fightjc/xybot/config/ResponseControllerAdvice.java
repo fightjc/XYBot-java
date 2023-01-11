@@ -28,11 +28,11 @@ public class ResponseControllerAdvice implements ResponseBodyAdvice<Object> {
         if (methodParameter.getGenericParameterType().equals(String.class)) {
             ObjectMapper objectMapper = new ObjectMapper();
             try {
-                return objectMapper.writeValueAsString(new ResultOutput<>(ResultCode.SUCCESS, ResultCode.SUCCESS.getMsg(), o));
+                return objectMapper.writeValueAsString(new ResultOutput<>(ResultCode.SUCCESS, o));
             } catch (JsonProcessingException e) {
                 throw new ApiException("返回 String 类型错误");
             }
         }
-        return new ResultOutput<>(ResultCode.SUCCESS, ResultCode.SUCCESS.getMsg(), o);
+        return new ResultOutput<>(ResultCode.SUCCESS, o);
     }
 }

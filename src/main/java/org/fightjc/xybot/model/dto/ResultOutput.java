@@ -13,19 +13,19 @@ public class ResultOutput<T> {
     private T data;
 
     public ResultOutput(ResultCode resultCode) {
-        this(resultCode, resultCode.getMsg());
+        this(resultCode.getCode(), resultCode.getMsg(), null);
     }
 
     public ResultOutput(ResultCode resultCode, String msg) {
-        this(resultCode, msg, null);
+        this(resultCode.getCode(), msg, null);
+    }
+
+    public ResultOutput(ResultCode resultCode, T data) {
+        this(resultCode.getCode(), resultCode.getMsg(), data);
     }
 
     public ResultOutput(ResultCode resultCode, String msg, T data) {
         this(resultCode.getCode(), msg, data);
-    }
-
-    public ResultOutput(int status, String msg) {
-        this(status, msg, null);
     }
 
     public ResultOutput(int status, String msg, T data) {

@@ -4,11 +4,15 @@ import org.fightjc.xybot.dao.UserRepository;
 import org.fightjc.xybot.enums.ResultCode;
 import org.fightjc.xybot.exception.ApiException;
 import org.fightjc.xybot.model.dto.ResultOutput;
+import org.fightjc.xybot.model.dto.common.PageResultDto;
+import org.fightjc.xybot.model.dto.common.PagedResultRequestDto;
+import org.fightjc.xybot.model.dto.user.GetAllUserInput;
 import org.fightjc.xybot.model.dto.user.UserDto;
 import org.fightjc.xybot.model.entity.Role;
 import org.fightjc.xybot.model.entity.User;
 import org.fightjc.xybot.service.UserService;
 import org.fightjc.xybot.util.MessageUtil;
+import org.fightjc.xybot.util.ObjectMapper;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,6 +22,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
@@ -36,7 +42,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             throw new ApiException("User '" + username + "' not found");
         }
 
-        Role role = userRepository.getRoleByUser(user.getUsername());
+        Role role = userRepository.getRoleByUserId(user.getId());
 
         return org.springframework.security.core.userdetails.User
                 .withUsername(username)
@@ -47,6 +53,17 @@ public class UserServiceImpl implements UserService, UserDetailsService {
                 .credentialsExpired(false)
                 .disabled(false)
                 .build();
+    }
+
+    @Override
+    public PageResultDto<List<UserDto>> getUsers(GetAllUserInput input) {
+        int totalCount = userRepository.getUsersCount(input);
+        List<User> userList = userRepository.getUsers(input)
+                .stream()
+                .peek(user -> user.setPassword(null)) // do not expose paswword to front end
+                .collect(Collectors.toList());
+
+        return new PageResultDto<>(totalCount, ObjectMapper.mapAll(userList, UserDto.class));
     }
 
     @Override
@@ -76,8 +93,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public Role getRoleByUsername(String username) {
-        return userRepository.getRoleByUser(username);
+    public Role getRoleByUserId(Integer userId) {
+        return userRepository.getRoleByUserId(userId);
     }
 
     @Override
