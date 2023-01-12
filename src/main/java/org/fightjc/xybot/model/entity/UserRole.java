@@ -1,14 +1,16 @@
 package org.fightjc.xybot.model.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
  * 映射表 UserRole
  */
 @Data
+@AllArgsConstructor
 public class UserRole {
 
-    private Integer userId;
+    private String userId;
 
-    private Integer roleId;
+    private String roleId;
 }

@@ -15,6 +15,7 @@ import org.sqlite.javax.SQLiteConnectionPoolDataSource;
 import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Configuration
 @MapperScan(basePackages = { "org.fightjc.xybot.dao", "org.fightjc.xybot.module.**.dao" })
@@ -151,42 +152,52 @@ public class DBMigrationConfig {
 
         String create_User =
                 "create table User(" +
-                        "Id INTEGER PRIMARY KEY autoincrement," +
+                        "Id varchar(36) PRIMARY KEY," +
                         "Username varchar(100)," +
                         "Password varchar(100)," +
                         "Name varchar(100)," +
                         "Email varchar(100)," +
                         "CreationTime varchar(20)," +
-                        "IsDelete varchar(1)," +
+                        "IsActive varchar(1)," +
                         "DeletionTime varchar(20))";
         sqlList.add(create_User);
 
+        // preset Guid
+        String userId = UUID.randomUUID().toString();
+        String adminRoleId = UUID.randomUUID().toString();
+        String userRoleId = UUID.randomUUID().toString();
+
         String insert_User =
-                "insert into User(Id, Username, Password, Name, IsDelete)" +
-                        "values(1, \"xybot\", \"$2a$12$iNyi7G570wZ6bfXIiIuDp.uxmWRrXJ5tw839jEZ77T884EbYdIyRy\", \"xybot\", 0)";
+                "insert into User(Id, Username, Password, Name, IsActive)" +
+                        "values(\"" + userId + "\", \"xybot\", \"$2a$12$iNyi7G570wZ6bfXIiIuDp.uxmWRrXJ5tw839jEZ77T884EbYdIyRy\", \"xybot\", 1)";
         sqlList.add(insert_User);
 
         String create_Role =
                 "create table Role(" +
-                        "Id INTEGER PRIMARY KEY autoincrement," +
+                        "Id varchar(36) PRIMARY KEY," +
                         "Name varchar(100)," +
                         "IsDefault varchar(1))";
         sqlList.add(create_Role);
 
-        String insert_Role =
+        String insert_Admin_Role =
                 "insert into Role(Id, Name, IsDefault)" +
-                        "values(1, \"admin\", 0)";
-        sqlList.add(insert_Role);
+                        "values(\"" + adminRoleId + "\", \"admin\", 0)";
+        sqlList.add(insert_Admin_Role);
+
+        String insert_User_Role =
+                "insert into Role(Id, Name, IsDefault)" +
+                        "values(\"" + userRoleId + "\", \"user\", 1)";
+        sqlList.add(insert_User_Role);
 
         String create_UserRole =
                 "create table UserRole(" +
-                        "UserId INTEGER PRIMARY KEY," +
-                        "RoleId INTEGER)";
+                        "UserId varchar(36) PRIMARY KEY," +
+                        "RoleId varchar(36))";
         sqlList.add(create_UserRole);
 
         String insert_UserRole =
                 "insert into UserRole(UserId, RoleId)" +
-                        "values(1, 1)";
+                        "values(\"" + userId + "\", \"" + adminRoleId + "\")";
         sqlList.add(insert_UserRole);
 
 //        String create_RolePermission = "";

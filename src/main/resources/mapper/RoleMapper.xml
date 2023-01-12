@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.fightjc.xybot.dao.RoleRepository">
+
+    <select id="getRoles"
+            resultType="org.fightjc.xybot.model.entity.Role">
+        select * from Role
+    </select>
+
+    <select id="getRole"
+            parameterType="String"
+            resultType="org.fightjc.xybot.model.entity.Role">
+        select * from Role where Id = #{_parameter} limit 1
+    </select>
+
+    <select id="getDefaultRole"
+            resultType="org.fightjc.xybot.model.entity.Role">
+        select * from Role where IsDefault = 1 limit 1
+    </select>
+
+    <select id="getRoleByUserId"
+            parameterType="String"
+            resultType="org.fightjc.xybot.model.entity.Role">
+        select
+            r.*
+        from
+            Role r
+            inner join UserRole ur on r.Id = ur.RoleId
+        where
+            ur.UserId = #{_parameter}
+    </select>
+
+</mapper>

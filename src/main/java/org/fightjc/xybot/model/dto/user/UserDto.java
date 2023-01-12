@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class UserDto {
 
-    private Integer id;
+    private String id;
 
     private String username;
 
@@ -17,7 +17,9 @@ public class UserDto {
 
     private String creationTime;
 
-    private boolean isDelete;
+    private boolean isActive;
 
     private String deletionTime;
+
+    private String roleName;
 }

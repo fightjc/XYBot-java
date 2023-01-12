@@ -1,4 +1,4 @@
-package org.fightjc.xybot.model.dto.user;
+package org.fightjc.xybot.model.dto.auth;
 
 import lombok.Getter;
 import lombok.AllArgsConstructor;

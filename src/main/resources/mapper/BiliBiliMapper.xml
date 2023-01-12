@@ -5,8 +5,9 @@
     <select id="getGroupSubscribeDetails" parameterType="Long" resultType="org.fightjc.xybot.module.bilibili.pojo.DynamicBean">
         select
             bili_dynamic.*
-        from bili_subscribe
-        left join bili_dynamic
+        from
+            bili_subscribe
+            left join bili_dynamic
         on
             bili_subscribe.Mid = bili_dynamic.Mid
         where

@@ -4,19 +4,22 @@ import org.fightjc.xybot.model.dto.ResultOutput;
 import org.fightjc.xybot.model.dto.common.PageResultDto;
 import org.fightjc.xybot.model.dto.user.GetAllUserInput;
 import org.fightjc.xybot.model.dto.user.UserDto;
-import org.fightjc.xybot.model.entity.Role;
 
 import java.util.List;
 
 public interface UserService {
 
+    UserDto userLogin(String username, String password);
+
     PageResultDto<List<UserDto>> getUsers(GetAllUserInput input);
+
+    UserDto getUser(String userId);
 
     ResultOutput<String> createUser(UserDto user);
 
-    UserDto userLogin(String username, String password);
+    ResultOutput<String> createUser(UserDto userDto, String roleId);
 
-    Role getRoleByUserId(Integer userId);
+    ResultOutput<String> updateUser(UserDto userDto, String roleId);
 
-    ResultOutput<String> deleteUser(String username);
+    ResultOutput<String> deleteUser(String userId);
 }

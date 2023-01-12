@@ -1,6 +1,7 @@
 package org.fightjc.xybot.dao;
 
 import org.fightjc.xybot.model.dto.user.GetAllUserInput;
+import org.fightjc.xybot.model.dto.user.UserDto;
 import org.fightjc.xybot.model.entity.Role;
 import org.fightjc.xybot.model.entity.User;
 import org.springframework.stereotype.Repository;
@@ -14,7 +15,9 @@ public interface UserRepository {
      * 获取用户列表
      */
     int getUsersCount(GetAllUserInput input);
-    List<User> getUsers(GetAllUserInput input);
+    List<UserDto> getUsers(GetAllUserInput input);
+
+    UserDto getUser(String userId);
 
     /**
      * 获取指定用户
@@ -29,10 +32,5 @@ public interface UserRepository {
      */
     void createUser(User user);
 
-    /**
-     * 获取用户角色
-     * @param userId
-     * @return
-     */
-    Role getRoleByUserId(Integer userId);
+    void updateUser(User user);
 }
