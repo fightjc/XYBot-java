@@ -6,7 +6,7 @@ import com.alibaba.fastjson.TypeReference;
 import me.xdrop.fuzzywuzzy.FuzzySearch;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.utils.ExternalResource;
-import org.fightjc.xybot.bot.XYBot;
+import org.fightjc.xybot.module.bot.XYBot;
 import org.fightjc.xybot.enums.ResultCode;
 import org.fightjc.xybot.module.genshin.dao.GenshinDao;
 import org.fightjc.xybot.module.genshin.pojo.*;

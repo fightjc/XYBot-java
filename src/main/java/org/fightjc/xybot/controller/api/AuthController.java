@@ -8,7 +8,6 @@ import org.fightjc.xybot.model.dto.auth.RegisterInput;
 import org.fightjc.xybot.model.dto.role.RoleDto;
 import org.fightjc.xybot.model.dto.user.UserDto;
 import org.fightjc.xybot.model.dto.user.UserInfo;
-import org.fightjc.xybot.model.entity.Role;
 import org.fightjc.xybot.security.JwtProvider;
 import org.fightjc.xybot.service.RoleService;
 import org.fightjc.xybot.service.UserService;

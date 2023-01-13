@@ -1,9 +1,7 @@
 package org.fightjc.xybot.security;
 
 import io.jsonwebtoken.*;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.http.util.TextUtils;
-import org.fightjc.xybot.service.impl.GroupSwitchServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;

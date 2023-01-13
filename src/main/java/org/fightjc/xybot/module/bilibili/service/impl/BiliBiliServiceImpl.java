@@ -5,7 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import net.mamoe.mirai.contact.Group;
 import net.mamoe.mirai.message.data.PlainText;
 import net.mamoe.mirai.utils.ExternalResource;
-import org.fightjc.xybot.bot.XYBot;
+import org.fightjc.xybot.module.bot.XYBot;
 import org.fightjc.xybot.enums.ResultCode;
 import org.fightjc.xybot.module.bilibili.dao.BiliBiliDao;
 import org.fightjc.xybot.module.bilibili.pojo.*;

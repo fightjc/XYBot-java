@@ -2,7 +2,6 @@ package org.fightjc.xybot.dao;
 
 import org.fightjc.xybot.model.dto.user.GetAllUserInput;
 import org.fightjc.xybot.model.dto.user.UserDto;
-import org.fightjc.xybot.model.entity.Role;
 import org.fightjc.xybot.model.entity.User;
 import org.springframework.stereotype.Repository;
 

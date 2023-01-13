@@ -1,14 +1,14 @@
 package org.fightjc.xybot.startup;
 
 import net.mamoe.mirai.event.ListenerHost;
-import org.fightjc.xybot.annotate.AnnotateAnalyzer;
-import org.fightjc.xybot.bot.XYBot;
+import org.fightjc.xybot.module.bot.annotate.AnnotateAnalyzer;
+import org.fightjc.xybot.module.bot.XYBot;
 import org.fightjc.xybot.db.DBInitHelper;
 import org.fightjc.xybot.db.DBMigration;
 import org.fightjc.xybot.events.CommandEvents;
-import org.fightjc.xybot.model.entity.GroupSwitch;
-import org.fightjc.xybot.service.GroupSwitchService;
-import org.fightjc.xybot.util.BotSwitch;
+import org.fightjc.xybot.module.bot.model.entity.GroupSwitch;
+import org.fightjc.xybot.module.bot.service.GroupSwitchService;
+import org.fightjc.xybot.module.bot.BotSwitch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
