@@ -6,8 +6,9 @@
         insert into UserRole (UserId, RoleId) values (#{userId}, #{roleId})
     </insert>
 
-    <delete id="deleteUserRole" parameterType="String">
-        delete from UserRole where UserId = #{parameter}
+    <delete id="deleteUserRole"
+            parameterType="String">
+        delete from UserRole where UserId = #{_parameter}
     </delete>
 
 </mapper>

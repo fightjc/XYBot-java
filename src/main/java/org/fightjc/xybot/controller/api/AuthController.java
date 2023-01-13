@@ -7,6 +7,7 @@ import org.fightjc.xybot.model.dto.auth.LoginOutput;
 import org.fightjc.xybot.model.dto.auth.RegisterInput;
 import org.fightjc.xybot.model.dto.role.RoleDto;
 import org.fightjc.xybot.model.dto.user.UserDto;
+import org.fightjc.xybot.model.dto.user.UserInfo;
 import org.fightjc.xybot.model.entity.Role;
 import org.fightjc.xybot.security.JwtProvider;
 import org.fightjc.xybot.service.RoleService;
@@ -39,7 +40,7 @@ public class AuthController {
         String password = input.getPassword();
         UserDto user = userService.userLogin(username, password);
         if (user != null) {
-            String token = jwtProvider.createToken(username);
+            String token = jwtProvider.createToken(user.getUsername());
             RoleDto role = roleService.getRoleByUserId(user.getId());
             return new LoginOutput(username, role.getName(), token);
         } else {
@@ -60,6 +61,16 @@ public class AuthController {
         String[] list = { "system.user", "system.role" };
 
         return Arrays.asList(list);
+    }
+
+    @GetMapping("/user")
+    public ResultOutput<UserInfo> user() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        UserInfo info = userService.getUserInfo(username);
+
+        return new ResultOutput<>(ResultCode.SUCCESS, info);
     }
 
     @PostMapping("/register")

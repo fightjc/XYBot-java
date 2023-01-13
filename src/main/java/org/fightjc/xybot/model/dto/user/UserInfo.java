@@ -1,22 +1,13 @@
-package org.fightjc.xybot.model.entity;
+package org.fightjc.xybot.model.dto.user;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
-/**
- * 映射表 User
- */
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class User {
+public class UserInfo {
 
     private String id;
 
     private String username;
-
-    private String password;
 
     private String name;
 
@@ -27,4 +18,6 @@ public class User {
     private boolean active;
 
     private String deletionTime;
+
+    private String roleName;
 }

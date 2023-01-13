@@ -9,5 +9,7 @@ public class RoleDto {
 
     private String name;
 
+    private String remark;
+
     private boolean isDefault;
 }

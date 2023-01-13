@@ -158,7 +158,7 @@ public class DBMigrationConfig {
                         "Name varchar(100)," +
                         "Email varchar(100)," +
                         "CreationTime varchar(20)," +
-                        "IsActive varchar(1)," +
+                        "Active varchar(1)," +
                         "DeletionTime varchar(20))";
         sqlList.add(create_User);
 
@@ -168,7 +168,7 @@ public class DBMigrationConfig {
         String userRoleId = UUID.randomUUID().toString();
 
         String insert_User =
-                "insert into User(Id, Username, Password, Name, IsActive)" +
+                "insert into User(Id, Username, Password, Name, Active)" +
                         "values(\"" + userId + "\", \"xybot\", \"$2a$12$iNyi7G570wZ6bfXIiIuDp.uxmWRrXJ5tw839jEZ77T884EbYdIyRy\", \"xybot\", 1)";
         sqlList.add(insert_User);
 
@@ -176,17 +176,18 @@ public class DBMigrationConfig {
                 "create table Role(" +
                         "Id varchar(36) PRIMARY KEY," +
                         "Name varchar(100)," +
+                        "Remark varchar(200)," +
                         "IsDefault varchar(1))";
         sqlList.add(create_Role);
 
         String insert_Admin_Role =
-                "insert into Role(Id, Name, IsDefault)" +
-                        "values(\"" + adminRoleId + "\", \"admin\", 0)";
+                "insert into Role(Id, Name, Remark, IsDefault)" +
+                        "values(\"" + adminRoleId + "\", \"管理员\", \"\",  0)";
         sqlList.add(insert_Admin_Role);
 
         String insert_User_Role =
-                "insert into Role(Id, Name, IsDefault)" +
-                        "values(\"" + userRoleId + "\", \"user\", 1)";
+                "insert into Role(Id, Name, Remark, IsDefault)" +
+                        "values(\"" + userRoleId + "\", \"用户\", \"\", 1)";
         sqlList.add(insert_User_Role);
 
         String create_UserRole =

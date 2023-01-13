@@ -14,5 +14,7 @@ public class Role {
 
     private String name;
 
+    private String remark;
+
     private boolean isDefault;
 }

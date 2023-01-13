@@ -27,7 +27,7 @@ public class UserController {
     @GetMapping("/all")
     public ResultOutput<PageResultDto<List<UserListDto>>> getAll(GetAllUserInput input) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
+        String currentUsername = authentication.getName();
 
         // get user info list
         PageResultDto<List<UserDto>> pageResultDto = userService.getUsers(input);
@@ -37,7 +37,8 @@ public class UserController {
                 .map(user -> {
                     UserListDto listDto = ObjectMapper.map(user, UserListDto.class);
                     // user whether can be deleted
-                    boolean deletable = !StringUtils.equals(user.getUsername(), username) && !"xybot".equals(username);
+                    String username = user.getUsername();
+                    boolean deletable = !StringUtils.equals(username, currentUsername) && !"xybot".equals(username);
                     listDto.setDeletable(deletable);
 
                     return listDto;
@@ -65,7 +66,7 @@ public class UserController {
     }
 
     @PostMapping("/delete")
-    public ResultOutput<String> delete(String userId) {
+    public ResultOutput<String> delete(@RequestParam String userId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         for (GrantedAuthority grantedAuthority : authentication.getAuthorities()) {
             String auth = grantedAuthority.getAuthority();

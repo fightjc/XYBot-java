@@ -17,7 +17,7 @@ public class UserDto {
 
     private String creationTime;
 
-    private boolean isActive;
+    private boolean active;
 
     private String deletionTime;
 

@@ -28,4 +28,6 @@ public class CreateOrUpdateUserInput {
 
     @NotNull(message = "角色不能为空")
     private String roleId;
+
+    private boolean active;
 }

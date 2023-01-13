@@ -17,7 +17,7 @@ public interface UserRepository {
     int getUsersCount(GetAllUserInput input);
     List<UserDto> getUsers(GetAllUserInput input);
 
-    UserDto getUser(String userId);
+    UserDto findById(String userId);
 
     /**
      * 获取指定用户
@@ -33,4 +33,6 @@ public interface UserRepository {
     void createUser(User user);
 
     void updateUser(User user);
+
+    void deleteUser(String userId);
 }

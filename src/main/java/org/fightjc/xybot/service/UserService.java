@@ -4,6 +4,7 @@ import org.fightjc.xybot.model.dto.ResultOutput;
 import org.fightjc.xybot.model.dto.common.PageResultDto;
 import org.fightjc.xybot.model.dto.user.GetAllUserInput;
 import org.fightjc.xybot.model.dto.user.UserDto;
+import org.fightjc.xybot.model.dto.user.UserInfo;
 
 import java.util.List;
 
@@ -14,6 +15,8 @@ public interface UserService {
     PageResultDto<List<UserDto>> getUsers(GetAllUserInput input);
 
     UserDto getUser(String userId);
+
+    UserInfo getUserInfo(String username);
 
     ResultOutput<String> createUser(UserDto user);
 

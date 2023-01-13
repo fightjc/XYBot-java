@@ -8,7 +8,8 @@
         select count(*) from User
         <if test="filter != null and filter != ''">
             <where>
-                Username like concat('%', #{filter}, '%')
+                <bind name="username_like" value="'%'+ filter + '%'"/>
+                Username like #{username_like}
             </where>
         </if>
     </select>
@@ -20,26 +21,27 @@
             u.*, r.name as RoleName
         from
             User u
-            inner join UserRole ur on ur.UserId = u.Id
-            inner join Role r on r.Id = ur.RoleId
+            left join UserRole ur on ur.UserId = u.Id
+            left join Role r on r.Id = ur.RoleId
         <if test="filter != null and filter != ''">
             <where>
-                u.Username like concat('%', #{filter}, '%')
+                <bind name="username_like" value="'%'+ filter + '%'"/>
+                u.Username like #{username_like}
             </where>
         </if>
         order by u.Username asc
         limit #{skipCount}, #{maxResultCount}
     </select>
 
-    <select id="getUser"
+    <select id="findById"
             parameterType="String"
             resultType="org.fightjc.xybot.model.dto.user.UserDto">
         select
             u.*, r.name as RoleName
         from
             User u
-            inner join UserRole ur on ur.UserId = u.Id
-            inner join Role r on r.Id = ur.RoleId
+            left join UserRole ur on ur.UserId = u.Id
+            left join Role r on r.Id = ur.RoleId
         where
             u.Id = #{_parameter}
     </select>
@@ -52,17 +54,22 @@
 
     <insert id="createUser"
             parameterType="org.fightjc.xybot.model.entity.User">
-        insert into User (Username, Password, Name, Email, CreationTime, IsActive, DeletionTime)
-        values (#{username}, #{password}, #{name}, #{email}, #{creationTime}, #{isActive}, #{deletionTime})
+        insert into User (Id, Username, Password, Name, Email, CreationTime, Active, DeletionTime)
+        values (#{id}, #{username}, #{password}, #{name}, #{email}, #{creationTime}, #{active}, #{deletionTime})
     </insert>
 
     <update id="updateUser"
             parameterType="org.fightjc.xybot.model.entity.User">
         update User
         set
-            Name = #{name}, Email = #{email}, IsActive = #{isActive}
+            Name = #{name}, Email = #{email}, Active = #{active}
         where
             Id = #{id}
     </update>
+
+    <delete id="deleteUser"
+            parameterType="String">
+        delete from User where Id = #{_parameter}
+    </delete>
 
 </mapper>
