@@ -47,7 +47,6 @@ public class DBMigrationConfig {
         tables.add(migration_v1());
         tables.add(migration_v2());
         tables.add(migration_v3());
-        tables.add(migration_v4());
 
         return tables;
     }
@@ -141,69 +140,5 @@ public class DBMigrationConfig {
         sqlList.add(create_GenshinCalendarRecord);
 
         return new DBMigrationTable(3, remark, sqlList);
-    }
-
-    /**
-     * add tables for users & user roles
-     */
-    private DBMigrationTable migration_v4() {
-        String remark = "addUserLogin";
-        List<String> sqlList = new ArrayList<>();
-
-        String create_User =
-                "create table User(" +
-                        "Id varchar(36) PRIMARY KEY," +
-                        "Username varchar(100)," +
-                        "Password varchar(100)," +
-                        "Name varchar(100)," +
-                        "Email varchar(100)," +
-                        "CreationTime varchar(20)," +
-                        "Active varchar(1)," +
-                        "DeletionTime varchar(20))";
-        sqlList.add(create_User);
-
-        // preset Guid
-        String userId = UUID.randomUUID().toString();
-        String adminRoleId = UUID.randomUUID().toString();
-        String userRoleId = UUID.randomUUID().toString();
-
-        String insert_User =
-                "insert into User(Id, Username, Password, Name, Active)" +
-                        "values(\"" + userId + "\", \"xybot\", \"$2a$12$iNyi7G570wZ6bfXIiIuDp.uxmWRrXJ5tw839jEZ77T884EbYdIyRy\", \"xybot\", 1)";
-        sqlList.add(insert_User);
-
-        String create_Role =
-                "create table Role(" +
-                        "Id varchar(36) PRIMARY KEY," +
-                        "Name varchar(100)," +
-                        "Remark varchar(200)," +
-                        "IsDefault varchar(1))";
-        sqlList.add(create_Role);
-
-        String insert_Admin_Role =
-                "insert into Role(Id, Name, Remark, IsDefault)" +
-                        "values(\"" + adminRoleId + "\", \"管理员\", \"\",  0)";
-        sqlList.add(insert_Admin_Role);
-
-        String insert_User_Role =
-                "insert into Role(Id, Name, Remark, IsDefault)" +
-                        "values(\"" + userRoleId + "\", \"用户\", \"\", 1)";
-        sqlList.add(insert_User_Role);
-
-        String create_UserRole =
-                "create table UserRole(" +
-                        "UserId varchar(36) PRIMARY KEY," +
-                        "RoleId varchar(36))";
-        sqlList.add(create_UserRole);
-
-        String insert_UserRole =
-                "insert into UserRole(UserId, RoleId)" +
-                        "values(\"" + userId + "\", \"" + adminRoleId + "\")";
-        sqlList.add(insert_UserRole);
-
-//        String create_RolePermission = "";
-//        sqlList.add(create_RolePermission);
-
-        return new DBMigrationTable(4, remark, sqlList);
     }
 }
