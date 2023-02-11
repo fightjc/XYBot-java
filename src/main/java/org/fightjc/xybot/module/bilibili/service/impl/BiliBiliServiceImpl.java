@@ -157,13 +157,17 @@ public class BiliBiliServiceImpl implements BiliBiliService {
     public ResultOutput<UserInfoDto> getUpInfo(String key) {
         String url = "https://api.bilibili.com/x/space/acc/info";
 
+        Map<String, String> headers = new HashMap<String, String>() {{
+            put("User-Agent", "PostmanRuntime/7.30.1");
+        }};
+
         Map<String, String> params = new HashMap<String, String>() {{
             put("mid", key);
         }};
 
         HttpClientResult httpClientResult;
         try {
-            httpClientResult = HttpClientUtil.doGet(url, null, params);
+            httpClientResult = HttpClientUtil.doGet(url, headers, params);
             JSONObject content = JSONObject.parseObject(httpClientResult.content);
             int code = content.getIntValue("code");
             if (code == 0) {
