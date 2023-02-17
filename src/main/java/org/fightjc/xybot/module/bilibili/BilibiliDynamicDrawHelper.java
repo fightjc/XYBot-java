@@ -73,7 +73,7 @@ public class BilibiliDynamicDrawHelper {
 
         // 计算正文高度
         int maxWidth = IMAGE_WIDTH - 2 * CONTENT_MARGIN; // 正文最大宽度
-        String desc = dto.getDescription();
+        String desc = dto.getDescription().replace("\r\n", "\n");
         String[] descArray = desc.split("\n");
         for (String text : descArray) {
             height += ImageUtil.getParagraphHeight(
@@ -192,8 +192,8 @@ public class BilibiliDynamicDrawHelper {
 
         // 计算正文高度
         int maxWidth = IMAGE_WIDTH - 2 * CONTENT_MARGIN; // 正文最大宽度
-        String desc = dto.getDescription();
-        String[] descArray = desc.split("\r\n");
+        String desc = dto.getDescription().replace("\r\n", "\n");
+        String[] descArray = desc.split("\n");
         for (String text : descArray) {
             FontMetrics metrics = FontDesignMetrics.getMetrics(TEXT_1);
             int text_height = metrics.getAscent();
