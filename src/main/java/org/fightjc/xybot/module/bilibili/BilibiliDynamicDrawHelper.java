@@ -119,10 +119,12 @@ public class BilibiliDynamicDrawHelper {
         g2d.drawImage(avatarImage, avatarX, avatarY, FACE_IMAGE_WIDTH, FACE_IMAGE_WIDTH, null);
 
         // 绘制头像框
-        int pendantX = (CONTENT_MARGIN - AVATAR_IMAGE_WIDTH) / 2;
-        int pendantY = AVATAR_PADDING;
-        BufferedImage pendantImage = ImageUtil.getScaledImage(dto.getPendantImage(), AVATAR_IMAGE_WIDTH, AVATAR_IMAGE_WIDTH);
-        g2d.drawImage(pendantImage, pendantX, pendantY, AVATAR_IMAGE_WIDTH, AVATAR_IMAGE_WIDTH, null);
+        if (dto.getPendantImage() != null) {
+            int pendantX = (CONTENT_MARGIN - AVATAR_IMAGE_WIDTH) / 2;
+            int pendantY = AVATAR_PADDING;
+            BufferedImage pendantImage = ImageUtil.getScaledImage(dto.getPendantImage(), AVATAR_IMAGE_WIDTH, AVATAR_IMAGE_WIDTH);
+            g2d.drawImage(pendantImage, pendantX, pendantY, AVATAR_IMAGE_WIDTH, AVATAR_IMAGE_WIDTH, null);
+        }
 
         //endregion
 
@@ -191,7 +193,7 @@ public class BilibiliDynamicDrawHelper {
         // 计算正文高度
         int maxWidth = IMAGE_WIDTH - 2 * CONTENT_MARGIN; // 正文最大宽度
         String desc = dto.getDescription();
-        String[] descArray = desc.split("\n");
+        String[] descArray = desc.split("\r\n");
         for (String text : descArray) {
             FontMetrics metrics = FontDesignMetrics.getMetrics(TEXT_1);
             int text_height = metrics.getAscent();
@@ -236,11 +238,12 @@ public class BilibiliDynamicDrawHelper {
         g2d.drawImage(avatarImage, avatarX, avatarY, FACE_IMAGE_WIDTH, FACE_IMAGE_WIDTH, null);
 
         // 绘制头像框
-//        BufferedImage pendantImage = ImageUtil.getScaledImage(dto.getPendantImage(), AVATAR_IMAGE_WIDTH, AVATAR_IMAGE_WIDTH);
-        int pendantX = (CONTENT_MARGIN - AVATAR_IMAGE_WIDTH) / 2;
-        int pendantY = AVATAR_PADDING;
-        BufferedImage pendantImage = ImageUtil.getScaledImage(dto.getPendantImage(), AVATAR_IMAGE_WIDTH, AVATAR_IMAGE_WIDTH);
-        g2d.drawImage(pendantImage, pendantX, pendantY, AVATAR_IMAGE_WIDTH, AVATAR_IMAGE_WIDTH, null);
+        if (dto.getPendantImage() != null) {
+            int pendantX = (CONTENT_MARGIN - AVATAR_IMAGE_WIDTH) / 2;
+            int pendantY = AVATAR_PADDING;
+            BufferedImage pendantImage = ImageUtil.getScaledImage(dto.getPendantImage(), AVATAR_IMAGE_WIDTH, AVATAR_IMAGE_WIDTH);
+            g2d.drawImage(pendantImage, pendantX, pendantY, AVATAR_IMAGE_WIDTH, AVATAR_IMAGE_WIDTH, null);
+        }
 
         //endregion
 

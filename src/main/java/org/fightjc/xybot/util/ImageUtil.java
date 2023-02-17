@@ -7,6 +7,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.apache.http.util.TextUtils;
 import sun.font.FontDesignMetrics;
 
 import javax.imageio.ImageIO;
@@ -38,6 +39,9 @@ public class ImageUtil {
      * @return
      */
     public static BufferedImage getImageFromUri(String uri) {
+        if (TextUtils.isBlank(uri)) {
+            return null;
+        }
         CloseableHttpClient httpClient = HttpClients.createDefault();
         HttpGet httpGet = new HttpGet(uri);
         try {
